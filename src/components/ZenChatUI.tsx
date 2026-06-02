@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Download } from 'lucide-react';
-import * as htmlToImage from 'html-to-image';
+import html2canvas from 'html2canvas';
 import { Language } from './MainTemple';
 
 type ZenChatUIProps = {
@@ -31,7 +31,33 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
   const [isThinking, setIsThinking] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
+  const [imagesBase64, setImagesBase64] = useState({ bg: '', buddha: '', burner: '' });
   const printRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Preload images as base64 to fix iOS Safari blank image bugs in html-to-image
+    const loadBase64 = async (url: string) => {
+      try {
+        const res = await fetch(url);
+        const blob = await res.blob();
+        return new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.readAsDataURL(blob);
+        });
+      } catch (e) {
+        return '';
+      }
+    };
+
+    Promise.all([
+      loadBase64('/buddha-web.webp'),
+      loadBase64('/onlybuddha.webp'),
+      loadBase64('/burner.png')
+    ]).then(([bg, buddha, burner]) => {
+      setImagesBase64({ bg, buddha, burner });
+    });
+  }, []);
 
   useEffect(() => {
     if (onReplyChange) {
@@ -76,11 +102,14 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
       // Small delay to ensure fonts/styles are fully rendered before capturing
       await new Promise(resolve => setTimeout(resolve, 100));
       
-      const dataUrl = await htmlToImage.toPng(printRef.current, {
-        pixelRatio: 2,
+      const canvas = await html2canvas(printRef.current, {
+        scale: 2,
         backgroundColor: '#050505',
-        // Next.js Image caching might cause issues with html-to-image, so using basic imgs
+        useCORS: true,
+        allowTaint: true,
       });
+      
+      const dataUrl = canvas.toDataURL('image/png');
       
       const response = await fetch(dataUrl);
       const blob = await response.blob();
@@ -218,7 +247,7 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
       </div>
 
       {/* Hidden Card for Image Generation */}
-      <div className="fixed top-0 left-[9999px] z-[-50] pointer-events-none">
+      <div className="absolute top-0 left-0 z-[-50] opacity-0 pointer-events-none">
         <div 
           ref={printRef}
           className="w-[540px] h-[960px] bg-[#050505] flex flex-col relative overflow-hidden"
@@ -226,9 +255,8 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
         >
           {/* 1. Base Background Image */}
           <img 
-            src={typeof window !== 'undefined' ? `${window.location.origin}/buddha-web.webp` : '/buddha-web.webp'}
+            src={imagesBase64.bg || '/buddha-web.webp'}
             alt="Background" 
-            crossOrigin="anonymous"
             className="absolute inset-0 w-full h-full object-cover opacity-80"
           />
           
@@ -245,9 +273,8 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
 
           {/* 2. Buddha Cutout */}
           <img 
-            src={typeof window !== 'undefined' ? `${window.location.origin}/onlybuddha.webp` : '/onlybuddha.webp'}
+            src={imagesBase64.buddha || '/onlybuddha.webp'}
             alt="Buddha" 
-            crossOrigin="anonymous"
             className="absolute inset-0 w-full h-full object-cover opacity-80 z-[5]"
           />
 
@@ -260,9 +287,8 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
             style={{ top: '81.3%' }}
           >
             <img 
-              src={typeof window !== 'undefined' ? `${window.location.origin}/burner.png` : '/burner.png'}
+              src={imagesBase64.burner || '/burner.png'}
               alt="Incense Burner" 
-              crossOrigin="anonymous"
               className="w-[120px] h-auto object-contain"
               style={{ transform: 'translateY(-20%)' }}
             />
