@@ -1,11 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Volume2, VolumeX } from 'lucide-react';
 import SmokeParticles from './SmokeParticles';
 import ZenChatUI from './ZenChatUI';
 import DonationModal from './DonationModal';
+import LanternSystem from './LanternSystem';
 
 export type Language = 'en' | 'hi' | 'zh';
 
@@ -13,6 +15,17 @@ export default function MainTemple() {
   const [showHalo, setShowHalo] = useState(false);
   const [isDonationOpen, setIsDonationOpen] = useState(false);
   const [language, setLanguage] = useState<Language>('en');
+  const [isMuted, setIsMuted] = useState(false);
+  const [localLanternTrigger, setLocalLanternTrigger] = useState(0);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  // Auto-play workaround: sometimes autoPlay attribute isn't enough depending on browser state.
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.3; // Set volume to 30% so it's not too intrusive
+      audioRef.current.play().catch((e) => console.log("Audio autoplay was prevented.", e));
+    }
+  }, []);
 
   return (
     <motion.div
@@ -20,6 +33,16 @@ export default function MainTemple() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: { duration: 2, ease: 'easeOut' } }}
     >
+      {/* Background Audio */}
+      <audio 
+        ref={audioRef}
+        src="/bgm.mp3" 
+        autoPlay 
+        loop 
+        muted={isMuted} 
+        style={{ display: 'none' }} 
+      />
+
       {/* 1. Base Background Image (맨 뒷배경) */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <Image 
@@ -28,6 +51,8 @@ export default function MainTemple() {
           fill
           className="object-cover object-center opacity-80"
           priority
+          quality={100}
+          unoptimized
         />
       </div>
 
@@ -61,6 +86,9 @@ export default function MainTemple() {
         </AnimatePresence>
       </div>
 
+      {/* 2.5. 익명 연등 시스템 (가상 + 로컬) */}
+      <LanternSystem localTrigger={localLanternTrigger} />
+
       {/* 3. 부처님 누끼 이미지 (후광 앞) */}
       <div className="absolute inset-0 z-[2] pointer-events-none">
         <Image 
@@ -68,6 +96,9 @@ export default function MainTemple() {
           alt="Buddha Cutout" 
           fill
           className="object-cover object-center opacity-80"
+          priority
+          quality={100}
+          unoptimized
         />
       </div>
 
@@ -94,11 +125,25 @@ export default function MainTemple() {
 
       {/* 7. 1:1 Zen Chat UI Overlay */}
       <div className="z-[20] absolute inset-0">
-        <ZenChatUI onReplyChange={setShowHalo} language={language} />
+        <ZenChatUI 
+          onReplyChange={setShowHalo} 
+          language={language} 
+          onMessageSent={() => setLocalLanternTrigger(prev => prev + 1)}
+        />
       </div>
 
-      {/* 8. 우측 상단 컨트롤 (언어 선택 & 시주 버튼) */}
+      {/* 8. 우측 상단 컨트롤 (언어 선택, 음소거, 시주 버튼) */}
       <div className="absolute top-6 right-6 md:top-10 md:right-10 z-[30] flex items-center gap-3">
+        
+        {/* Mute Toggle Button */}
+        <button
+          onClick={() => setIsMuted(!isMuted)}
+          className="p-2 bg-black/20 hover:bg-black/50 text-white/60 hover:text-white rounded-full backdrop-blur-md border border-white/10 transition-colors"
+          aria-label={isMuted ? "Unmute" : "Mute"}
+        >
+          {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+        </button>
+
         {/* Language Selector */}
         <div className="flex bg-black/20 rounded-full p-1 backdrop-blur-md border border-white/10">
           <button 

@@ -1,12 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Download } from 'lucide-react';
+import * as htmlToImage from 'html-to-image';
 import { Language } from './MainTemple';
 
 type ZenChatUIProps = {
   onReplyChange?: (hasReply: boolean) => void;
   language: Language;
+  onMessageSent?: () => void;
 };
 
 const placeholders = {
@@ -15,11 +18,19 @@ const placeholders = {
   zh: "今天有什么让你烦心？"
 };
 
-export default function ZenChatUI({ onReplyChange, language }: ZenChatUIProps) {
+const saveTexts = {
+  en: "Save Wisdom",
+  hi: "ज्ञान सहेजें",
+  zh: "保存智慧"
+};
+
+export default function ZenChatUI({ onReplyChange, language, onMessageSent }: ZenChatUIProps) {
   const [userQuery, setUserQuery] = useState<string | null>(null);
   const [buddhaReply, setBuddhaReply] = useState<string | null>(null);
   const [input, setInput] = useState('');
   const [isThinking, setIsThinking] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const printRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (onReplyChange) {
@@ -30,6 +41,8 @@ export default function ZenChatUI({ onReplyChange, language }: ZenChatUIProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isThinking) return;
+
+    onMessageSent?.();
 
     setUserQuery(input.trim());
     setBuddhaReply(null);
@@ -51,6 +64,30 @@ export default function ZenChatUI({ onReplyChange, language }: ZenChatUIProps) {
       setBuddhaReply(fallbackMsg);
     } finally {
       setIsThinking(false);
+    }
+  };
+
+  const handleDownload = async () => {
+    if (!printRef.current || isSaving) return;
+    setIsSaving(true);
+    
+    try {
+      // Small delay to ensure fonts/styles are fully rendered before capturing
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      const dataUrl = await htmlToImage.toPng(printRef.current, {
+        pixelRatio: 2,
+        backgroundColor: '#050505',
+      });
+      
+      const link = document.createElement('a');
+      link.download = 'buddhas-wisdom.png';
+      link.href = dataUrl;
+      link.click();
+    } catch (error) {
+      console.error("Failed to generate image:", error);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -86,13 +123,27 @@ export default function ZenChatUI({ onReplyChange, language }: ZenChatUIProps) {
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 exit={{ opacity: 0, y: -10, filter: 'blur(10px)' }}
                 transition={{ duration: 2, ease: "easeOut" }}
-                className="text-lg md:text-2xl text-[#f3e8dd] text-center leading-relaxed font-light uppercase tracking-[0.15em] md:tracking-[0.2em] px-8 py-6 rounded-3xl font-serif"
-                style={{ 
-                  textShadow: '0 0 10px rgba(0,0,0,1), 0 0 20px rgba(207,166,112,0.8), 0 0 40px rgba(207,166,112,0.5)',
-                  background: 'radial-gradient(circle, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0) 100%)'
-                }}
+                className="flex flex-col items-center"
               >
-                {buddhaReply}
+                <div
+                  className="text-lg md:text-2xl text-[#f3e8dd] text-center leading-relaxed font-light uppercase tracking-[0.15em] md:tracking-[0.2em] px-8 py-6 rounded-3xl font-serif mb-6"
+                  style={{ 
+                    textShadow: '0 0 10px rgba(0,0,0,1), 0 0 20px rgba(207,166,112,0.8), 0 0 40px rgba(207,166,112,0.5)',
+                    background: 'radial-gradient(circle, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0) 100%)'
+                  }}
+                >
+                  {buddhaReply}
+                </div>
+
+                {/* Save Wisdom Button */}
+                <button
+                  onClick={handleDownload}
+                  disabled={isSaving}
+                  className="pointer-events-auto flex items-center gap-3 px-6 py-3 bg-black/60 hover:bg-black/80 border border-[#cfa670]/40 hover:border-[#cfa670]/80 text-[#cfa670] rounded-full backdrop-blur-md transition-all shadow-[0_0_20px_rgba(207,166,112,0.15)] hover:shadow-[0_0_30px_rgba(207,166,112,0.4)] disabled:opacity-50"
+                >
+                  <Download size={18} />
+                  <span className="text-sm font-light uppercase tracking-widest">{isSaving ? "..." : saveTexts[language]}</span>
+                </button>
               </motion.div>
             )}
           </AnimatePresence>
@@ -100,7 +151,7 @@ export default function ZenChatUI({ onReplyChange, language }: ZenChatUIProps) {
       </div>
 
       {/* 2. 하단: 사용자의 고민(채팅박스 바로 위) & 고정된 입력창 */}
-      <div className="absolute bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 w-full max-w-lg pointer-events-auto px-4 flex flex-col justify-end">
+      <div className="absolute bottom-[8vh] md:bottom-[10vh] left-1/2 -translate-x-1/2 w-full max-w-lg pointer-events-auto px-4 flex flex-col justify-end">
         
         {/* 사용자가 방금 입력한 말 (타이핑 박스 바로 위 중앙에 표시) */}
         <AnimatePresence mode="wait">
@@ -141,6 +192,66 @@ export default function ZenChatUI({ onReplyChange, language }: ZenChatUIProps) {
             </svg>
           </button>
         </form>
+      </div>
+
+      {/* Hidden Card for Instagram Story (1080x1920 output via 540x960 * 2 pixelRatio) */}
+      <div className="fixed top-0 left-0 z-[-50] opacity-0 pointer-events-none">
+        <div 
+          ref={printRef}
+          className="w-[540px] h-[960px] bg-[#050505] flex flex-col relative overflow-hidden"
+        >
+          {/* 1. Base Background Image */}
+          <img 
+            src="/buddha-web.webp" 
+            alt="Background" 
+            className="absolute inset-0 w-full h-full object-cover opacity-70"
+          />
+          
+          {/* 1.5. Halo Glow behind Buddha */}
+          {buddhaReply && (
+            <div 
+              className="absolute left-1/2 -translate-x-1/2 top-[30%] -translate-y-1/2 w-[500px] h-[500px] rounded-full pointer-events-none"
+              style={{ background: 'radial-gradient(circle, rgba(255, 220, 120, 0.85) 0%, rgba(220, 150, 70, 0.45) 45%, transparent 75%)' }}
+            />
+          )}
+
+          {/* 2. Buddha Cutout */}
+          <img 
+            src="/onlybuddha.webp" 
+            alt="Buddha" 
+            className="absolute inset-0 w-full h-full object-cover opacity-90 z-[5]"
+          />
+
+          {/* 3. Dark Gradient Overlay to merge elements */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/60 pointer-events-none z-[6]" />
+
+          {/* 4. Text Band in the center (No blur, with Golden Glow) */}
+          {buddhaReply && (
+            <div className="absolute top-1/2 -translate-y-1/2 w-full bg-black/60 border-y border-[#cfa670]/20 py-12 px-8 flex justify-center shadow-[0_0_25px_rgba(0,0,0,0.9)] z-10">
+              <p 
+                className="text-[#f3e8dd] text-[28px] leading-[1.6] font-serif uppercase tracking-[0.15em] text-center max-w-[450px]"
+                style={{ textShadow: '0 0 5px rgba(0,0,0,1), 0 0 15px rgba(207,166,112,0.9), 0 0 30px rgba(207,166,112,0.6)' }}
+              >
+                {buddhaReply}
+              </p>
+            </div>
+          )}
+
+          {/* 5. Watermark */}
+          <div className="absolute bottom-12 w-full flex flex-col items-center opacity-90 z-10">
+            <div className="flex items-center gap-2 text-[#cfa670] text-[16px] font-light tracking-[0.1em] lowercase mb-2" style={{ textShadow: '0 0 10px rgba(0,0,0,1)' }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+              </svg>
+              <span>buddhashareslove</span>
+            </div>
+            <div className="text-white/60 text-[13px] font-mono tracking-widest" style={{ textShadow: '0 0 10px rgba(0,0,0,1)' }}>
+              buddhashareslove.app
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
