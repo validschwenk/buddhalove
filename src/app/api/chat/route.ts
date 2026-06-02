@@ -1,10 +1,6 @@
 import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || '',
-});
-
 export async function POST(req: Request) {
   try {
     const { message, language } = await req.json();
@@ -13,9 +9,13 @@ export async function POST(req: Request) {
       // Fallback response when API key is not configured
       await new Promise((resolve) => setTimeout(resolve, 2000));
       return NextResponse.json({ 
-        reply: "API KEY IS MISSING. PLEASE PROVIDE OPENAI_API_KEY IN .ENV.LOCAL TO AWAKEN THE TRUTH." 
+        reply: "API KEY IS MISSING. PLEASE PROVIDE OPENAI_API_KEY IN VERCEL ENVIRONMENT VARIABLES TO AWAKEN THE TRUTH." 
       });
     }
+
+    const openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
 
     let languageInstruction = "You MUST reply ONLY IN ENGLISH and strictly in ALL UPPERCASE letters.";
     if (language === 'hi') {
