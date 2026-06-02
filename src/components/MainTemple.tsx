@@ -8,6 +8,8 @@ import SmokeParticles from './SmokeParticles';
 import ZenChatUI from './ZenChatUI';
 import DonationModal from './DonationModal';
 import LanternSystem from './LanternSystem';
+import DailyWisdom from './DailyWisdom';
+import Link from 'next/link';
 
 export type Language = 'en' | 'hi' | 'zh';
 
@@ -174,7 +176,21 @@ export default function MainTemple() {
         </button>
       </div>
 
-      {/* 9. 시주 결제 모달 */}
+      {/* 9. Daily Wisdom */}
+      <DailyWisdom />
+
+      {/* 10. Minimal Footer for AdSense Compliance */}
+      <div className="absolute bottom-4 left-0 right-0 z-[30] flex justify-center gap-4 text-[10px] md:text-xs text-white/30 font-sans tracking-widest pointer-events-auto">
+        <Link href="/about" className="hover:text-white/70 transition-colors">ABOUT</Link>
+        <span>|</span>
+        <Link href="/privacy" className="hover:text-white/70 transition-colors">PRIVACY</Link>
+        <span>|</span>
+        <Link href="/terms" className="hover:text-white/70 transition-colors">TERMS</Link>
+        <span>|</span>
+        <a href="mailto:hello@validschwenk.com" className="hover:text-white/70 transition-colors">CONTACT</a>
+      </div>
+
+      {/* 11. 시주 결제 모달 */}
       <DonationModal isOpen={isDonationOpen} onClose={() => setIsDonationOpen(false)} language={language} />
       
     </motion.div>
