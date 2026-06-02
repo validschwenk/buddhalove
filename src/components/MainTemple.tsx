@@ -30,11 +30,13 @@ export default function MainTemple() {
   }, []);
 
   return (
-    <motion.div
-      className="fixed inset-0 z-10 flex flex-col items-center justify-center bg-[#050505]"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1, transition: { duration: 2, ease: 'easeOut' } }}
-    >
+    <>
+      {/* 1섹션: 메인 사원 영역 (첫 화면 꽉 채움) */}
+      <motion.div
+        className="relative w-full h-[100dvh] z-10 flex flex-col items-center justify-center bg-[#050505] overflow-hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, transition: { duration: 2, ease: 'easeOut' } }}
+      >
       {/* Background Audio */}
       <audio 
         ref={audioRef}
@@ -176,23 +178,46 @@ export default function MainTemple() {
         </button>
       </div>
 
-      {/* 9. Daily Wisdom */}
-      <DailyWisdom />
+      </motion.div>
 
-      {/* 10. Minimal Footer for AdSense Compliance */}
-      <div className="absolute bottom-4 left-0 right-0 z-[30] flex justify-center gap-4 text-[10px] md:text-xs text-white/30 font-sans tracking-widest pointer-events-auto">
-        <Link href="/about" className="hover:text-white/70 transition-colors">ABOUT</Link>
-        <span>|</span>
-        <Link href="/privacy" className="hover:text-white/70 transition-colors">PRIVACY</Link>
-        <span>|</span>
-        <Link href="/terms" className="hover:text-white/70 transition-colors">TERMS</Link>
-        <span>|</span>
-        <a href="mailto:hello@validschwenk.com" className="hover:text-white/70 transition-colors">CONTACT</a>
+      {/* 2섹션: 하단 여백 및 정보/광고 영역 (스크롤 다운 시 노출) */}
+      <div className="relative w-full min-h-[40vh] bg-gradient-to-b from-[#050505] to-[#0a0a0a] flex flex-col items-center justify-center pt-20 pb-16 z-10 px-6">
+        
+        {/* 9. Daily Wisdom (하단 영역으로 이동) */}
+        <div className="mb-12">
+          <DailyWisdom />
+        </div>
+
+        {/* 메인 광고 배너 예약 자리 (구글 자동 광고 유도) */}
+        <div className="w-full max-w-3xl mx-auto mb-16 border-y border-white/5 py-10 text-center text-xs text-white/20">
+          <p className="mb-2 uppercase tracking-widest text-[10px]">Advertisement</p>
+          <ins className="adsbygoogle"
+               style={{ display: 'block' }}
+               data-ad-client="ca-pub-8630891672218717"
+               data-ad-slot="PLACEHOLDER_AD_SLOT_ID"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <script
+               dangerouslySetInnerHTML={{
+                 __html: `(adsbygoogle = window.adsbygoogle || []).push({});`
+               }}
+          />
+        </div>
+
+        {/* 10. Minimal Footer */}
+        <div className="mt-auto flex justify-center gap-4 md:gap-8 text-[10px] md:text-xs text-white/30 font-sans tracking-widest pointer-events-auto">
+          <Link href="/about" className="hover:text-white/70 transition-colors">ABOUT</Link>
+          <span>|</span>
+          <Link href="/privacy" className="hover:text-white/70 transition-colors">PRIVACY</Link>
+          <span>|</span>
+          <Link href="/terms" className="hover:text-white/70 transition-colors">TERMS</Link>
+          <span>|</span>
+          <a href="mailto:hello@validschwenk.com" className="hover:text-white/70 transition-colors">CONTACT</a>
+        </div>
       </div>
 
       {/* 11. 시주 결제 모달 */}
       <DonationModal isOpen={isDonationOpen} onClose={() => setIsDonationOpen(false)} language={language} />
-      
-    </motion.div>
+    </>
   );
 }

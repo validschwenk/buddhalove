@@ -41,7 +41,7 @@ export default function Home() {
   };
 
   return (
-    <main className="relative w-full h-screen bg-black overflow-hidden">
+    <main className="relative w-full min-h-[100dvh] bg-[#050505] overflow-x-hidden">
       <AnimatePresence mode="wait">
         {!hasEntered ? (
           <IntroScreen key="intro" onEnter={handleEnter} />
