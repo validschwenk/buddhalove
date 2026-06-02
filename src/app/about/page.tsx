@@ -30,7 +30,6 @@ export default function AboutPage() {
 
           {/* AdSense Manual Placement Slot */}
           <div className="my-12 py-8 border-y border-white/10 text-center text-sm text-white/30 bg-black/20 rounded">
-            <p className="mb-2 uppercase tracking-widest text-[10px]">Advertisement</p>
             <ins className="adsbygoogle"
                  style={{ display: 'block' }}
                  data-ad-client="ca-pub-8630891672218717"

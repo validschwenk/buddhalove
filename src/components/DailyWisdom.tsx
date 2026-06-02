@@ -29,7 +29,7 @@ export default function DailyWisdom() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 2, delay: 1 }}
-      className="relative text-center px-4"
+      className="absolute bottom-3 md:bottom-5 left-0 right-0 mx-auto text-center pointer-events-none z-10 px-4"
     >
       <p className="font-serif text-white/50 text-xs md:text-sm italic tracking-wide">
         "{quote}"

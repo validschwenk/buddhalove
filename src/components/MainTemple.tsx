@@ -178,19 +178,15 @@ export default function MainTemple() {
         </button>
       </div>
 
+        {/* 9. Daily Wisdom (첫 화면 최하단) */}
+        <DailyWisdom />
+
       </motion.div>
 
       {/* 2섹션: 하단 여백 및 정보/광고 영역 (스크롤 다운 시 노출) */}
       <div className="relative w-full min-h-[40vh] bg-gradient-to-b from-[#050505] to-[#0a0a0a] flex flex-col items-center justify-center pt-20 pb-16 z-10 px-6">
-        
-        {/* 9. Daily Wisdom (하단 영역으로 이동) */}
-        <div className="mb-12">
-          <DailyWisdom />
-        </div>
-
         {/* 메인 광고 배너 예약 자리 (구글 자동 광고 유도) */}
         <div className="w-full max-w-3xl mx-auto mb-16 border-y border-white/5 py-10 text-center text-xs text-white/20">
-          <p className="mb-2 uppercase tracking-widest text-[10px]">Advertisement</p>
           <ins className="adsbygoogle"
                style={{ display: 'block' }}
                data-ad-client="ca-pub-8630891672218717"
