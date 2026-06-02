@@ -19,8 +19,6 @@ export const metadata: Metadata = {
   description: "Find peace and let go of your burdens.",
 };
 
-import Script from 'next/script';
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -32,12 +30,11 @@ export default function RootLayout({
       className={`${cinzel.variable} ${notoSerifKR.variable} h-full antialiased`}
     >
       <head>
-        <Script
+        <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8630891672218717"
           crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
+        ></script>
       </head>
       <body className="min-h-full flex flex-col font-sans">{children}</body>
     </html>
