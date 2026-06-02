@@ -30,6 +30,7 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
   const [input, setInput] = useState('');
   const [isThinking, setIsThinking] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
   const printRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -84,6 +85,10 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
       link.download = 'buddhas-wisdom.png';
       link.href = dataUrl;
       link.click();
+
+      // Show success message
+      setIsSaved(true);
+      setTimeout(() => setIsSaved(false), 3000);
     } catch (error) {
       console.error("Failed to generate image:", error);
     } finally {
@@ -138,11 +143,17 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
                 {/* Save Wisdom Button */}
                 <button
                   onClick={handleDownload}
-                  disabled={isSaving}
+                  disabled={isSaving || isSaved}
                   className="pointer-events-auto flex items-center gap-3 px-6 py-3 bg-black/60 hover:bg-black/80 border border-[#cfa670]/40 hover:border-[#cfa670]/80 text-[#cfa670] rounded-full backdrop-blur-md transition-all shadow-[0_0_20px_rgba(207,166,112,0.15)] hover:shadow-[0_0_30px_rgba(207,166,112,0.4)] disabled:opacity-50"
                 >
-                  <Download size={18} />
-                  <span className="text-sm font-light uppercase tracking-widest">{isSaving ? "..." : saveTexts[language]}</span>
+                  {isSaved ? (
+                    <span className="text-[#a3e635] text-lg leading-none">✓</span>
+                  ) : (
+                    <Download size={18} />
+                  )}
+                  <span className={`text-sm font-light uppercase tracking-widest ${isSaved ? 'text-[#a3e635]' : ''}`}>
+                    {isSaving ? "Saving..." : isSaved ? "Saved! (Check Img)" : saveTexts[language]}
+                  </span>
                 </button>
               </motion.div>
             )}
