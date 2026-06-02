@@ -4,13 +4,13 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const wisdomQuotes = [
-  "Peace comes from within. Do not seek it without.",
+  "Peace comes from within.",
   "What we think, we become.",
-  "No matter how hard the past, you can always begin again.",
-  "Silence is an empty space, space is the home of the awakened mind.",
-  "The root of suffering is attachment.",
-  "Radiate boundless love towards the entire world.",
-  "In the end, only three things matter: how much you loved, how gently you lived, and how gracefully you let go of things not meant for you.",
+  "Begin again.",
+  "Silence is the truest answer.",
+  "Let go, and be free.",
+  "Breathe. You are alive.",
+  "Be still. Be present.",
 ];
 
 export default function DailyWisdom() {
