@@ -14,5 +14,5 @@ body {
   background: var(--background);
   margin: 0;
   padding: 0;
-  overflow: hidden; /* Hide scrollbar for immersive experience */
+  overflow-x: hidden; /* Allow vertical scroll for the new layout */
 }
