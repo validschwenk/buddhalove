@@ -218,7 +218,7 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
       </div>
 
       {/* Hidden Card for Image Generation */}
-      <div className="fixed top-0 left-0 z-[-50] opacity-0 pointer-events-none">
+      <div className="fixed top-0 left-[9999px] z-[-50] pointer-events-none">
         <div 
           ref={printRef}
           className="w-[540px] h-[960px] bg-[#050505] flex flex-col relative overflow-hidden"
@@ -226,8 +226,9 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
         >
           {/* 1. Base Background Image */}
           <img 
-            src="/buddha-web.webp" 
+            src={typeof window !== 'undefined' ? `${window.location.origin}/buddha-web.webp` : '/buddha-web.webp'}
             alt="Background" 
+            crossOrigin="anonymous"
             className="absolute inset-0 w-full h-full object-cover opacity-80"
           />
           
@@ -244,8 +245,9 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
 
           {/* 2. Buddha Cutout */}
           <img 
-            src="/onlybuddha.webp" 
+            src={typeof window !== 'undefined' ? `${window.location.origin}/onlybuddha.webp` : '/onlybuddha.webp'}
             alt="Buddha" 
+            crossOrigin="anonymous"
             className="absolute inset-0 w-full h-full object-cover opacity-80 z-[5]"
           />
 
@@ -258,8 +260,9 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
             style={{ top: '81.3%' }}
           >
             <img 
-              src="/burner.png" 
+              src={typeof window !== 'undefined' ? `${window.location.origin}/burner.png` : '/burner.png'}
               alt="Incense Burner" 
+              crossOrigin="anonymous"
               className="w-[120px] h-auto object-contain"
               style={{ transform: 'translateY(-20%)' }}
             />
