@@ -79,12 +79,24 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
       const dataUrl = await htmlToImage.toPng(printRef.current, {
         pixelRatio: 2,
         backgroundColor: '#050505',
+        // Next.js Image caching might cause issues with html-to-image, so using basic imgs
       });
       
-      const link = document.createElement('a');
-      link.download = 'buddhas-wisdom.png';
-      link.href = dataUrl;
-      link.click();
+      const response = await fetch(dataUrl);
+      const blob = await response.blob();
+      const file = new File([blob], 'buddhas-wisdom.png', { type: 'image/png' });
+      
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: 'BuddhaLove Wisdom',
+        });
+      } else {
+        const link = document.createElement('a');
+        link.download = 'buddhas-wisdom.png';
+        link.href = dataUrl;
+        link.click();
+      }
 
       // Show success message
       setIsSaved(true);
@@ -205,24 +217,28 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
         </form>
       </div>
 
-      {/* Hidden Card for Instagram Story (1080x1920 output via 540x960 * 2 pixelRatio) */}
+      {/* Hidden Card for Image Generation */}
       <div className="fixed top-0 left-0 z-[-50] opacity-0 pointer-events-none">
         <div 
           ref={printRef}
           className="w-[540px] h-[960px] bg-[#050505] flex flex-col relative overflow-hidden"
+          style={{ fontFamily: 'var(--font-cinzel), var(--font-noto-serif-kr), serif' }}
         >
           {/* 1. Base Background Image */}
           <img 
             src="/buddha-web.webp" 
             alt="Background" 
-            className="absolute inset-0 w-full h-full object-cover opacity-70"
+            className="absolute inset-0 w-full h-full object-cover opacity-80"
           />
           
           {/* 1.5. Halo Glow behind Buddha */}
           {buddhaReply && (
             <div 
-              className="absolute left-1/2 -translate-x-1/2 top-[30%] -translate-y-1/2 w-[500px] h-[500px] rounded-full pointer-events-none"
-              style={{ background: 'radial-gradient(circle, rgba(255, 220, 120, 0.85) 0%, rgba(220, 150, 70, 0.45) 45%, transparent 75%)' }}
+              className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full pointer-events-none mix-blend-screen mb-[20vh]"
+              style={{ 
+                background: 'radial-gradient(circle, rgba(255, 220, 120, 0.85) 0%, rgba(220, 150, 70, 0.45) 45%, transparent 75%)',
+                filter: 'blur(20px)'
+              }}
             />
           )}
 
@@ -230,35 +246,43 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
           <img 
             src="/onlybuddha.webp" 
             alt="Buddha" 
-            className="absolute inset-0 w-full h-full object-cover opacity-90 z-[5]"
+            className="absolute inset-0 w-full h-full object-cover opacity-80 z-[5]"
           />
 
-          {/* 3. Dark Gradient Overlay to merge elements */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/60 pointer-events-none z-[6]" />
+          {/* 3. Dark Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent z-[6]" />
 
-          {/* 4. Text Band in the center (No blur, with Golden Glow) */}
+          {/* 4. Incense Burner */}
+          <div 
+            className="absolute left-1/2 -translate-x-1/2 z-[7] mix-blend-screen opacity-25 flex flex-col items-center"
+            style={{ top: '81.3%' }}
+          >
+            <img 
+              src="/burner.png" 
+              alt="Incense Burner" 
+              className="w-[120px] h-auto object-contain"
+              style={{ transform: 'translateY(-20%)' }}
+            />
+          </div>
+
+          {/* 5. Text (Exact match to web) */}
           {buddhaReply && (
-            <div className="absolute top-1/2 -translate-y-1/2 w-full bg-black/60 border-y border-[#cfa670]/20 py-12 px-8 flex justify-center shadow-[0_0_25px_rgba(0,0,0,0.9)] z-10">
-              <p 
-                className="text-[#f3e8dd] text-[28px] leading-[1.6] font-serif uppercase tracking-[0.15em] text-center max-w-[450px]"
-                style={{ textShadow: '0 0 5px rgba(0,0,0,1), 0 0 15px rgba(207,166,112,0.9), 0 0 30px rgba(207,166,112,0.6)' }}
+            <div className="absolute top-[28%] w-full px-6 flex justify-center z-10">
+              <div
+                className="text-[20px] text-[#f3e8dd] text-center leading-relaxed font-light uppercase tracking-[0.2em] px-8 py-6 rounded-3xl font-serif"
+                style={{ 
+                  textShadow: '0 0 10px rgba(0,0,0,1), 0 0 20px rgba(207,166,112,0.8), 0 0 40px rgba(207,166,112,0.5)',
+                  background: 'radial-gradient(circle, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0) 100%)'
+                }}
               >
                 {buddhaReply}
-              </p>
+              </div>
             </div>
           )}
 
-          {/* 5. Watermark */}
-          <div className="absolute bottom-12 w-full flex flex-col items-center opacity-90 z-10">
-            <div className="flex items-center gap-2 text-[#cfa670] text-[16px] font-light tracking-[0.1em] lowercase mb-2" style={{ textShadow: '0 0 10px rgba(0,0,0,1)' }}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
-              </svg>
-              <span>buddhashareslove</span>
-            </div>
-            <div className="text-white/60 text-[13px] font-mono tracking-widest" style={{ textShadow: '0 0 10px rgba(0,0,0,1)' }}>
+          {/* 6. Watermark */}
+          <div className="absolute bottom-6 w-full flex flex-col items-center opacity-60 z-10">
+            <div className="text-white text-[10px] font-mono tracking-widest" style={{ textShadow: '0 0 10px rgba(0,0,0,1)' }}>
               buddhashareslove.app
             </div>
           </div>
