@@ -151,7 +151,7 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
       </div>
 
       {/* 2. 하단: 사용자의 고민(채팅박스 바로 위) & 고정된 입력창 */}
-      <div className="absolute bottom-[8vh] md:bottom-[10vh] left-1/2 -translate-x-1/2 w-full max-w-lg pointer-events-auto px-4 flex flex-col justify-end">
+      <div className="absolute bottom-[4vh] md:bottom-[10vh] left-1/2 -translate-x-1/2 w-full max-w-lg pointer-events-auto px-4 flex flex-col justify-end">
         
         {/* 사용자가 방금 입력한 말 (타이핑 박스 바로 위 중앙에 표시) */}
         <AnimatePresence mode="wait">

@@ -137,34 +137,34 @@ export default function MainTemple() {
       </div>
 
       {/* 8. 우측 상단 컨트롤 (언어 선택, 음소거, 시주 버튼) */}
-      <div className="absolute top-6 right-6 md:top-10 md:right-10 z-[30] flex items-center gap-3">
+      <div className="absolute top-3 right-3 md:top-10 md:right-10 z-[30] flex items-center gap-2 md:gap-3">
         
         {/* Mute Toggle Button */}
         <button
           onClick={() => setIsMuted(!isMuted)}
-          className="p-2 bg-black/20 hover:bg-black/50 text-white/60 hover:text-white rounded-full backdrop-blur-md border border-white/10 transition-colors"
+          className="p-1.5 md:p-2 bg-black/20 hover:bg-black/50 text-white/60 hover:text-white rounded-full backdrop-blur-md border border-white/10 transition-colors"
           aria-label={isMuted ? "Unmute" : "Mute"}
         >
-          {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+          {isMuted ? <VolumeX className="w-3.5 h-3.5 md:w-4 md:h-4" /> : <Volume2 className="w-3.5 h-3.5 md:w-4 md:h-4" />}
         </button>
 
         {/* Language Selector */}
-        <div className="flex bg-black/20 rounded-full p-1 backdrop-blur-md border border-white/10">
+        <div className="flex bg-black/20 rounded-full p-0.5 md:p-1 backdrop-blur-md border border-white/10">
           <button 
             onClick={() => setLanguage('en')} 
-            className={`px-3 py-1.5 rounded-full text-xs font-mono transition-colors ${language === 'en' ? 'bg-[#cfa670]/30 text-[#cfa670] shadow-[0_0_10px_rgba(207,166,112,0.2)]' : 'text-white/40 hover:text-white/80'}`}
+            className={`px-2 py-1 md:px-3 md:py-1.5 rounded-full text-[10px] md:text-xs font-mono transition-colors ${language === 'en' ? 'bg-[#cfa670]/30 text-[#cfa670] shadow-[0_0_10px_rgba(207,166,112,0.2)]' : 'text-white/40 hover:text-white/80'}`}
           >
             EN
           </button>
           <button 
             onClick={() => setLanguage('hi')} 
-            className={`px-3 py-1.5 rounded-full text-xs font-mono transition-colors ${language === 'hi' ? 'bg-[#cfa670]/30 text-[#cfa670] shadow-[0_0_10px_rgba(207,166,112,0.2)]' : 'text-white/40 hover:text-white/80'}`}
+            className={`px-2 py-1 md:px-3 md:py-1.5 rounded-full text-[10px] md:text-xs font-mono transition-colors ${language === 'hi' ? 'bg-[#cfa670]/30 text-[#cfa670] shadow-[0_0_10px_rgba(207,166,112,0.2)]' : 'text-white/40 hover:text-white/80'}`}
           >
             हिंदी
           </button>
           <button 
             onClick={() => setLanguage('zh')} 
-            className={`px-3 py-1.5 rounded-full text-xs font-mono transition-colors ${language === 'zh' ? 'bg-[#cfa670]/30 text-[#cfa670] shadow-[0_0_10px_rgba(207,166,112,0.2)]' : 'text-white/40 hover:text-white/80'}`}
+            className={`px-2 py-1 md:px-3 md:py-1.5 rounded-full text-[10px] md:text-xs font-mono transition-colors ${language === 'zh' ? 'bg-[#cfa670]/30 text-[#cfa670] shadow-[0_0_10px_rgba(207,166,112,0.2)]' : 'text-white/40 hover:text-white/80'}`}
           >
             中
           </button>
@@ -172,7 +172,7 @@ export default function MainTemple() {
 
         <button 
           onClick={() => setIsDonationOpen(true)}
-          className="px-5 py-2.5 text-xs md:text-sm tracking-[0.2em] uppercase font-light text-[#cfa670]/90 hover:text-[#cfa670] transition-all bg-black/20 hover:bg-black/50 rounded-full backdrop-blur-md border border-[#cfa670]/30 hover:border-[#cfa670]/60 hover:shadow-[0_0_15px_rgba(207,166,112,0.3)]"
+          className="px-3.5 py-1.5 md:px-5 md:py-2.5 text-[10px] md:text-xs tracking-[0.2em] uppercase font-light text-[#cfa670]/90 hover:text-[#cfa670] transition-all bg-black/20 hover:bg-black/50 rounded-full backdrop-blur-md border border-[#cfa670]/30 hover:border-[#cfa670]/60 hover:shadow-[0_0_15px_rgba(207,166,112,0.3)]"
         >
           {language === 'en' ? 'Offerings' : language === 'hi' ? 'भेंट' : '供奉'}
         </button>
