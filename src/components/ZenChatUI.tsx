@@ -242,7 +242,7 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
         if (buddhaReply) {
           ctx.save();
           const tcx = width / 2;
-          const tcy = height * 0.52; 
+          const tcy = height * 0.42; // Raised up towards the chest
 
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
