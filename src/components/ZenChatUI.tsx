@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Download } from 'lucide-react';
-import html2canvas from 'html2canvas';
+import * as htmlToImage from 'html-to-image';
 import { Language } from './MainTemple';
 
 type ZenChatUIProps = {
@@ -102,13 +102,10 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
       // Small delay to ensure fonts/styles are fully rendered before capturing
       await new Promise(resolve => setTimeout(resolve, 100));
       
-      const canvas = await html2canvas(printRef.current, {
-        scale: 2,
+      const dataUrl = await htmlToImage.toPng(printRef.current, {
+        pixelRatio: 2,
         backgroundColor: '#050505',
-        useCORS: true,
       });
-      
-      const dataUrl = canvas.toDataURL('image/png');
       
       const response = await fetch(dataUrl);
       const blob = await response.blob();
