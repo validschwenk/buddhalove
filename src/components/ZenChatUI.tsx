@@ -124,7 +124,7 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
         ctx.fillRect(0, 0, width, height);
         
         const bgImg = await loadImage(imagesBase64.bg || '/buddha-web.webp');
-        ctx.globalAlpha = 0.8;
+        ctx.globalAlpha = 0.9;
         const bgRatio = bgImg.width / bgImg.height;
         const canvasRatio = width / height;
         let drawW = width, drawH = height, drawX = 0, drawY = 0;
@@ -143,12 +143,13 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
           ctx.save();
           ctx.globalCompositeOperation = 'screen';
           const cx = width / 2;
-          const cy = height / 2 - (192 * 2); 
-          const radius = 600;
+          const cy = height * 0.4; // Perfectly positioned behind Buddha's chest
+          const radius = 800; // Expanded to emulate heavy CSS blur
           const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
-          gradient.addColorStop(0, 'rgba(255, 220, 120, 0.85)');
-          gradient.addColorStop(0.45, 'rgba(220, 150, 70, 0.45)');
-          gradient.addColorStop(0.75, 'rgba(0, 0, 0, 0)');
+          gradient.addColorStop(0, 'rgba(255, 230, 150, 0.9)');
+          gradient.addColorStop(0.2, 'rgba(255, 200, 100, 0.6)');
+          gradient.addColorStop(0.5, 'rgba(220, 150, 70, 0.2)');
+          gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
           ctx.fillStyle = gradient;
           ctx.fillRect(cx - radius, cy - radius, radius * 2, radius * 2);
           ctx.restore();
@@ -156,7 +157,7 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
 
         // 3. Buddha
         const buddhaImg = await loadImage(imagesBase64.buddha || '/onlybuddha.webp');
-        ctx.globalAlpha = 0.8;
+        ctx.globalAlpha = 0.95;
         let bDrawW = width, bDrawH = height, bDrawX = 0, bDrawY = 0;
         const bRatio = buddhaImg.width / buddhaImg.height;
         if (bRatio > canvasRatio) {
@@ -170,42 +171,54 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
         ctx.globalAlpha = 1.0;
 
         // 4. Dark Overlay (Gradient to top)
-        const overlayGrad = ctx.createLinearGradient(0, height, 0, 0);
+        // Limits darkening to bottom 70% to keep Buddha's face bright
+        const overlayGrad = ctx.createLinearGradient(0, height, 0, height * 0.3);
         overlayGrad.addColorStop(0, 'rgba(0,0,0,1)');
-        overlayGrad.addColorStop(0.6, 'rgba(0,0,0,0.6)');
+        overlayGrad.addColorStop(0.5, 'rgba(0,0,0,0.6)');
         overlayGrad.addColorStop(1, 'rgba(0,0,0,0)');
         ctx.fillStyle = overlayGrad;
         ctx.fillRect(0, 0, width, height);
 
-        // 5. SVG Smoke
+        // 5. Native Canvas Soft Smoke
         if (buddhaReply) {
           ctx.save();
           ctx.globalCompositeOperation = 'screen';
-          ctx.globalAlpha = 0.8;
-          const smokeSvg = `
-            <svg width="300" height="800" viewBox="0 0 150 400" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="maskGrad" x1="0" y1="1" x2="0" y2="0">
-                  <stop offset="0%" stop-color="white" />
-                  <stop offset="15%" stop-color="white" />
-                  <stop offset="90%" stop-color="black" stop-opacity="0" />
-                </linearGradient>
-                <mask id="fadeMask"><rect width="150" height="400" fill="url(#maskGrad)"/></mask>
-              </defs>
-              <g mask="url(#fadeMask)">
-                <path d="M75 400 Q50 300 90 200 T70 50" fill="none" stroke="white" stroke-width="12" opacity="1" />
-                <path d="M75 400 Q95 320 50 180 T85 40" fill="none" stroke="white" stroke-width="10" opacity="0.7" />
-                <path d="M75 400 Q65 280 95 150 T75 20" fill="none" stroke="white" stroke-width="8" opacity="0.8" />
-                <path d="M75 400 Q100 250 55 120 T80 0" fill="none" stroke="white" stroke-width="6" opacity="0.5" />
-              </g>
-            </svg>`;
-          const smokeImg = await loadImage('data:image/svg+xml;base64,' + btoa(smokeSvg));
-          ctx.filter = 'blur(10px)'; 
-          const sWidth = 300;
-          const sHeight = 800;
-          const sX = width / 2 - sWidth / 2;
-          const sY = height - (height * 0.187) - sHeight; 
-          ctx.drawImage(smokeImg, sX, sY, sWidth, sHeight);
+          
+          const sX = width / 2;
+          const sY = height * 0.813; // start from burner
+          
+          const strokeGrad = ctx.createLinearGradient(0, sY, 0, sY - 800);
+          strokeGrad.addColorStop(0, 'rgba(255,255,255,0.5)');
+          strokeGrad.addColorStop(0.3, 'rgba(255,255,255,0.2)');
+          strokeGrad.addColorStop(1, 'rgba(255,255,255,0)');
+
+          ctx.shadowColor = 'rgba(255,255,255,0.8)';
+          ctx.shadowBlur = 40;
+          ctx.lineCap = 'round';
+          ctx.strokeStyle = strokeGrad;
+          
+          const drawSmokePath = (cp1x: number, cp1y: number, cp2x: number, cp2y: number, endX: number, endY: number, lineWidth: number) => {
+            ctx.lineWidth = lineWidth;
+            ctx.beginPath();
+            ctx.moveTo(sX, sY);
+            ctx.bezierCurveTo(sX + cp1x, sY - cp1y, sX + cp2x, sY - cp2y, sX + endX, sY - endY);
+            ctx.stroke();
+            ctx.stroke(); // Double stroke for intense core glow
+          };
+
+          drawSmokePath(-80, 200, 60, 500, 0, 800, 25);
+          drawSmokePath(60, 150, -70, 400, 20, 750, 18);
+          drawSmokePath(-30, 250, 80, 550, 0, 850, 12);
+          drawSmokePath(40, 300, -40, 600, -10, 700, 30);
+
+          // Add a central soft glowing column to anchor the smoke
+          const colGrad = ctx.createLinearGradient(0, sY, 0, sY - 600);
+          colGrad.addColorStop(0, 'rgba(255,255,255,0.3)');
+          colGrad.addColorStop(1, 'rgba(255,255,255,0)');
+          ctx.fillStyle = colGrad;
+          ctx.shadowBlur = 0;
+          ctx.fillRect(sX - 40, sY - 600, 80, 600);
+
           ctx.restore();
         }
 
@@ -236,9 +249,8 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
 
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
-          ctx.fillStyle = '#f3e8dd';
           ctx.font = '300 40px "Cinzel", "Noto Serif KR", serif';
-          (ctx as any).letterSpacing = "8px"; // Modern canvas API
+          (ctx as any).letterSpacing = "8px"; 
 
           const maxWidth = width - 160;
           const words = buddhaReply.toUpperCase().split(' ');
@@ -261,14 +273,25 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
 
           for (let i = 0; i < lines.length; i++) {
             const line = lines[i];
-            // Glow
-            ctx.shadowColor = 'rgba(207,166,112,0.8)';
+            
+            // 1. Outer Golden Glow
+            ctx.shadowColor = 'rgba(207,166,112,0.6)';
             ctx.shadowBlur = 40;
+            ctx.fillStyle = 'rgba(207,166,112,0.1)'; 
             ctx.fillText(line, tcx, startY + (i * lineHeight));
             ctx.fillText(line, tcx, startY + (i * lineHeight));
-            // Core shadow
+            
+            // 2. Inner Black Core Shadow for readability
             ctx.shadowColor = 'rgba(0,0,0,1)';
             ctx.shadowBlur = 10;
+            ctx.fillStyle = 'rgba(0,0,0,0.1)'; 
+            ctx.fillText(line, tcx, startY + (i * lineHeight));
+            ctx.fillText(line, tcx, startY + (i * lineHeight));
+            
+            // 3. The actual bright text on top
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = '#f3e8dd';
             ctx.fillText(line, tcx, startY + (i * lineHeight));
           }
           ctx.restore();
