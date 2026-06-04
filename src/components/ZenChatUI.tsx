@@ -2,8 +2,16 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Download, Instagram } from 'lucide-react';
+import { Download } from 'lucide-react';
 import * as htmlToImage from 'html-to-image';
+
+const InstagramIcon = ({ className }: { className?: string }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+  </svg>
+);
 import { Language } from './MainTemple';
 
 type ZenChatUIProps = {
@@ -348,7 +356,7 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
             {/* Logo/Footer at bottom */}
             <div className="absolute bottom-8 w-full flex flex-col items-center gap-2 z-10">
               <div className="flex items-center gap-1.5 text-white/50">
-                <Instagram className="w-3.5 h-3.5" />
+                <InstagramIcon className="w-3.5 h-3.5" />
                 <span className="text-[12px] tracking-wider font-sans mt-0.5">@buddhashareslove</span>
               </div>
               <span className="text-white/20 text-[9px] tracking-[0.3em] font-sans">
