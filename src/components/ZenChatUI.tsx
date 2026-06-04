@@ -180,15 +180,17 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
         ctx.fillRect(0, 0, width, height);
 
         // 5. Native Canvas Soft Smoke
+        // We draw smoke BEFORE burner so the origin is hidden behind the burner
         if (buddhaReply) {
           ctx.save();
           ctx.globalCompositeOperation = 'screen';
           
           const sX = width / 2;
-          const sY = height * 0.813; // start from burner
+          // Moved down by 40px so the converging point hides behind the burner
+          const sY = (height * 0.813) + 40; 
           
           const strokeGrad = ctx.createLinearGradient(0, sY, 0, sY - 800);
-          strokeGrad.addColorStop(0, 'rgba(255,255,255,0.5)');
+          strokeGrad.addColorStop(0, 'rgba(255,255,255,0.4)');
           strokeGrad.addColorStop(0.3, 'rgba(255,255,255,0.2)');
           strokeGrad.addColorStop(1, 'rgba(255,255,255,0)');
 
@@ -203,17 +205,16 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
             ctx.moveTo(sX, sY);
             ctx.bezierCurveTo(sX + cp1x, sY - cp1y, sX + cp2x, sY - cp2y, sX + endX, sY - endY);
             ctx.stroke();
-            ctx.stroke(); // Double stroke for intense core glow
+            ctx.stroke(); 
           };
 
-          drawSmokePath(-80, 200, 60, 500, 0, 800, 25);
-          drawSmokePath(60, 150, -70, 400, 20, 750, 18);
-          drawSmokePath(-30, 250, 80, 550, 0, 850, 12);
-          drawSmokePath(40, 300, -40, 600, -10, 700, 30);
+          drawSmokePath(-80, 200, 60, 500, 0, 800, 20);
+          drawSmokePath(60, 150, -70, 400, 20, 750, 15);
+          drawSmokePath(-30, 250, 80, 550, 0, 850, 10);
+          drawSmokePath(40, 300, -40, 600, -10, 700, 25);
 
-          // Add a central soft glowing column to anchor the smoke
           const colGrad = ctx.createLinearGradient(0, sY, 0, sY - 600);
-          colGrad.addColorStop(0, 'rgba(255,255,255,0.3)');
+          colGrad.addColorStop(0, 'rgba(255,255,255,0.25)');
           colGrad.addColorStop(1, 'rgba(255,255,255,0)');
           ctx.fillStyle = colGrad;
           ctx.shadowBlur = 0;
@@ -222,10 +223,10 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
           ctx.restore();
         }
 
-        // 6. Burner
+        // 6. Burner (Drawn after smoke to cover the smoke origin)
         ctx.save();
         ctx.globalCompositeOperation = 'screen';
-        ctx.globalAlpha = 0.25;
+        ctx.globalAlpha = 0.4; // Slightly increased opacity for better visibility
         const burnerImg = await loadImage(imagesBase64.burner || '/burner.png');
         const buWidth = 240;
         const buHeight = burnerImg.height * (buWidth / burnerImg.width);
@@ -239,13 +240,6 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
           ctx.save();
           const tcx = width / 2;
           const tcy = height * 0.28; 
-          const trad = 450;
-          const tgrad = ctx.createRadialGradient(tcx, tcy, 0, tcx, tcy, trad);
-          tgrad.addColorStop(0, 'rgba(0,0,0,0.85)');
-          tgrad.addColorStop(0.5, 'rgba(0,0,0,0.6)');
-          tgrad.addColorStop(1, 'rgba(0,0,0,0)');
-          ctx.fillStyle = tgrad;
-          ctx.fillRect(tcx - trad, tcy - trad, trad * 2, trad * 2);
 
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
@@ -271,6 +265,20 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
           let lineHeight = 65;
           let startY = tcy - ((lines.length - 1) * lineHeight) / 2;
 
+          // Draw the horizontal stretched dark box background
+          const boxPaddingY = 60;
+          const boxHeight = (lines.length * lineHeight) + (boxPaddingY * 2);
+          const boxY = startY - (lineHeight / 2) - boxPaddingY;
+          
+          const boxGrad = ctx.createLinearGradient(0, 0, width, 0);
+          boxGrad.addColorStop(0, 'rgba(0,0,0,0)');
+          boxGrad.addColorStop(0.15, 'rgba(0,0,0,0.65)');
+          boxGrad.addColorStop(0.85, 'rgba(0,0,0,0.65)');
+          boxGrad.addColorStop(1, 'rgba(0,0,0,0)');
+          
+          ctx.fillStyle = boxGrad;
+          ctx.fillRect(0, boxY, width, boxHeight);
+
           for (let i = 0; i < lines.length; i++) {
             const line = lines[i];
             
@@ -281,14 +289,14 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
             ctx.fillText(line, tcx, startY + (i * lineHeight));
             ctx.fillText(line, tcx, startY + (i * lineHeight));
             
-            // 2. Inner Black Core Shadow for readability
+            // 2. Inner Black Core Shadow
             ctx.shadowColor = 'rgba(0,0,0,1)';
             ctx.shadowBlur = 10;
             ctx.fillStyle = 'rgba(0,0,0,0.1)'; 
             ctx.fillText(line, tcx, startY + (i * lineHeight));
             ctx.fillText(line, tcx, startY + (i * lineHeight));
             
-            // 3. The actual bright text on top
+            // 3. Bright Text
             ctx.shadowColor = 'transparent';
             ctx.shadowBlur = 0;
             ctx.fillStyle = '#f3e8dd';
