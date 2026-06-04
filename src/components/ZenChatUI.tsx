@@ -136,7 +136,8 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
       // Show success message
       setIsSaved(true);
       setTimeout(() => setIsSaved(false), 3000);
-    } catch (error) {
+    } catch (error: any) {
+      alert(`Download Error: ${error.message || error}`);
       console.error("Failed to generate image:", error);
     } finally {
       setIsSaving(false);
@@ -263,7 +264,6 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
           <img 
             src={imagesBase64.bg || '/buddha-web.webp'}
             alt="Background" 
-            crossOrigin="anonymous"
             className="absolute inset-0 w-full h-full object-cover opacity-80"
           />
           
@@ -282,7 +282,6 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
           <img 
             src={imagesBase64.buddha || '/onlybuddha.webp'}
             alt="Buddha" 
-            crossOrigin="anonymous"
             className="absolute inset-0 w-full h-full object-cover opacity-80 z-[5]"
           />
 
@@ -297,7 +296,6 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
             <img 
               src={imagesBase64.burner || '/burner.png'}
               alt="Incense Burner" 
-              crossOrigin="anonymous"
               className="w-[120px] h-auto object-contain"
               style={{ transform: 'translateY(-20%)' }}
             />
