@@ -189,9 +189,9 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
           const sY = (height * 0.813) + 40; 
           
           const strokeGrad = ctx.createLinearGradient(0, sY, 0, sY - 800);
-          // Start transparent at the very bottom, fade in, then fade out
+          // Fast fade-in so it connects directly to the sticks, then fades out slowly
           strokeGrad.addColorStop(0, 'rgba(255,255,255,0)');
-          strokeGrad.addColorStop(0.1, 'rgba(255,255,255,0.4)');
+          strokeGrad.addColorStop(0.02, 'rgba(255,255,255,0.4)'); 
           strokeGrad.addColorStop(0.3, 'rgba(255,255,255,0.2)');
           strokeGrad.addColorStop(1, 'rgba(255,255,255,0)');
 
@@ -200,23 +200,24 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
           ctx.lineCap = 'round';
           ctx.strokeStyle = strokeGrad;
           
-          const drawSmokePath = (cp1x: number, cp1y: number, cp2x: number, cp2y: number, endX: number, endY: number, lineWidth: number) => {
+          const drawSmokePath = (startX: number, cp1x: number, cp1y: number, cp2x: number, cp2y: number, endX: number, endY: number, lineWidth: number) => {
             ctx.lineWidth = lineWidth;
             ctx.beginPath();
-            ctx.moveTo(sX, sY);
-            ctx.bezierCurveTo(sX + cp1x, sY - cp1y, sX + cp2x, sY - cp2y, sX + endX, sY - endY);
+            ctx.moveTo(startX, sY);
+            ctx.bezierCurveTo(startX + cp1x, sY - cp1y, startX + cp2x, sY - cp2y, startX + endX, sY - endY);
             ctx.stroke();
             ctx.stroke(); // Double stroke for intense core glow
           };
 
-          drawSmokePath(-80, 200, 60, 500, 0, 800, 20);
-          drawSmokePath(60, 150, -70, 400, 20, 750, 15);
-          drawSmokePath(-30, 250, 80, 550, 0, 850, 10);
-          drawSmokePath(40, 300, -40, 600, -10, 700, 25);
+          // Spread out origins to mimic 3 separate incense sticks, and use thinner lines
+          drawSmokePath(sX - 15, -80, 200, 60, 500, 0, 800, 8);
+          drawSmokePath(sX + 15, 60, 150, -70, 400, 20, 750, 6);
+          drawSmokePath(sX, -30, 250, 80, 550, 0, 850, 5);
+          drawSmokePath(sX, 40, 300, -40, 600, -10, 700, 10);
 
           const colGrad = ctx.createLinearGradient(0, sY, 0, sY - 600);
           colGrad.addColorStop(0, 'rgba(255,255,255,0)');
-          colGrad.addColorStop(0.1, 'rgba(255,255,255,0.25)');
+          colGrad.addColorStop(0.05, 'rgba(255,255,255,0.25)');
           colGrad.addColorStop(1, 'rgba(255,255,255,0)');
           ctx.fillStyle = colGrad;
           ctx.shadowBlur = 0;
@@ -241,7 +242,7 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
         if (buddhaReply) {
           ctx.save();
           const tcx = width / 2;
-          const tcy = height * 0.28; 
+          const tcy = height * 0.52; 
 
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
