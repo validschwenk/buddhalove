@@ -95,7 +95,8 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
   const generateCanvasImage = async (): Promise<string> => {
     return new Promise(async (resolve, reject) => {
       try {
-        await document.fonts.ready;
+        // Prevent hanging if fonts fail to load
+        await Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 200))]);
         
         const canvas = document.createElement('canvas');
         const width = 1080;
@@ -108,9 +109,12 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
         const loadImage = (src: string): Promise<HTMLImageElement> => {
           return new Promise((res, rej) => {
             const img = new Image();
-            img.crossOrigin = "anonymous";
+            // IMPORTANT: Setting crossOrigin on data: URIs blocks onload in Safari
+            if (!src.startsWith('data:')) {
+              img.crossOrigin = "anonymous";
+            }
             img.onload = () => res(img);
-            img.onerror = rej;
+            img.onerror = () => rej(new Error("Failed to load image: " + src.substring(0, 50)));
             img.src = src;
           });
         };
@@ -195,7 +199,7 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
                 <path d="M75 400 Q100 250 55 120 T80 0" fill="none" stroke="white" stroke-width="6" opacity="0.5" />
               </g>
             </svg>`;
-          const smokeImg = await loadImage('data:image/svg+xml;utf8,' + encodeURIComponent(smokeSvg));
+          const smokeImg = await loadImage('data:image/svg+xml;base64,' + btoa(smokeSvg));
           ctx.filter = 'blur(10px)'; 
           const sWidth = 300;
           const sHeight = 800;
@@ -278,12 +282,12 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
         const fy = height - 120;
         
         const instaSvg = `
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="%23cfa670" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#cfa670" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
             <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
             <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
           </svg>`;
-        const instaImg = await loadImage('data:image/svg+xml;utf8,' + encodeURIComponent(instaSvg));
+        const instaImg = await loadImage('data:image/svg+xml;base64,' + btoa(instaSvg));
         
         ctx.font = '300 24px sans-serif';
         (ctx as any).letterSpacing = "1.2px";
