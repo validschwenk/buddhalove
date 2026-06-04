@@ -115,16 +115,23 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
       const blob = await response.blob();
       const file = new File([blob], 'buddhas-wisdom.png', { type: 'image/png' });
       
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          files: [file],
-          title: 'BuddhaLove Wisdom',
-        });
-      } else {
+      try {
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            title: 'BuddhaLove Wisdom',
+          });
+        } else {
+          throw new Error('Share API not supported or invalid file');
+        }
+      } catch (shareError) {
+        // Fallback to standard download if share fails (e.g., due to user gesture timeout)
         const link = document.createElement('a');
         link.download = 'buddhas-wisdom.png';
         link.href = dataUrl;
+        document.body.appendChild(link);
         link.click();
+        document.body.removeChild(link);
       }
 
       // Show success message
