@@ -180,7 +180,6 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
         ctx.fillRect(0, 0, width, height);
 
         // 5. Native Canvas Soft Smoke
-        // We draw smoke BEFORE burner so the origin is hidden behind the burner
         if (buddhaReply) {
           ctx.save();
           ctx.globalCompositeOperation = 'screen';
@@ -205,7 +204,7 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
             ctx.moveTo(sX, sY);
             ctx.bezierCurveTo(sX + cp1x, sY - cp1y, sX + cp2x, sY - cp2y, sX + endX, sY - endY);
             ctx.stroke();
-            ctx.stroke(); 
+            ctx.stroke(); // Double stroke for intense core glow
           };
 
           drawSmokePath(-80, 200, 60, 500, 0, 800, 20);
@@ -265,19 +264,43 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
           let lineHeight = 65;
           let startY = tcy - ((lines.length - 1) * lineHeight) / 2;
 
-          // Draw the horizontal stretched dark box background
+          // Accurately replicate CSS radial-gradient inside rounded div
+          const boxPaddingX = 80;
           const boxPaddingY = 60;
-          const boxHeight = (lines.length * lineHeight) + (boxPaddingY * 2);
+          let longestLineWidth = 0;
+          for (let i = 0; i < lines.length; i++) {
+             const w = ctx.measureText(lines[i]).width;
+             if (w > longestLineWidth) longestLineWidth = w;
+          }
+          const boxW = Math.max(longestLineWidth + (boxPaddingX * 2), 300); // minimum width
+          const boxH = (lines.length * lineHeight) + (boxPaddingY * 2);
+          const boxX = tcx - boxW / 2;
           const boxY = startY - (lineHeight / 2) - boxPaddingY;
+          const borderRadius = 48; // rounded-3xl -> 24px -> 48px on canvas
           
-          const boxGrad = ctx.createLinearGradient(0, 0, width, 0);
-          boxGrad.addColorStop(0, 'rgba(0,0,0,0)');
-          boxGrad.addColorStop(0.15, 'rgba(0,0,0,0.65)');
-          boxGrad.addColorStop(0.85, 'rgba(0,0,0,0.65)');
-          boxGrad.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.save(); // Save before clipping
+          ctx.beginPath();
+          ctx.moveTo(boxX + borderRadius, boxY);
+          ctx.lineTo(boxX + boxW - borderRadius, boxY);
+          ctx.quadraticCurveTo(boxX + boxW, boxY, boxX + boxW, boxY + borderRadius);
+          ctx.lineTo(boxX + boxW, boxY + boxH - borderRadius);
+          ctx.quadraticCurveTo(boxX + boxW, boxY + boxH, boxX + boxW - borderRadius, boxY + boxH);
+          ctx.lineTo(boxX + borderRadius, boxY + boxH);
+          ctx.quadraticCurveTo(boxX, boxY + boxH, boxX, boxY + boxH - borderRadius);
+          ctx.lineTo(boxX, boxY + borderRadius);
+          ctx.quadraticCurveTo(boxX, boxY, boxX + borderRadius, boxY);
+          ctx.closePath();
+          ctx.clip(); 
           
-          ctx.fillStyle = boxGrad;
-          ctx.fillRect(0, boxY, width, boxHeight);
+          // Fill with the original radial gradient
+          const trad = 450;
+          const tgrad = ctx.createRadialGradient(tcx, tcy, 0, tcx, tcy, trad);
+          tgrad.addColorStop(0, 'rgba(0,0,0,0.85)');
+          tgrad.addColorStop(0.5, 'rgba(0,0,0,0.6)');
+          tgrad.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.fillStyle = tgrad;
+          ctx.fillRect(boxX, boxY, boxW, boxH);
+          ctx.restore(); // Remove clip so we can draw text normally
 
           for (let i = 0; i < lines.length; i++) {
             const line = lines[i];
