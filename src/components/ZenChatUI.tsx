@@ -265,45 +265,48 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
           className="w-[540px] h-[960px] bg-[#050505] flex flex-col relative overflow-hidden"
           style={{ fontFamily: 'var(--font-cinzel), var(--font-noto-serif-kr), serif' }}
         >
-          {/* 1. Base Background Image */}
+          {/* 1. Base Background Image (z-0) */}
           <img 
             src={imagesBase64.bg || '/buddha-web.webp'}
             alt="Background" 
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover object-center opacity-80 z-0"
           />
-
-          {/* 1.5. Dark Overlays (Match web) */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/80 z-[1]" />
-          <div className="absolute inset-0 bg-black/30 z-[1]" />
           
-          {/* Halo Glow behind Buddha */}
+          {/* 2. Halo Glow behind Buddha (z-[1]) */}
           {buddhaReply && (
-            <div 
-              className="absolute left-1/2 -translate-x-1/2 top-[40%] -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none mix-blend-screen z-[2]"
-              style={{ 
-                background: 'radial-gradient(circle, rgba(255, 220, 120, 0.6) 0%, rgba(255, 180, 50, 0.2) 35%, transparent 65%)',
-              }}
-            />
+            <div className="absolute inset-0 z-[1] flex items-center justify-center pointer-events-none">
+              <div 
+                className="w-[600px] h-[600px] rounded-full mix-blend-screen mb-[192px]"
+                style={{ 
+                  background: 'radial-gradient(circle, rgba(255, 220, 120, 0.85) 0%, rgba(220, 150, 70, 0.45) 45%, rgba(0, 0, 0, 0) 75%)',
+                  filter: 'blur(40px)',
+                  WebkitFilter: 'blur(40px)',
+                }}
+              />
+            </div>
           )}
 
-          {/* 2. Buddha Cutout */}
+          {/* 3. Buddha Cutout (z-[2]) */}
           <img 
             src={imagesBase64.buddha || '/onlybuddha.webp'}
             alt="Buddha" 
-            className="absolute inset-0 w-full h-full object-cover z-[5]"
+            className="absolute inset-0 w-full h-full object-cover object-center opacity-80 z-[2]"
           />
 
-          {/* 5.5. Static Smoke for Generated Image */}
+          {/* 4. Dark Gradient Overlay (z-[3]) */}
+          <div className="absolute inset-0 z-[3] pointer-events-none bg-gradient-to-t from-black via-black/60 to-transparent" />
+
+          {/* 5. Static Thin Subtle Smoke (z-[4]) */}
           {buddhaReply && (
             <div 
-              className="absolute left-1/2 -translate-x-1/2 z-[6] pointer-events-none mix-blend-screen"
+              className="absolute left-1/2 -translate-x-1/2 z-[4] pointer-events-none mix-blend-screen"
               style={{
                 bottom: '18.7%',
-                width: '140px',
-                height: '450px',
-                background: 'linear-gradient(to top, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.3) 40%, transparent 100%)',
-                filter: 'blur(18px)',
-                WebkitFilter: 'blur(18px)',
+                width: '100px',
+                height: '400px',
+                background: 'linear-gradient(to top, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.1) 40%, transparent 100%)',
+                filter: 'blur(15px)',
+                WebkitFilter: 'blur(15px)',
                 transform: 'rotate(-3deg)',
                 transformOrigin: 'bottom center',
                 borderRadius: '100% 100% 0 0',
@@ -311,9 +314,9 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
             />
           )}
 
-          {/* 6. Incense Burner */}
+          {/* 6. Incense Burner (z-[5]) */}
           <div 
-            className="absolute left-1/2 -translate-x-1/2 z-[7] mix-blend-screen opacity-25 flex flex-col items-center"
+            className="absolute left-1/2 -translate-x-1/2 z-[5] mix-blend-screen opacity-25 flex flex-col items-center pointer-events-none"
             style={{ top: '81.3%' }}
           >
             <img 
