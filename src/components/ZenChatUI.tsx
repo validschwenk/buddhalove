@@ -269,16 +269,19 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
           <img 
             src={imagesBase64.bg || '/buddha-web.webp'}
             alt="Background" 
-            className="absolute inset-0 w-full h-full object-cover opacity-80"
+            className="absolute inset-0 w-full h-full object-cover"
           />
+
+          {/* 1.5. Dark Overlays (Match web) */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/80 z-[1]" />
+          <div className="absolute inset-0 bg-black/30 z-[1]" />
           
-          {/* 1.5. Halo Glow behind Buddha */}
+          {/* Halo Glow behind Buddha */}
           {buddhaReply && (
             <div 
-              className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full pointer-events-none mix-blend-screen mb-[20vh]"
+              className="absolute left-1/2 -translate-x-1/2 top-[40%] -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none mix-blend-screen z-[2]"
               style={{ 
-                background: 'radial-gradient(circle, rgba(255, 220, 120, 0.85) 0%, rgba(220, 150, 70, 0.45) 45%, transparent 75%)',
-                filter: 'blur(20px)'
+                background: 'radial-gradient(circle, rgba(255, 220, 120, 0.6) 0%, rgba(255, 180, 50, 0.2) 35%, transparent 65%)',
               }}
             />
           )}
@@ -287,11 +290,8 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
           <img 
             src={imagesBase64.buddha || '/onlybuddha.webp'}
             alt="Buddha" 
-            className="absolute inset-0 w-full h-full object-cover opacity-80 z-[5]"
+            className="absolute inset-0 w-full h-full object-cover z-[5]"
           />
-
-          {/* 3. Dark Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent z-[6]" />
 
           {/* 4. Incense Burner */}
           <div 
