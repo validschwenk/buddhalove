@@ -293,7 +293,25 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
             className="absolute inset-0 w-full h-full object-cover z-[5]"
           />
 
-          {/* 4. Incense Burner */}
+          {/* 5.5. Static Smoke for Generated Image */}
+          {buddhaReply && (
+            <div 
+              className="absolute left-1/2 -translate-x-1/2 z-[6] pointer-events-none mix-blend-screen"
+              style={{
+                bottom: '18.7%',
+                width: '140px',
+                height: '450px',
+                background: 'linear-gradient(to top, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.3) 40%, transparent 100%)',
+                filter: 'blur(18px)',
+                WebkitFilter: 'blur(18px)',
+                transform: 'rotate(-3deg)',
+                transformOrigin: 'bottom center',
+                borderRadius: '100% 100% 0 0',
+              }}
+            />
+          )}
+
+          {/* 6. Incense Burner */}
           <div 
             className="absolute left-1/2 -translate-x-1/2 z-[7] mix-blend-screen opacity-25 flex flex-col items-center"
             style={{ top: '81.3%' }}
