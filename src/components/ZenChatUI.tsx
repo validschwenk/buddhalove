@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Download } from 'lucide-react';
+import { Download, Instagram } from 'lucide-react';
 import * as htmlToImage from 'html-to-image';
 import { Language } from './MainTemple';
 
@@ -296,22 +296,25 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
           {/* 4. Dark Gradient Overlay (z-[3]) */}
           <div className="absolute inset-0 z-[3] pointer-events-none bg-gradient-to-t from-black via-black/60 to-transparent" />
 
-          {/* 5. Static Thin Subtle Smoke (z-[4]) */}
+          {/* 5. SVG Realistic Smoke (z-[4]) */}
           {buddhaReply && (
             <div 
-              className="absolute left-1/2 -translate-x-1/2 z-[4] pointer-events-none mix-blend-screen"
+              className="absolute left-1/2 -translate-x-1/2 z-[4] pointer-events-none mix-blend-screen opacity-80"
               style={{
                 bottom: '18.7%',
-                width: '100px',
+                width: '150px',
                 height: '400px',
-                background: 'linear-gradient(to top, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.1) 40%, transparent 100%)',
-                filter: 'blur(15px)',
-                WebkitFilter: 'blur(15px)',
-                transform: 'rotate(-3deg)',
-                transformOrigin: 'bottom center',
-                borderRadius: '100% 100% 0 0',
+                WebkitMaskImage: 'linear-gradient(to top, black 0%, black 15%, transparent 90%)',
+                maskImage: 'linear-gradient(to top, black 0%, black 15%, transparent 90%)',
               }}
-            />
+            >
+              <svg width="100%" height="100%" viewBox="0 0 150 400" xmlns="http://www.w3.org/2000/svg" style={{ filter: 'blur(5px)', WebkitFilter: 'blur(5px)' }}>
+                <path d="M75 400 Q50 300 90 200 T70 50" fill="none" stroke="white" strokeWidth="12" opacity="1" />
+                <path d="M75 400 Q95 320 50 180 T85 40" fill="none" stroke="white" strokeWidth="10" opacity="0.7" />
+                <path d="M75 400 Q65 280 95 150 T75 20" fill="none" stroke="white" strokeWidth="8" opacity="0.8" />
+                <path d="M75 400 Q100 250 55 120 T80 0" fill="none" stroke="white" strokeWidth="6" opacity="0.5" />
+              </svg>
+            </div>
           )}
 
           {/* 6. Incense Burner (z-[5]) */}
@@ -342,12 +345,16 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
             </div>
           )}
 
-          {/* 6. Watermark */}
-          <div className="absolute bottom-6 w-full flex flex-col items-center opacity-60 z-10">
-            <div className="text-white text-[10px] font-mono tracking-widest" style={{ textShadow: '0 0 10px rgba(0,0,0,1)' }}>
-              buddhashareslove.app
+            {/* Logo/Footer at bottom */}
+            <div className="absolute bottom-8 w-full flex flex-col items-center gap-2 z-10">
+              <div className="flex items-center gap-1.5 text-white/50">
+                <Instagram className="w-3.5 h-3.5" />
+                <span className="text-[12px] tracking-wider font-sans mt-0.5">@buddhashareslove</span>
+              </div>
+              <span className="text-white/20 text-[9px] tracking-[0.3em] font-sans">
+                buddhashareslove.vercel.app
+              </span>
             </div>
-          </div>
         </div>
       </div>
     </div>
