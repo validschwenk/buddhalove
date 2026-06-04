@@ -112,13 +112,21 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
       const file = new File([blob], 'buddhas-wisdom.png', { type: 'image/png' });
       
       try {
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        
+        if (isMobile && navigator.canShare && navigator.canShare({ files: [file] })) {
           await navigator.share({
             files: [file],
             title: 'BuddhaLove Wisdom',
           });
         } else {
-          throw new Error('Share API not supported or invalid file');
+          // Direct download for PC/Desktop (or if share not supported)
+          const link = document.createElement('a');
+          link.download = 'buddhas-wisdom.png';
+          link.href = dataUrl;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
         }
       } catch (shareError) {
         // Fallback to standard download if share fails (e.g., due to user gesture timeout)
