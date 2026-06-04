@@ -3,15 +3,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Download } from 'lucide-react';
-import * as htmlToImage from 'html-to-image';
-
-const InstagramIcon = ({ className }: { className?: string }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-  </svg>
-);
 import { Language } from './MainTemple';
 
 type ZenChatUIProps = {
@@ -40,10 +31,9 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
   const [isSaving, setIsSaving] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [imagesBase64, setImagesBase64] = useState({ bg: '', buddha: '', burner: '' });
-  const printRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Preload images as base64 to fix iOS Safari blank image bugs in html-to-image
+    // Preload images as base64 for native canvas drawing
     const loadBase64 = async (url: string) => {
       try {
         const res = await fetch(url);
@@ -102,28 +92,232 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
     }
   };
 
+  const generateCanvasImage = async (): Promise<string> => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await document.fonts.ready;
+        
+        const canvas = document.createElement('canvas');
+        const width = 1080;
+        const height = 1920;
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) throw new Error("Failed to get 2d context");
+
+        const loadImage = (src: string): Promise<HTMLImageElement> => {
+          return new Promise((res, rej) => {
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.onload = () => res(img);
+            img.onerror = rej;
+            img.src = src;
+          });
+        };
+
+        // 1. Draw Background
+        ctx.fillStyle = '#050505';
+        ctx.fillRect(0, 0, width, height);
+        
+        const bgImg = await loadImage(imagesBase64.bg || '/buddha-web.webp');
+        ctx.globalAlpha = 0.8;
+        const bgRatio = bgImg.width / bgImg.height;
+        const canvasRatio = width / height;
+        let drawW = width, drawH = height, drawX = 0, drawY = 0;
+        if (bgRatio > canvasRatio) {
+          drawW = height * bgRatio;
+          drawX = (width - drawW) / 2;
+        } else {
+          drawH = width / bgRatio;
+          drawY = (height - drawH) / 2;
+        }
+        ctx.drawImage(bgImg, drawX, drawY, drawW, drawH);
+        ctx.globalAlpha = 1.0;
+
+        // 2. Halo (Radial Gradient)
+        if (buddhaReply) {
+          ctx.save();
+          ctx.globalCompositeOperation = 'screen';
+          const cx = width / 2;
+          const cy = height / 2 - (192 * 2); 
+          const radius = 600;
+          const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+          gradient.addColorStop(0, 'rgba(255, 220, 120, 0.85)');
+          gradient.addColorStop(0.45, 'rgba(220, 150, 70, 0.45)');
+          gradient.addColorStop(0.75, 'rgba(0, 0, 0, 0)');
+          ctx.fillStyle = gradient;
+          ctx.fillRect(cx - radius, cy - radius, radius * 2, radius * 2);
+          ctx.restore();
+        }
+
+        // 3. Buddha
+        const buddhaImg = await loadImage(imagesBase64.buddha || '/onlybuddha.webp');
+        ctx.globalAlpha = 0.8;
+        let bDrawW = width, bDrawH = height, bDrawX = 0, bDrawY = 0;
+        const bRatio = buddhaImg.width / buddhaImg.height;
+        if (bRatio > canvasRatio) {
+          bDrawW = height * bRatio;
+          bDrawX = (width - bDrawW) / 2;
+        } else {
+          bDrawH = width / bRatio;
+          bDrawY = (height - bDrawH) / 2;
+        }
+        ctx.drawImage(buddhaImg, bDrawX, bDrawY, bDrawW, bDrawH);
+        ctx.globalAlpha = 1.0;
+
+        // 4. Dark Overlay (Gradient to top)
+        const overlayGrad = ctx.createLinearGradient(0, height, 0, 0);
+        overlayGrad.addColorStop(0, 'rgba(0,0,0,1)');
+        overlayGrad.addColorStop(0.6, 'rgba(0,0,0,0.6)');
+        overlayGrad.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = overlayGrad;
+        ctx.fillRect(0, 0, width, height);
+
+        // 5. SVG Smoke
+        if (buddhaReply) {
+          ctx.save();
+          ctx.globalCompositeOperation = 'screen';
+          ctx.globalAlpha = 0.8;
+          const smokeSvg = `
+            <svg width="300" height="800" viewBox="0 0 150 400" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="maskGrad" x1="0" y1="1" x2="0" y2="0">
+                  <stop offset="0%" stop-color="white" />
+                  <stop offset="15%" stop-color="white" />
+                  <stop offset="90%" stop-color="black" stop-opacity="0" />
+                </linearGradient>
+                <mask id="fadeMask"><rect width="150" height="400" fill="url(#maskGrad)"/></mask>
+              </defs>
+              <g mask="url(#fadeMask)">
+                <path d="M75 400 Q50 300 90 200 T70 50" fill="none" stroke="white" stroke-width="12" opacity="1" />
+                <path d="M75 400 Q95 320 50 180 T85 40" fill="none" stroke="white" stroke-width="10" opacity="0.7" />
+                <path d="M75 400 Q65 280 95 150 T75 20" fill="none" stroke="white" stroke-width="8" opacity="0.8" />
+                <path d="M75 400 Q100 250 55 120 T80 0" fill="none" stroke="white" stroke-width="6" opacity="0.5" />
+              </g>
+            </svg>`;
+          const smokeImg = await loadImage('data:image/svg+xml;utf8,' + encodeURIComponent(smokeSvg));
+          ctx.filter = 'blur(10px)'; 
+          const sWidth = 300;
+          const sHeight = 800;
+          const sX = width / 2 - sWidth / 2;
+          const sY = height - (height * 0.187) - sHeight; 
+          ctx.drawImage(smokeImg, sX, sY, sWidth, sHeight);
+          ctx.restore();
+        }
+
+        // 6. Burner
+        ctx.save();
+        ctx.globalCompositeOperation = 'screen';
+        ctx.globalAlpha = 0.25;
+        const burnerImg = await loadImage(imagesBase64.burner || '/burner.png');
+        const buWidth = 240;
+        const buHeight = burnerImg.height * (buWidth / burnerImg.width);
+        const buX = width / 2 - buWidth / 2;
+        const buY = (height * 0.813) - (buHeight * 0.2); 
+        ctx.drawImage(burnerImg, buX, buY, buWidth, buHeight);
+        ctx.restore();
+
+        // 7. Text (Buddha Reply)
+        if (buddhaReply) {
+          ctx.save();
+          const tcx = width / 2;
+          const tcy = height * 0.28; 
+          const trad = 450;
+          const tgrad = ctx.createRadialGradient(tcx, tcy, 0, tcx, tcy, trad);
+          tgrad.addColorStop(0, 'rgba(0,0,0,0.85)');
+          tgrad.addColorStop(0.5, 'rgba(0,0,0,0.6)');
+          tgrad.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.fillStyle = tgrad;
+          ctx.fillRect(tcx - trad, tcy - trad, trad * 2, trad * 2);
+
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillStyle = '#f3e8dd';
+          ctx.font = '300 40px "Cinzel", "Noto Serif KR", serif';
+          (ctx as any).letterSpacing = "8px"; // Modern canvas API
+
+          const maxWidth = width - 160;
+          const words = buddhaReply.toUpperCase().split(' ');
+          let lines = [];
+          let currentLine = words[0];
+          for (let i = 1; i < words.length; i++) {
+            let word = words[i];
+            let mWidth = ctx.measureText(currentLine + " " + word).width;
+            if (mWidth < maxWidth) {
+              currentLine += " " + word;
+            } else {
+              lines.push(currentLine);
+              currentLine = word;
+            }
+          }
+          lines.push(currentLine);
+          
+          let lineHeight = 65;
+          let startY = tcy - ((lines.length - 1) * lineHeight) / 2;
+
+          for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            // Glow
+            ctx.shadowColor = 'rgba(207,166,112,0.8)';
+            ctx.shadowBlur = 40;
+            ctx.fillText(line, tcx, startY + (i * lineHeight));
+            ctx.fillText(line, tcx, startY + (i * lineHeight));
+            // Core shadow
+            ctx.shadowColor = 'rgba(0,0,0,1)';
+            ctx.shadowBlur = 10;
+            ctx.fillText(line, tcx, startY + (i * lineHeight));
+          }
+          ctx.restore();
+        }
+
+        // 8. Footer (Instagram Logo & URL)
+        ctx.save();
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        const fx = width / 2;
+        const fy = height - 120;
+        
+        const instaSvg = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="%23cfa670" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>`;
+        const instaImg = await loadImage('data:image/svg+xml;utf8,' + encodeURIComponent(instaSvg));
+        
+        ctx.font = '300 24px sans-serif';
+        (ctx as any).letterSpacing = "1.2px";
+        const tWidth = ctx.measureText('@buddhashareslove').width;
+        const totalW = 28 + 10 + tWidth;
+        const startX = fx - totalW / 2;
+        
+        ctx.drawImage(instaImg, startX, fy - 20 - 14, 28, 28);
+        ctx.fillStyle = 'rgba(207,166,112,0.9)';
+        ctx.fillText('@buddhashareslove', startX + 28 + 10 + tWidth/2, fy - 20);
+        
+        ctx.fillStyle = 'rgba(255,255,255,0.6)';
+        ctx.font = '300 18px sans-serif';
+        (ctx as any).letterSpacing = "5.4px";
+        ctx.fillText('buddhashareslove.vercel.app', fx, fy + 20);
+        ctx.restore();
+
+        resolve(canvas.toDataURL('image/jpeg', 0.95));
+      } catch (err) {
+        reject(err);
+      }
+    });
+  };
+
   const handleDownload = async () => {
-    if (!printRef.current || isSaving) return;
+    if (isSaving) return;
     setIsSaving(true);
     
     try {
-      // Small delay to ensure fonts/styles are fully rendered before capturing
-      await new Promise(resolve => setTimeout(resolve, 150));
-      
-      // iOS Safari `html-to-image` workaround: 
-      // Safari often renders blank or missing images on the first pass due to SVG foreignObject bugs.
-      // Calling it a few times "warms up" the rendering engine.
-      await htmlToImage.toPng(printRef.current, { pixelRatio: 1 });
-      await htmlToImage.toPng(printRef.current, { pixelRatio: 1 });
-      
-      const dataUrl = await htmlToImage.toPng(printRef.current, {
-        pixelRatio: 2,
-        backgroundColor: '#050505',
-      });
+      const dataUrl = await generateCanvasImage();
       
       const response = await fetch(dataUrl);
       const blob = await response.blob();
-      const file = new File([blob], 'buddhas-wisdom.png', { type: 'image/png' });
+      const file = new File([blob], 'buddhas-wisdom.jpg', { type: 'image/jpeg' });
       
       try {
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -134,25 +328,22 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
             title: 'BuddhaLove Wisdom',
           });
         } else {
-          // Direct download for PC/Desktop (or if share not supported)
           const link = document.createElement('a');
-          link.download = 'buddhas-wisdom.png';
+          link.download = 'buddhas-wisdom.jpg';
           link.href = dataUrl;
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
         }
       } catch (shareError) {
-        // Fallback to standard download if share fails (e.g., due to user gesture timeout)
         const link = document.createElement('a');
-        link.download = 'buddhas-wisdom.png';
+        link.download = 'buddhas-wisdom.jpg';
         link.href = dataUrl;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
       }
 
-      // Show success message
       setIsSaved(true);
       setTimeout(() => setIsSaved(false), 3000);
     } catch (error: any) {
@@ -166,10 +357,9 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
   return (
     <div className="absolute inset-0 z-20 pointer-events-none">
       
-      {/* 1. 중앙: 부처님의 답변 텍스트 (얼굴/가슴 쪽에 가깝도록 위로 배치) */}
+      {/* 1. 중앙: 부처님의 답변 텍스트 */}
       <div className="absolute top-[25vh] md:top-[30vh] left-0 right-0 flex items-center justify-center">
         
-        {/* 답변 텍스트 또는 로딩(Thinking) 상태 */}
         <div className="relative z-10 w-full max-w-2xl px-6 flex justify-center">
           <AnimatePresence mode="wait">
             {isThinking && (
@@ -228,10 +418,9 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
         </div>
       </div>
 
-      {/* 2. 하단: 사용자의 고민(채팅박스 바로 위) & 고정된 입력창 */}
+      {/* 2. 하단: 사용자의 고민 & 고정된 입력창 */}
       <div className="absolute bottom-[4vh] md:bottom-[10vh] left-1/2 -translate-x-1/2 w-full max-w-lg pointer-events-auto px-4 flex flex-col justify-end">
         
-        {/* 사용자가 방금 입력한 말 (타이핑 박스 바로 위 중앙에 표시) */}
         <AnimatePresence mode="wait">
           {userQuery && (
             <motion.div 
@@ -270,106 +459,6 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
             </svg>
           </button>
         </form>
-      </div>
-
-      {/* Hidden Card for Image Generation */}
-      <div className="absolute top-0 left-0 z-[-50] opacity-0 pointer-events-none">
-        <div 
-          ref={printRef}
-          className="w-[540px] h-[960px] bg-[#050505] flex flex-col relative overflow-hidden"
-          style={{ fontFamily: 'var(--font-cinzel), var(--font-noto-serif-kr), serif' }}
-        >
-          {/* 1. Base Background Image (z-0) */}
-          <img 
-            src={imagesBase64.bg || '/buddha-web.webp'}
-            alt="Background" 
-            className="absolute inset-0 w-full h-full object-cover object-center opacity-80 z-0"
-          />
-          
-          {/* 2. Halo Glow behind Buddha (z-[1]) */}
-          {buddhaReply && (
-            <div className="absolute inset-0 z-[1] flex items-center justify-center pointer-events-none">
-              <div 
-                className="w-[600px] h-[600px] rounded-full mix-blend-screen mb-[192px]"
-                style={{ 
-                  background: 'radial-gradient(circle, rgba(255, 220, 120, 0.85) 0%, rgba(220, 150, 70, 0.45) 45%, rgba(0, 0, 0, 0) 75%)',
-                  filter: 'blur(40px)',
-                  WebkitFilter: 'blur(40px)',
-                }}
-              />
-            </div>
-          )}
-
-          {/* 3. Buddha Cutout (z-[2]) */}
-          <img 
-            src={imagesBase64.buddha || '/onlybuddha.webp'}
-            alt="Buddha" 
-            className="absolute inset-0 w-full h-full object-cover object-center opacity-80 z-[2]"
-          />
-
-          {/* 4. Dark Gradient Overlay (z-[3]) */}
-          <div className="absolute inset-0 z-[3] pointer-events-none bg-gradient-to-t from-black via-black/60 to-transparent" />
-
-          {/* 5. SVG Realistic Smoke (z-[4]) */}
-          {buddhaReply && (
-            <div 
-              className="absolute left-1/2 -translate-x-1/2 z-[4] pointer-events-none mix-blend-screen opacity-80"
-              style={{
-                bottom: '18.7%',
-                width: '150px',
-                height: '400px',
-                WebkitMaskImage: 'linear-gradient(to top, black 0%, black 15%, transparent 90%)',
-                maskImage: 'linear-gradient(to top, black 0%, black 15%, transparent 90%)',
-              }}
-            >
-              <svg width="100%" height="100%" viewBox="0 0 150 400" xmlns="http://www.w3.org/2000/svg" style={{ filter: 'blur(5px)', WebkitFilter: 'blur(5px)' }}>
-                <path d="M75 400 Q50 300 90 200 T70 50" fill="none" stroke="white" strokeWidth="12" opacity="1" />
-                <path d="M75 400 Q95 320 50 180 T85 40" fill="none" stroke="white" strokeWidth="10" opacity="0.7" />
-                <path d="M75 400 Q65 280 95 150 T75 20" fill="none" stroke="white" strokeWidth="8" opacity="0.8" />
-                <path d="M75 400 Q100 250 55 120 T80 0" fill="none" stroke="white" strokeWidth="6" opacity="0.5" />
-              </svg>
-            </div>
-          )}
-
-          {/* 6. Incense Burner (z-[5]) */}
-          <div 
-            className="absolute left-1/2 -translate-x-1/2 z-[5] mix-blend-screen opacity-25 flex flex-col items-center pointer-events-none"
-            style={{ top: '81.3%' }}
-          >
-            <img 
-              src={imagesBase64.burner || '/burner.png'}
-              alt="Incense Burner" 
-              className="w-[120px] h-auto object-contain"
-              style={{ transform: 'translateY(-20%)' }}
-            />
-          </div>
-
-          {/* 5. Text (Exact match to web) */}
-          {buddhaReply && (
-            <div className="absolute top-[28%] w-full px-6 flex justify-center z-10">
-              <div
-                className="text-[20px] text-[#f3e8dd] text-center leading-relaxed font-light uppercase tracking-[0.2em] px-8 py-6 rounded-3xl font-serif"
-                style={{ 
-                  textShadow: '0 0 10px rgba(0,0,0,1), 0 0 20px rgba(207,166,112,0.8), 0 0 40px rgba(207,166,112,0.5)',
-                  background: 'radial-gradient(circle, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0) 100%)'
-                }}
-              >
-                {buddhaReply}
-              </div>
-            </div>
-          )}
-
-            {/* Logo/Footer at bottom */}
-            <div className="absolute bottom-8 w-full flex flex-col items-center gap-2 z-10">
-              <div className="flex items-center gap-1.5 text-[#cfa670]/90">
-                <InstagramIcon className="w-3.5 h-3.5" />
-                <span className="text-[12px] tracking-wider font-sans mt-0.5">@buddhashareslove</span>
-              </div>
-              <span className="text-white/60 text-[9px] tracking-[0.3em] font-sans">
-                buddhashareslove.vercel.app
-              </span>
-            </div>
-        </div>
       </div>
     </div>
   );
