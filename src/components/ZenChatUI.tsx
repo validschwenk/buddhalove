@@ -264,43 +264,36 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
           let lineHeight = 65;
           let startY = tcy - ((lines.length - 1) * lineHeight) / 2;
 
-          // Accurately replicate CSS radial-gradient inside rounded div
+          // Accurately replicate CSS radial-gradient inside div
           const boxPaddingX = 80;
-          const boxPaddingY = 60;
+          const boxPaddingY = 50;
           let longestLineWidth = 0;
           for (let i = 0; i < lines.length; i++) {
              const w = ctx.measureText(lines[i]).width;
              if (w > longestLineWidth) longestLineWidth = w;
           }
-          const boxW = Math.max(longestLineWidth + (boxPaddingX * 2), 300); // minimum width
+          const boxW = Math.min(longestLineWidth + (boxPaddingX * 2), width - 60);
           const boxH = (lines.length * lineHeight) + (boxPaddingY * 2);
           const boxX = tcx - boxW / 2;
           const boxY = startY - (lineHeight / 2) - boxPaddingY;
-          const borderRadius = 48; // rounded-3xl -> 24px -> 48px on canvas
           
-          ctx.save(); // Save before clipping
-          ctx.beginPath();
-          ctx.moveTo(boxX + borderRadius, boxY);
-          ctx.lineTo(boxX + boxW - borderRadius, boxY);
-          ctx.quadraticCurveTo(boxX + boxW, boxY, boxX + boxW, boxY + borderRadius);
-          ctx.lineTo(boxX + boxW, boxY + boxH - borderRadius);
-          ctx.quadraticCurveTo(boxX + boxW, boxY + boxH, boxX + boxW - borderRadius, boxY + boxH);
-          ctx.lineTo(boxX + borderRadius, boxY + boxH);
-          ctx.quadraticCurveTo(boxX, boxY + boxH, boxX, boxY + boxH - borderRadius);
-          ctx.lineTo(boxX, boxY + borderRadius);
-          ctx.quadraticCurveTo(boxX, boxY, boxX + borderRadius, boxY);
-          ctx.closePath();
-          ctx.clip(); 
+          ctx.save();
+          // CSS exact radius for radial-gradient(circle) is the distance to the farthest corner
+          const radius = Math.sqrt(Math.pow(boxW / 2, 2) + Math.pow(boxH / 2, 2));
           
-          // Fill with the original radial gradient
-          const trad = 450;
-          const tgrad = ctx.createRadialGradient(tcx, tcy, 0, tcx, tcy, trad);
+          const tgrad = ctx.createRadialGradient(tcx, tcy, 0, tcx, tcy, radius);
           tgrad.addColorStop(0, 'rgba(0,0,0,0.85)');
           tgrad.addColorStop(0.5, 'rgba(0,0,0,0.6)');
           tgrad.addColorStop(1, 'rgba(0,0,0,0)');
+          
+          // Clip to rounded rectangle (rounded-3xl is ~24px)
+          ctx.beginPath();
+          ctx.roundRect(boxX, boxY, boxW, boxH, 24);
+          ctx.clip();
+          
           ctx.fillStyle = tgrad;
           ctx.fillRect(boxX, boxY, boxW, boxH);
-          ctx.restore(); // Remove clip so we can draw text normally
+          ctx.restore();
 
           for (let i = 0; i < lines.length; i++) {
             const line = lines[i];
