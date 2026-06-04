@@ -108,7 +108,13 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
     
     try {
       // Small delay to ensure fonts/styles are fully rendered before capturing
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise(resolve => setTimeout(resolve, 150));
+      
+      // iOS Safari `html-to-image` workaround: 
+      // Safari often renders blank or missing images on the first pass due to SVG foreignObject bugs.
+      // Calling it a few times "warms up" the rendering engine.
+      await htmlToImage.toPng(printRef.current, { pixelRatio: 1 });
+      await htmlToImage.toPng(printRef.current, { pixelRatio: 1 });
       
       const dataUrl = await htmlToImage.toPng(printRef.current, {
         pixelRatio: 2,
