@@ -286,11 +286,6 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
           tgrad.addColorStop(0.5, 'rgba(0,0,0,0.6)');
           tgrad.addColorStop(1, 'rgba(0,0,0,0)');
           
-          // Clip to rounded rectangle (rounded-3xl is ~24px)
-          ctx.beginPath();
-          ctx.roundRect(boxX, boxY, boxW, boxH, 24);
-          ctx.clip();
-          
           ctx.fillStyle = tgrad;
           ctx.fillRect(boxX, boxY, boxW, boxH);
           ctx.restore();
@@ -439,7 +434,7 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
                 className="flex flex-col items-center"
               >
                 <div
-                  className="text-lg md:text-2xl text-[#f3e8dd] text-center leading-relaxed font-light uppercase tracking-[0.15em] md:tracking-[0.2em] px-8 py-6 rounded-3xl font-serif mb-6"
+                  className="text-lg md:text-2xl text-[#f3e8dd] text-center leading-relaxed font-light uppercase tracking-[0.15em] md:tracking-[0.2em] px-8 py-6 font-serif mb-6"
                   style={{ 
                     textShadow: '0 0 10px rgba(0,0,0,1), 0 0 20px rgba(207,166,112,0.8), 0 0 40px rgba(207,166,112,0.5)',
                     background: 'radial-gradient(circle, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0) 100%)'
