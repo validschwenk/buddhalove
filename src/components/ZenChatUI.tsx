@@ -355,11 +355,11 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
 
             {/* Logo/Footer at bottom */}
             <div className="absolute bottom-8 w-full flex flex-col items-center gap-2 z-10">
-              <div className="flex items-center gap-1.5 text-white/50">
+              <div className="flex items-center gap-1.5 text-[#cfa670]/90">
                 <InstagramIcon className="w-3.5 h-3.5" />
                 <span className="text-[12px] tracking-wider font-sans mt-0.5">@buddhashareslove</span>
               </div>
-              <span className="text-white/20 text-[9px] tracking-[0.3em] font-sans">
+              <span className="text-white/60 text-[9px] tracking-[0.3em] font-sans">
                 buddhashareslove.vercel.app
               </span>
             </div>
