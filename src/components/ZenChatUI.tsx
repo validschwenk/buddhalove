@@ -189,7 +189,9 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
           const sY = (height * 0.813) + 40; 
           
           const strokeGrad = ctx.createLinearGradient(0, sY, 0, sY - 800);
-          strokeGrad.addColorStop(0, 'rgba(255,255,255,0.4)');
+          // Start transparent at the very bottom, fade in, then fade out
+          strokeGrad.addColorStop(0, 'rgba(255,255,255,0)');
+          strokeGrad.addColorStop(0.1, 'rgba(255,255,255,0.4)');
           strokeGrad.addColorStop(0.3, 'rgba(255,255,255,0.2)');
           strokeGrad.addColorStop(1, 'rgba(255,255,255,0)');
 
@@ -213,7 +215,8 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
           drawSmokePath(40, 300, -40, 600, -10, 700, 25);
 
           const colGrad = ctx.createLinearGradient(0, sY, 0, sY - 600);
-          colGrad.addColorStop(0, 'rgba(255,255,255,0.25)');
+          colGrad.addColorStop(0, 'rgba(255,255,255,0)');
+          colGrad.addColorStop(0.1, 'rgba(255,255,255,0.25)');
           colGrad.addColorStop(1, 'rgba(255,255,255,0)');
           ctx.fillStyle = colGrad;
           ctx.shadowBlur = 0;
