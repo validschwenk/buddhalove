@@ -75,7 +75,6 @@ export default function WisdomScroll({ onClose, language }: WisdomScrollProps) {
   };
 
   return (
-  return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
