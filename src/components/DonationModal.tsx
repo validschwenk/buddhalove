@@ -13,28 +13,40 @@ type DonationModalProps = {
 const texts = {
   en: {
     title: "Offerings",
-    fiatTab: "Ko-fi / PayPal",
+    fiatTab: "Card / PayPal",
     cryptoTab: "Crypto",
-    fiatDesc: "Support our temple by lighting an incense on Ko-fi.",
-    fiatButton: "Light an Incense (Ko-fi)",
+    fiatDesc: "Select an offering. You will be redirected to complete the payment.",
+    offerings: [
+      { id: 1, icon: '🕯️', name: 'Light an Incense', price: '~$3' },
+      { id: 2, icon: '🪷', name: 'Offer a Lotus', price: '~$5' },
+      { id: 3, icon: '🏮', name: 'Hang a Lantern', price: '~$10' }
+    ],
     cryptoDesc: "Send USDT or USDC via TRC-20 network.",
     cryptoButton: "I Have Made the Offering"
   },
   hi: {
     title: "भेंट",
-    fiatTab: "Ko-fi / PayPal",
+    fiatTab: "Card / PayPal",
     cryptoTab: "Crypto",
-    fiatDesc: "Ko-fi पर एक धूप जलाकर हमारे मंदिर का समर्थन करें।",
-    fiatButton: "धूप जलाएं (Ko-fi)",
+    fiatDesc: "एक भेंट चुनें। आपको भुगतान पूरा करने के लिए अनुप्रेषित किया जाएगा।",
+    offerings: [
+      { id: 1, icon: '🕯️', name: 'धूप जलाएं', price: '~$3' },
+      { id: 2, icon: '🪷', name: 'कमल चढ़ाएं', price: '~$5' },
+      { id: 3, icon: '🏮', name: 'लालटेन टांगें', price: '~$10' }
+    ],
     cryptoDesc: "TRC-20 नेटवर्क के माध्यम से USDT या USDC भेजें।",
     cryptoButton: "मैंने भेंट चढ़ा दी है"
   },
   zh: {
     title: "供奉",
-    fiatTab: "Ko-fi / PayPal",
+    fiatTab: "Card / PayPal",
     cryptoTab: "加密货币",
-    fiatDesc: "在 Ko-fi 上点燃一炷香，支持我们的寺庙。",
-    fiatButton: "点燃一炷香 (Ko-fi)",
+    fiatDesc: "请选择一项供奉。您将被重定向以完成支付。",
+    offerings: [
+      { id: 1, icon: '🕯️', name: '点燃一炷香', price: '~$3' },
+      { id: 2, icon: '🪷', name: '供奉一朵莲花', price: '~$5' },
+      { id: 3, icon: '🏮', name: '挂一盏明灯', price: '~$10' }
+    ],
     cryptoDesc: "请通过 TRC-20 网络发送 USDT 或 USDC。",
     cryptoButton: "我已完成供奉"
   }
@@ -52,8 +64,9 @@ export default function DonationModal({ isOpen, onClose, language }: DonationMod
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handlePayPalClick = () => {
-    window.open('https://ko-fi.com/buddhashareslove', '_blank');
+  const handleFiatClick = () => {
+    // Buy Me a Coffee link
+    window.open('https://buymeacoffee.com/buddhashareslove', '_blank');
   };
 
   const t = texts[language];
@@ -94,7 +107,7 @@ export default function DonationModal({ isOpen, onClose, language }: DonationMod
               </h2>
 
               {/* Tabs */}
-              <div className="flex bg-black/40 border border-white/10 rounded-xl p-1 mb-8 w-full relative z-20">
+              <div className="flex bg-black/40 border border-white/10 rounded-xl p-1 mb-6 w-full relative z-20">
                 <button 
                   onClick={() => setMethod('fiat')}
                   className={`flex-1 py-3 text-sm flex items-center justify-center gap-2 rounded-lg transition-all ${method === 'fiat' ? 'bg-[#cfa670]/20 text-[#cfa670]' : 'text-white/40 hover:text-white/80'}`}
@@ -111,7 +124,7 @@ export default function DonationModal({ isOpen, onClose, language }: DonationMod
                 </button>
               </div>
               
-              <div className="flex flex-col items-center w-full">
+              <div className="flex flex-col items-center w-full min-h-[250px]">
                 {method === 'fiat' ? (
                   <motion.div 
                     key="fiat"
@@ -119,16 +132,25 @@ export default function DonationModal({ isOpen, onClose, language }: DonationMod
                     animate={{ opacity: 1, x: 0 }}
                     className="flex flex-col items-center w-full"
                   >
-                    <p className="text-sm text-center text-white/60 mb-8 font-light font-sans">
+                    <p className="text-sm text-center text-white/60 mb-6 font-light font-sans">
                       {t.fiatDesc}
                     </p>
                     
-                    <button
-                      onClick={handlePayPalClick}
-                      className="w-full py-4 rounded-full bg-[#cfa670] text-black font-semibold tracking-[0.1em] uppercase hover:bg-[#e6c88e] transition-all font-sans shadow-[0_0_20px_rgba(207,166,112,0.3)] mb-4"
-                    >
-                      {t.fiatButton}
-                    </button>
+                    <div className="w-full flex flex-col gap-3">
+                      {t.offerings.map((offering) => (
+                        <button
+                          key={offering.id}
+                          onClick={handleFiatClick}
+                          className="w-full flex items-center justify-between p-4 rounded-2xl bg-black/40 border border-[#cfa670]/30 hover:border-[#cfa670]/80 hover:bg-[#cfa670]/10 transition-all group shadow-[0_0_15px_rgba(207,166,112,0.05)] hover:shadow-[0_0_20px_rgba(207,166,112,0.2)]"
+                        >
+                          <div className="flex items-center gap-4">
+                            <span className="text-2xl">{offering.icon}</span>
+                            <span className="text-[#f3e8dd] font-light tracking-wide">{offering.name}</span>
+                          </div>
+                          <span className="text-[#cfa670] font-medium tracking-widest">{offering.price}</span>
+                        </button>
+                      ))}
+                    </div>
                   </motion.div>
                 ) : (
                   <motion.div 
@@ -144,7 +166,7 @@ export default function DonationModal({ isOpen, onClose, language }: DonationMod
                     <div className="bg-white p-3 rounded-2xl mb-6 shadow-[0_0_30px_rgba(207,166,112,0.15)]">
                       <QRCodeSVG 
                         value={walletAddress}
-                        size={160}
+                        size={150}
                         bgColor={"#ffffff"}
                         fgColor={"#000000"}
                         level={"L"}
