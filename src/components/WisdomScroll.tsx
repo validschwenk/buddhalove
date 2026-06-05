@@ -78,32 +78,31 @@ export default function WisdomScroll({ onClose, language }: WisdomScrollProps) {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      exit={{ opacity: 0, transition: { duration: 0.4, delay: 0.55 } }}
       className="fixed inset-0 z-50 flex items-start justify-center px-2 md:px-8 bg-black/80 backdrop-blur-md overflow-hidden"
     >
-      <div className="relative w-full max-w-3xl flex flex-col items-center mt-[5vh]">
-        {/* Top Roller */}
-        <motion.div 
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -50, opacity: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="absolute top-[-10px] md:top-[-20px] left-0 right-0 z-30 pointer-events-none flex justify-center"
-        >
-          <img 
-            src="/scroll-bar.webp" 
-            alt="Top Roller" 
+      {/* Entire scroll drops in from off-screen above */}
+      <motion.div
+        initial={{ y: "-110vh" }}
+        animate={{ y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } }}
+        exit={{ y: "-110vh", transition: { duration: 0.5, delay: 0.3, ease: [0.55, 0, 1, 0.45] } }}
+        className="relative w-full max-w-3xl flex flex-col items-center mt-[5vh]"
+      >
+        {/* Top Roller - enters with the container, no separate animation */}
+        <div className="absolute top-[-10px] md:top-[-20px] left-0 right-0 z-30 pointer-events-none flex justify-center">
+          <img
+            src="/scroll-bar.webp"
+            alt="Top Roller"
             className="w-full h-auto drop-shadow-[0_15px_15px_rgba(0,0,0,0.8)]"
-            style={{ transform: 'scaleY(-1)' }} 
+            style={{ transform: 'scaleY(-1)' }}
           />
-        </motion.div>
+        </div>
 
-        {/* Master Animating Container */}
+        {/* Scroll body unrolls after container lands — bottom roller falls with it */}
         <motion.div
           initial={{ height: 0 }}
-          animate={{ height: "85vh" }}
-          exit={{ height: 0 }}
-          transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+          animate={{ height: "85vh", transition: { duration: 1.4, ease: [0.22, 1, 0.36, 1], delay: 0.5 } }}
+          exit={{ height: 0, transition: { duration: 0.35 } }}
           className="relative w-full flex flex-col items-center z-10"
         >
           {/* Overflow hidden wrapper to reveal paper without stretching */}
@@ -190,7 +189,7 @@ export default function WisdomScroll({ onClose, language }: WisdomScrollProps) {
             <img src="/scroll-bar.webp" alt="Scroll Roller" className="w-full h-auto drop-shadow-[0_20px_30px_rgba(0,0,0,0.9)]" />
           </div>
         </motion.div>
-      </div>
+      </motion.div>
     </motion.div>
   );
 }
