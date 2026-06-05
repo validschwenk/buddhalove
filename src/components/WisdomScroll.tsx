@@ -80,15 +80,15 @@ export default function WisdomScroll({ onClose, language }: WisdomScrollProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-start justify-center pt-[5vh] px-2 md:px-8 bg-black/80 backdrop-blur-md"
+      className="fixed inset-0 z-50 flex items-start justify-center px-2 md:px-8 bg-black/80 backdrop-blur-md"
     >
-      {/* Master Animating Container */}
+      {/* Master Animating Container - Shifted slightly up so it comes from OUTSIDE the screen */}
       <motion.div
         initial={{ height: 0 }}
-        animate={{ height: "85vh" }}
+        animate={{ height: "90vh" }}
         exit={{ height: 0 }}
         transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-        className="relative w-full max-w-3xl flex flex-col items-center"
+        className="relative w-full max-w-3xl flex flex-col items-center mt-[-20px]"
       >
         {/* Paper Background - Attached to top, stretches down, slightly narrower than roller */}
         <div 
