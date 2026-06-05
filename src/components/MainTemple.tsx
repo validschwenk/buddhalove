@@ -139,7 +139,7 @@ export default function MainTemple() {
       </div>
 
       {/* 8. 중앙 상단 지혜의 두루마리 버튼 (작게) */}
-      <div className="absolute top-4 md:top-8 left-1/2 -translate-x-1/2 z-[30]">
+      <div className="absolute top-2 md:top-4 left-1/2 -translate-x-1/2 z-[30]">
         <button 
           onClick={() => setIsScrollOpen(true)}
           className="flex items-center gap-1.5 px-3 py-1.5 md:px-4 md:py-2 text-[10px] md:text-xs tracking-[0.2em] uppercase font-light text-white/50 hover:text-[#cfa670] transition-all bg-black/20 hover:bg-black/60 rounded-full backdrop-blur-md border border-white/10 hover:border-[#cfa670]/40"
