@@ -138,7 +138,18 @@ export default function MainTemple() {
         />
       </div>
 
-      {/* 8. 우측 상단 컨트롤 (언어 선택, 음소거, 시주 버튼) */}
+      {/* 8. 중앙 상단 지혜의 두루마리 버튼 (작게) */}
+      <div className="absolute top-4 md:top-8 left-1/2 -translate-x-1/2 z-[30]">
+        <button 
+          onClick={() => setIsScrollOpen(true)}
+          className="flex items-center gap-1.5 px-3 py-1.5 md:px-4 md:py-2 text-[10px] md:text-xs tracking-[0.2em] uppercase font-light text-white/50 hover:text-[#cfa670] transition-all bg-black/20 hover:bg-black/60 rounded-full backdrop-blur-md border border-white/10 hover:border-[#cfa670]/40"
+        >
+          <span className="text-xs">📜</span>
+          {language === 'en' ? 'Wisdom' : language === 'hi' ? 'ज्ञान' : '智慧'}
+        </button>
+      </div>
+
+      {/* 8.5 우측 상단 컨트롤 (언어 선택, 음소거, 시주 버튼) */}
       <div className="absolute top-3 right-3 md:top-10 md:right-10 z-[30] flex items-center gap-2 md:gap-3">
         
         {/* Mute Toggle Button */}
@@ -171,13 +182,6 @@ export default function MainTemple() {
             中
           </button>
         </div>
-
-        <button 
-          onClick={() => setIsScrollOpen(true)}
-          className="px-3.5 py-1.5 md:px-5 md:py-2.5 text-[10px] md:text-xs tracking-[0.2em] uppercase font-light text-white/70 hover:text-white transition-all bg-black/20 hover:bg-black/50 rounded-full backdrop-blur-md border border-white/20 hover:border-white/50"
-        >
-          {language === 'en' ? 'Wisdom' : language === 'hi' ? 'ज्ञान' : '智慧'}
-        </button>
 
         <button 
           onClick={() => setIsDonationOpen(true)}

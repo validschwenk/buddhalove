@@ -82,10 +82,11 @@ export default function WisdomScroll({ onClose, language }: WisdomScrollProps) {
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
     >
       <motion.div
-        initial={{ y: 50, opacity: 0, scale: 0.95 }}
-        animate={{ y: 0, opacity: 1, scale: 1 }}
-        exit={{ y: 20, opacity: 0, scale: 0.95 }}
-        transition={{ type: "spring", damping: 25, stiffness: 300 }}
+        initial={{ scaleY: 0, opacity: 0 }}
+        animate={{ scaleY: 1, opacity: 1 }}
+        exit={{ scaleY: 0, opacity: 0 }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        style={{ transformOrigin: 'top center' }}
         className="relative w-full max-w-3xl max-h-[85vh] flex flex-col bg-[#0f0a05] border border-[#cfa670]/30 rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(207,166,112,0.1)]"
       >
         {/* Header */}
