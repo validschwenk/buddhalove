@@ -17,9 +17,11 @@ const texts = {
     cryptoTab: "Crypto",
     fiatDesc: "Select an offering. You will be redirected to complete the payment.",
     offerings: [
-      { id: 1, icon: '🕯️', name: 'Light an Incense', price: '~$3' },
-      { id: 2, icon: '🪷', name: 'Offer a Lotus', price: '~$5' },
-      { id: 3, icon: '🏮', name: 'Hang a Lantern', price: '~$10' }
+      { id: 1, icon: '🙏', name: '1 Bow', price: '~$1' },
+      { id: 2, icon: '🕯️', name: 'Light an Incense', price: '~$3' },
+      { id: 3, icon: '🪷', name: 'Offer a Lotus', price: '~$5' },
+      { id: 4, icon: '🏮', name: 'Hang a Lantern', price: '~$10' },
+      { id: 5, icon: '☸️', name: 'Custom Offering', price: 'Any' }
     ],
     cryptoDesc: "Send USDT or USDC via TRC-20 network.",
     cryptoButton: "I Have Made the Offering"
@@ -30,9 +32,11 @@ const texts = {
     cryptoTab: "Crypto",
     fiatDesc: "एक भेंट चुनें। आपको भुगतान पूरा करने के लिए अनुप्रेषित किया जाएगा।",
     offerings: [
-      { id: 1, icon: '🕯️', name: 'धूप जलाएं', price: '~$3' },
-      { id: 2, icon: '🪷', name: 'कमल चढ़ाएं', price: '~$5' },
-      { id: 3, icon: '🏮', name: 'लालटेन टांगें', price: '~$10' }
+      { id: 1, icon: '🙏', name: '1 प्रणाम', price: '~$1' },
+      { id: 2, icon: '🕯️', name: 'धूप जलाएं', price: '~$3' },
+      { id: 3, icon: '🪷', name: 'कमल चढ़ाएं', price: '~$5' },
+      { id: 4, icon: '🏮', name: 'लालटेन टांगें', price: '~$10' },
+      { id: 5, icon: '☸️', name: 'स्वेच्छा भेंट', price: 'Any' }
     ],
     cryptoDesc: "TRC-20 नेटवर्क के माध्यम से USDT या USDC भेजें।",
     cryptoButton: "मैंने भेंट चढ़ा दी है"
@@ -43,9 +47,11 @@ const texts = {
     cryptoTab: "加密货币",
     fiatDesc: "请选择一项供奉。您将被重定向以完成支付。",
     offerings: [
-      { id: 1, icon: '🕯️', name: '点燃一炷香', price: '~$3' },
-      { id: 2, icon: '🪷', name: '供奉一朵莲花', price: '~$5' },
-      { id: 3, icon: '🏮', name: '挂一盏明灯', price: '~$10' }
+      { id: 1, icon: '🙏', name: '虔心一拜', price: '~$1' },
+      { id: 2, icon: '🕯️', name: '点燃一炷香', price: '~$3' },
+      { id: 3, icon: '🪷', name: '供奉一朵莲花', price: '~$5' },
+      { id: 4, icon: '🏮', name: '挂一盏明灯', price: '~$10' },
+      { id: 5, icon: '☸️', name: '随喜供奉', price: 'Any' }
     ],
     cryptoDesc: "请通过 TRC-20 网络发送 USDT 或 USDC。",
     cryptoButton: "我已完成供奉"
@@ -136,18 +142,18 @@ export default function DonationModal({ isOpen, onClose, language }: DonationMod
                       {t.fiatDesc}
                     </p>
                     
-                    <div className="w-full flex flex-col gap-3">
+                    <div className="w-full flex flex-col gap-2.5">
                       {t.offerings.map((offering) => (
                         <button
                           key={offering.id}
                           onClick={handleFiatClick}
-                          className="w-full flex items-center justify-between p-4 rounded-2xl bg-black/40 border border-[#cfa670]/30 hover:border-[#cfa670]/80 hover:bg-[#cfa670]/10 transition-all group shadow-[0_0_15px_rgba(207,166,112,0.05)] hover:shadow-[0_0_20px_rgba(207,166,112,0.2)]"
+                          className="w-full flex items-center justify-between py-3 px-4 rounded-xl bg-black/40 border border-[#cfa670]/30 hover:border-[#cfa670]/80 hover:bg-[#cfa670]/10 transition-all group shadow-[0_0_15px_rgba(207,166,112,0.05)] hover:shadow-[0_0_20px_rgba(207,166,112,0.2)]"
                         >
                           <div className="flex items-center gap-4">
-                            <span className="text-2xl">{offering.icon}</span>
+                            <span className="text-xl">{offering.icon}</span>
                             <span className="text-[#f3e8dd] font-light tracking-wide">{offering.name}</span>
                           </div>
-                          <span className="text-[#cfa670] font-medium tracking-widest">{offering.price}</span>
+                          <span className="text-[#cfa670] font-medium tracking-widest text-sm">{offering.price}</span>
                         </button>
                       ))}
                     </div>
