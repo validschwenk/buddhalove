@@ -9,6 +9,7 @@ import ZenChatUI from './ZenChatUI';
 import DonationModal from './DonationModal';
 import LanternSystem from './LanternSystem';
 import DailyWisdom from './DailyWisdom';
+import WisdomScroll from './WisdomScroll';
 import Link from 'next/link';
 
 export type Language = 'en' | 'hi' | 'zh';
@@ -16,6 +17,7 @@ export type Language = 'en' | 'hi' | 'zh';
 export default function MainTemple() {
   const [showHalo, setShowHalo] = useState(false);
   const [isDonationOpen, setIsDonationOpen] = useState(false);
+  const [isScrollOpen, setIsScrollOpen] = useState(false);
   const [language, setLanguage] = useState<Language>('en');
   const [isMuted, setIsMuted] = useState(false);
   const [localLanternTrigger, setLocalLanternTrigger] = useState(0);
@@ -171,6 +173,13 @@ export default function MainTemple() {
         </div>
 
         <button 
+          onClick={() => setIsScrollOpen(true)}
+          className="px-3.5 py-1.5 md:px-5 md:py-2.5 text-[10px] md:text-xs tracking-[0.2em] uppercase font-light text-white/70 hover:text-white transition-all bg-black/20 hover:bg-black/50 rounded-full backdrop-blur-md border border-white/20 hover:border-white/50"
+        >
+          {language === 'en' ? 'Wisdom' : language === 'hi' ? 'ज्ञान' : '智慧'}
+        </button>
+
+        <button 
           onClick={() => setIsDonationOpen(true)}
           className="px-3.5 py-1.5 md:px-5 md:py-2.5 text-[10px] md:text-xs tracking-[0.2em] uppercase font-light text-[#cfa670]/90 hover:text-[#cfa670] transition-all bg-black/20 hover:bg-black/50 rounded-full backdrop-blur-md border border-[#cfa670]/30 hover:border-[#cfa670]/60 hover:shadow-[0_0_15px_rgba(207,166,112,0.3)]"
         >
@@ -214,6 +223,11 @@ export default function MainTemple() {
 
       {/* 11. 시주 결제 모달 */}
       <DonationModal isOpen={isDonationOpen} onClose={() => setIsDonationOpen(false)} language={language} />
+
+      {/* 12. 지혜의 두루마리 모달 */}
+      <AnimatePresence>
+        {isScrollOpen && <WisdomScroll onClose={() => setIsScrollOpen(false)} language={language} />}
+      </AnimatePresence>
     </>
   );
 }

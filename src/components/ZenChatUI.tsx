@@ -23,6 +23,12 @@ const saveTexts = {
   zh: "保存智慧"
 };
 
+const shareTexts = {
+  en: "Share Wisdom",
+  hi: "ज्ञान साझा करें",
+  zh: "分享智慧"
+};
+
 export default function ZenChatUI({ onReplyChange, language, onMessageSent }: ZenChatUIProps) {
   const [userQuery, setUserQuery] = useState<string | null>(null);
   const [buddhaReply, setBuddhaReply] = useState<string | null>(null);
@@ -30,6 +36,8 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
   const [isThinking, setIsThinking] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
+  const [isSharing, setIsSharing] = useState(false);
+  const [isShared, setIsShared] = useState(false);
   const [imagesBase64, setImagesBase64] = useState({ bg: '', buddha: '', burner: '' });
 
   useEffect(() => {
@@ -404,6 +412,33 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
     }
   };
 
+  const handleShare = async () => {
+    if (isSharing || isShared || !userQuery || !buddhaReply) return;
+    setIsSharing(true);
+    try {
+      const res = await fetch('/api/share-wisdom', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          question: userQuery,
+          answer: buddhaReply,
+          language
+        })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setIsShared(true);
+      } else {
+        alert(data.error || 'Failed to share. Maybe inappropriate content?');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Network error while sharing.');
+    } finally {
+      setIsSharing(false);
+    }
+  };
+
   return (
     <div className="absolute inset-0 z-20 pointer-events-none">
       
@@ -447,21 +482,38 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
                   {buddhaReply}
                 </div>
 
-                {/* Save Wisdom Button */}
-                <button
-                  onClick={handleDownload}
-                  disabled={isSaving || isSaved}
-                  className="pointer-events-auto flex items-center gap-3 px-6 py-3 bg-black/60 hover:bg-black/80 border border-[#cfa670]/40 hover:border-[#cfa670]/80 text-[#cfa670] rounded-full backdrop-blur-md transition-all shadow-[0_0_20px_rgba(207,166,112,0.15)] hover:shadow-[0_0_30px_rgba(207,166,112,0.4)] disabled:opacity-50"
-                >
-                  {isSaved ? (
-                    <span className="text-[#a3e635] text-lg leading-none">✓</span>
-                  ) : (
-                    <Download size={18} />
-                  )}
-                  <span className={`text-sm font-light uppercase tracking-widest ${isSaved ? 'text-[#a3e635]' : ''}`}>
-                    {isSaving ? "Saving..." : isSaved ? "Saved! (Check Img)" : saveTexts[language]}
-                  </span>
-                </button>
+                {/* Action Buttons */}
+                <div className="flex flex-col sm:flex-row gap-4 mt-2">
+                  <button
+                    onClick={handleDownload}
+                    disabled={isSaving || isSaved}
+                    className="pointer-events-auto flex items-center justify-center gap-3 px-6 py-3 bg-black/60 hover:bg-black/80 border border-[#cfa670]/40 hover:border-[#cfa670]/80 text-[#cfa670] rounded-full backdrop-blur-md transition-all shadow-[0_0_20px_rgba(207,166,112,0.15)] hover:shadow-[0_0_30px_rgba(207,166,112,0.4)] disabled:opacity-50"
+                  >
+                    {isSaved ? (
+                      <span className="text-[#a3e635] text-lg leading-none">✓</span>
+                    ) : (
+                      <Download size={18} />
+                    )}
+                    <span className={`text-sm font-light uppercase tracking-widest ${isSaved ? 'text-[#a3e635]' : ''}`}>
+                      {isSaving ? "Saving..." : isSaved ? "Saved! (Check Img)" : saveTexts[language]}
+                    </span>
+                  </button>
+
+                  <button
+                    onClick={handleShare}
+                    disabled={isSharing || isShared}
+                    className="pointer-events-auto flex items-center justify-center gap-3 px-6 py-3 bg-black/60 hover:bg-black/80 border border-[#cfa670]/40 hover:border-[#cfa670]/80 text-[#cfa670] rounded-full backdrop-blur-md transition-all shadow-[0_0_20px_rgba(207,166,112,0.15)] hover:shadow-[0_0_30px_rgba(207,166,112,0.4)] disabled:opacity-50"
+                  >
+                    {isShared ? (
+                      <span className="text-[#a3e635] text-lg leading-none">✓</span>
+                    ) : (
+                      <span className="text-lg leading-none">🙏</span>
+                    )}
+                    <span className={`text-sm font-light uppercase tracking-widest ${isShared ? 'text-[#a3e635]' : ''}`}>
+                      {isSharing ? "Sharing..." : isShared ? "Shared!" : shareTexts[language]}
+                    </span>
+                  </button>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
