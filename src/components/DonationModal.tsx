@@ -17,11 +17,10 @@ const texts = {
     cryptoTab: "Crypto",
     fiatDesc: "Select an offering. You will be redirected to complete the payment.",
     offerings: [
-      { id: 1, icon: '🙏', name: '1 Bow', price: '~$1' },
-      { id: 2, icon: '🕯️', name: 'Light an Incense', price: '~$3' },
-      { id: 3, icon: '🪷', name: 'Offer a Lotus', price: '~$5' },
-      { id: 4, icon: '🏮', name: 'Hang a Lantern', price: '~$10' },
-      { id: 5, icon: '☸️', name: 'Custom Offering', price: 'Any' }
+      { id: 1, icon: '🕯️', name: 'Light an Incense', price: '~$1' },
+      { id: 2, icon: '🪷', name: 'Offer a Lotus', price: '~$3' },
+      { id: 3, icon: '🏮', name: 'Hang a Lantern', price: '~$5' },
+      { id: 4, icon: '🙏', name: 'Heartfelt Offering', price: 'Any' }
     ],
     cryptoDesc: "Send USDT or USDC via TRC-20 network.",
     cryptoButton: "I Have Made the Offering"
@@ -32,11 +31,10 @@ const texts = {
     cryptoTab: "Crypto",
     fiatDesc: "एक भेंट चुनें। आपको भुगतान पूरा करने के लिए अनुप्रेषित किया जाएगा।",
     offerings: [
-      { id: 1, icon: '🙏', name: '1 प्रणाम', price: '~$1' },
-      { id: 2, icon: '🕯️', name: 'धूप जलाएं', price: '~$3' },
-      { id: 3, icon: '🪷', name: 'कमल चढ़ाएं', price: '~$5' },
-      { id: 4, icon: '🏮', name: 'लालटेन टांगें', price: '~$10' },
-      { id: 5, icon: '☸️', name: 'स्वेच्छा भेंट', price: 'Any' }
+      { id: 1, icon: '🕯️', name: 'धूप जलाएं', price: '~$1' },
+      { id: 2, icon: '🪷', name: 'कमल चढ़ाएं', price: '~$3' },
+      { id: 3, icon: '🏮', name: 'लालटेन टांगें', price: '~$5' },
+      { id: 4, icon: '🙏', name: 'श्रद्धा भेंट', price: 'Any' }
     ],
     cryptoDesc: "TRC-20 नेटवर्क के माध्यम से USDT या USDC भेजें।",
     cryptoButton: "मैंने भेंट चढ़ा दी है"
@@ -47,11 +45,10 @@ const texts = {
     cryptoTab: "加密货币",
     fiatDesc: "请选择一项供奉。您将被重定向以完成支付。",
     offerings: [
-      { id: 1, icon: '🙏', name: '虔心一拜', price: '~$1' },
-      { id: 2, icon: '🕯️', name: '点燃一炷香', price: '~$3' },
-      { id: 3, icon: '🪷', name: '供奉一朵莲花', price: '~$5' },
-      { id: 4, icon: '🏮', name: '挂一盏明灯', price: '~$10' },
-      { id: 5, icon: '☸️', name: '随喜供奉', price: 'Any' }
+      { id: 1, icon: '🕯️', name: '点燃一炷香', price: '~$1' },
+      { id: 2, icon: '🪷', name: '供奉一朵莲花', price: '~$3' },
+      { id: 3, icon: '🏮', name: '挂一盏明灯', price: '~$5' },
+      { id: 4, icon: '🙏', name: '发心供养', price: 'Any' }
     ],
     cryptoDesc: "请通过 TRC-20 网络发送 USDT 或 USDC。",
     cryptoButton: "我已完成供奉"
