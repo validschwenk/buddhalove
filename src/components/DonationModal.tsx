@@ -71,8 +71,8 @@ export default function DonationModal({ isOpen, onClose, language }: DonationMod
   };
 
   const handleFiatClick = () => {
-    // Buy Me a Coffee link
-    window.open('https://buymeacoffee.com/buddhashareslove', '_blank');
+    // Ko-fi link
+    window.open('https://ko-fi.com/buddhashareslove', '_blank');
   };
 
   const t = texts[language];
