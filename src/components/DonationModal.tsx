@@ -22,7 +22,8 @@ const texts = {
       { id: 3, icon: '🏮', name: 'Hang a Lantern', price: '~$5' },
       { id: 4, icon: '🙏', name: 'Heartfelt Offering', price: 'Any' }
     ],
-    cryptoDesc: "Send USDT or USDC via TRC-20 network.",
+    cryptoDescUSDT: "Send USDT via TRC-20 network.",
+    cryptoDescTRX: "Send TRX via Tron network.",
     cryptoButton: "I Have Made the Offering"
   },
   hi: {
@@ -36,7 +37,8 @@ const texts = {
       { id: 3, icon: '🏮', name: 'लालटेन टांगें', price: '~$5' },
       { id: 4, icon: '🙏', name: 'श्रद्धा भेंट', price: 'Any' }
     ],
-    cryptoDesc: "TRC-20 नेटवर्क के माध्यम से USDT या USDC भेजें।",
+    cryptoDescUSDT: "TRC-20 नेटवर्क के माध्यम से USDT भेजें।",
+    cryptoDescTRX: "Tron नेटवर्क के माध्यम से TRX भेजें।",
     cryptoButton: "मैंने भेंट चढ़ा दी है"
   },
   zh: {
@@ -50,25 +52,32 @@ const texts = {
       { id: 3, icon: '🏮', name: '挂一盏明灯', price: '~$5' },
       { id: 4, icon: '🙏', name: '发心供养', price: 'Any' }
     ],
-    cryptoDesc: "请通过 TRC-20 网络发送 USDT 或 USDC。",
+    cryptoDescUSDT: "请通过 TRC-20 网络发送 USDT。",
+    cryptoDescTRX: "请通过 Tron 网络发送 TRX。",
     cryptoButton: "我已完成供奉"
   }
+};
+
+// Placeholder addresses for USDT and TRX
+const CRYPTO_ADDRESSES = {
+  USDT: "TJKjTUCLGqejaQbdT4abAahfTc6nmFfYiT", // Replace with actual USDT TRC-20 address
+  TRX: "TJKjTUCLGqejaQbdT4abAahfTc6nmFfYiT"   // Replace with actual TRX address
 };
 
 export default function DonationModal({ isOpen, onClose, language }: DonationModalProps) {
   const [copied, setCopied] = useState(false);
   const [method, setMethod] = useState<'fiat'|'crypto'>('fiat');
+  const [selectedCrypto, setSelectedCrypto] = useState<'USDT'|'TRX'>('USDT');
 
-  const walletAddress = "TJKjTUCLGqejaQbdT4abAahfTc6nmFfYiT";
+  const activeAddress = CRYPTO_ADDRESSES[selectedCrypto];
 
   const copyAddress = () => {
-    navigator.clipboard.writeText(walletAddress);
+    navigator.clipboard.writeText(activeAddress);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   const handleFiatClick = () => {
-    // Ko-fi link
     window.open('https://ko-fi.com/buddhashareslove', '_blank');
   };
 
@@ -109,7 +118,7 @@ export default function DonationModal({ isOpen, onClose, language }: DonationMod
                 {t.title}
               </h2>
 
-              {/* Tabs */}
+              {/* Main Tabs */}
               <div className="flex bg-black/40 border border-white/10 rounded-xl p-1 mb-6 w-full relative z-20">
                 <button 
                   onClick={() => setMethod('fiat')}
@@ -162,13 +171,29 @@ export default function DonationModal({ isOpen, onClose, language }: DonationMod
                     animate={{ opacity: 1, x: 0 }}
                     className="flex flex-col items-center w-full"
                   >
+                    {/* Crypto Sub-Tabs */}
+                    <div className="flex bg-white/5 rounded-lg p-1 mb-4 w-2/3 max-w-[200px]">
+                      <button 
+                        onClick={() => setSelectedCrypto('USDT')}
+                        className={`flex-1 py-1.5 text-xs font-mono rounded-md transition-all ${selectedCrypto === 'USDT' ? 'bg-[#cfa670] text-black font-bold' : 'text-white/40 hover:text-white/80'}`}
+                      >
+                        USDT
+                      </button>
+                      <button 
+                        onClick={() => setSelectedCrypto('TRX')}
+                        className={`flex-1 py-1.5 text-xs font-mono rounded-md transition-all ${selectedCrypto === 'TRX' ? 'bg-[#cfa670] text-black font-bold' : 'text-white/40 hover:text-white/80'}`}
+                      >
+                        TRX
+                      </button>
+                    </div>
+
                     <p className="text-sm text-center text-white/60 mb-6 font-light font-sans">
-                      {t.cryptoDesc}
+                      {selectedCrypto === 'USDT' ? t.cryptoDescUSDT : t.cryptoDescTRX}
                     </p>
                     
                     <div className="bg-white p-3 rounded-2xl mb-6 shadow-[0_0_30px_rgba(207,166,112,0.15)]">
                       <QRCodeSVG 
-                        value={walletAddress}
+                        value={activeAddress}
                         size={150}
                         bgColor={"#ffffff"}
                         fgColor={"#000000"}
@@ -179,7 +204,7 @@ export default function DonationModal({ isOpen, onClose, language }: DonationMod
 
                     <div className="w-full bg-black/40 border border-white/10 rounded-xl p-4 flex items-center justify-between mb-8">
                       <span className="text-white/80 font-mono text-xs truncate mr-4">
-                        {walletAddress}
+                        {activeAddress}
                       </span>
                       <button 
                         onClick={copyAddress}
