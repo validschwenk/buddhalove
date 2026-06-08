@@ -35,6 +35,20 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
   const [input, setInput] = useState('');
   const [isThinking, setIsThinking] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const smoothScrollToTop = () => {
+    const startY = window.scrollY;
+    if (startY === 0) return;
+    const duration = 700;
+    const startTime = performance.now();
+    const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
+    const step = (now: number) => {
+      const progress = Math.min((now - startTime) / duration, 1);
+      window.scrollTo(0, startY * (1 - easeOutQuart(progress)));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
   const [isSaving, setIsSaving] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
@@ -78,7 +92,7 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
 
     // Dismiss keyboard and scroll to top so Buddha image is visible
     inputRef.current?.blur();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    smoothScrollToTop();
 
     onMessageSent?.();
 
@@ -554,7 +568,7 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder={placeholders[language]}
-            onFocus={() => window.scrollTo({ top: 0 })}
+            onFocus={smoothScrollToTop}
             className="w-full bg-black/70 border border-white/20 text-white rounded-full py-4 pl-6 pr-16 outline-none focus:border-[#cfa670]/60 transition-colors backdrop-blur-lg shadow-2xl placeholder:text-white/40 text-base md:text-lg"
           />
           <button 
