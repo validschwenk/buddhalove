@@ -34,6 +34,7 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
   const [buddhaReply, setBuddhaReply] = useState<string | null>(null);
   const [input, setInput] = useState('');
   const [isThinking, setIsThinking] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
@@ -74,6 +75,10 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isThinking) return;
+
+    // Dismiss keyboard and scroll to top so Buddha image is visible
+    inputRef.current?.blur();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
     onMessageSent?.();
 
@@ -544,10 +549,12 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
 
         <form onSubmit={handleSubmit} className="relative flex items-center">
           <input
+            ref={inputRef}
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder={placeholders[language]}
+            onFocus={() => window.scrollTo({ top: 0 })}
             className="w-full bg-black/70 border border-white/20 text-white rounded-full py-4 pl-6 pr-16 outline-none focus:border-[#cfa670]/60 transition-colors backdrop-blur-lg shadow-2xl placeholder:text-white/40 text-base md:text-lg"
           />
           <button 

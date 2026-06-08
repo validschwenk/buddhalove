@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { QRCodeSVG } from 'qrcode.react';
 import { Copy, Check, X, Coffee, Bitcoin } from 'lucide-react';
@@ -22,9 +22,12 @@ const texts = {
       { id: 3, icon: '🏮', name: 'Hang a Lantern', price: '~$5' },
       { id: 4, icon: '🙏', name: 'Heartfelt Offering', price: 'Any' }
     ],
-    cryptoDescUSDT: "Send USDT via TRC-20 network.",
-    cryptoDescTRX: "Send TRX via Tron network.",
-    cryptoButton: "I Have Made the Offering"
+    cryptoDescTRC20: "Send USDT or TRX via TRC-20 network.",
+    cryptoDescERC20: "Send USDT or ETH via ERC-20 network.",
+    cryptoDescBTC: "Send BTC via Bitcoin network.",
+    cryptoButton: "I Have Made the Offering",
+    awaitingPayment: "Awaiting Payment...",
+    timeExpired: "Time Expired"
   },
   hi: {
     title: "भेंट",
@@ -37,9 +40,12 @@ const texts = {
       { id: 3, icon: '🏮', name: 'लालटेन टांगें', price: '~$5' },
       { id: 4, icon: '🙏', name: 'श्रद्धा भेंट', price: 'Any' }
     ],
-    cryptoDescUSDT: "TRC-20 नेटवर्क के माध्यम से USDT भेजें।",
-    cryptoDescTRX: "Tron नेटवर्क के माध्यम से TRX भेजें।",
-    cryptoButton: "मैंने भेंट चढ़ा दी है"
+    cryptoDescTRC20: "TRC-20 नेटवर्क के माध्यम से USDT या TRX भेजें।",
+    cryptoDescERC20: "ERC-20 नेटवर्क के माध्यम से USDT या ETH भेजें।",
+    cryptoDescBTC: "Bitcoin नेटवर्क के माध्यम से BTC भेजें।",
+    cryptoButton: "मैंने भेंट चढ़ा दी है",
+    awaitingPayment: "भुगतान की प्रतीक्षा में...",
+    timeExpired: "समय समाप्त"
   },
   zh: {
     title: "供奉",
@@ -52,24 +58,45 @@ const texts = {
       { id: 3, icon: '🏮', name: '挂一盏明灯', price: '~$5' },
       { id: 4, icon: '🙏', name: '发心供养', price: 'Any' }
     ],
-    cryptoDescUSDT: "请通过 TRC-20 网络发送 USDT。",
-    cryptoDescTRX: "请通过 Tron 网络发送 TRX。",
-    cryptoButton: "我已完成供奉"
+    cryptoDescTRC20: "请通过 TRC-20 网络发送 USDT 或 TRX。",
+    cryptoDescERC20: "请通过 ERC-20 网络发送 USDT 或 ETH。",
+    cryptoDescBTC: "请通过 Bitcoin 网络发送 BTC。",
+    cryptoButton: "我已完成供奉",
+    awaitingPayment: "等待支付...",
+    timeExpired: "支付超时"
   }
 };
 
-// Placeholder addresses for USDT and TRX
+// Real addresses for TRC-20, ERC-20, and BTC
 const CRYPTO_ADDRESSES = {
-  USDT: "TJKjTUCLGqejaQbdT4abAahfTc6nmFfYiT", // Replace with actual USDT TRC-20 address
-  TRX: "TJKjTUCLGqejaQbdT4abAahfTc6nmFfYiT"   // Replace with actual TRX address
+  TRC20: "TJKjTUCLGqejaQbdT4abAahfTc6nmFfYiT",                  
+  ERC20: "0x5ba2Bf945ed78513c6a43d6E39756AeF46fe79ec",   
+  BTC: "bc1q682x6u5ylekhmp7se9c0x3jkjmss7w83qv8aar"              
 };
 
 export default function DonationModal({ isOpen, onClose, language }: DonationModalProps) {
   const [copied, setCopied] = useState(false);
-  const [method, setMethod] = useState<'fiat'|'crypto'>('fiat');
-  const [selectedCrypto, setSelectedCrypto] = useState<'USDT'|'TRX'>('USDT');
+  const [method, setMethod] = useState<'fiat'|'crypto'>('crypto');
+  const [selectedCrypto, setSelectedCrypto] = useState<'TRC20'|'ERC20'|'BTC'>('BTC');
+  const [timeLeft, setTimeLeft] = useState(900); // 15 mins
+
+  useEffect(() => {
+    if (isOpen && method === 'crypto') {
+      setTimeLeft(900);
+      const interval = setInterval(() => {
+        setTimeLeft(prev => (prev > 0 ? prev - 1 : 0));
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [isOpen, method]);
 
   const activeAddress = CRYPTO_ADDRESSES[selectedCrypto];
+
+  const formatTime = (seconds: number) => {
+    const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+    const s = (seconds % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+  };
 
   const copyAddress = () => {
     navigator.clipboard.writeText(activeAddress);
@@ -121,18 +148,18 @@ export default function DonationModal({ isOpen, onClose, language }: DonationMod
               {/* Main Tabs */}
               <div className="flex bg-black/40 border border-white/10 rounded-xl p-1 mb-6 w-full relative z-20">
                 <button 
-                  onClick={() => setMethod('fiat')}
-                  className={`flex-1 py-3 text-sm flex items-center justify-center gap-2 rounded-lg transition-all ${method === 'fiat' ? 'bg-[#cfa670]/20 text-[#cfa670]' : 'text-white/40 hover:text-white/80'}`}
-                >
-                  <Coffee size={16} />
-                  {t.fiatTab}
-                </button>
-                <button 
                   onClick={() => setMethod('crypto')}
                   className={`flex-1 py-3 text-sm flex items-center justify-center gap-2 rounded-lg transition-all ${method === 'crypto' ? 'bg-[#cfa670]/20 text-[#cfa670]' : 'text-white/40 hover:text-white/80'}`}
                 >
                   <Bitcoin size={16} />
                   {t.cryptoTab}
+                </button>
+                <button 
+                  onClick={() => setMethod('fiat')}
+                  className={`flex-1 py-3 text-sm flex items-center justify-center gap-2 rounded-lg transition-all ${method === 'fiat' ? 'bg-[#cfa670]/20 text-[#cfa670]' : 'text-white/40 hover:text-white/80'}`}
+                >
+                  <Coffee size={16} />
+                  {t.fiatTab}
                 </button>
               </div>
               
@@ -172,26 +199,52 @@ export default function DonationModal({ isOpen, onClose, language }: DonationMod
                     className="flex flex-col items-center w-full"
                   >
                     {/* Crypto Sub-Tabs */}
-                    <div className="flex bg-white/5 rounded-lg p-1 mb-4 w-2/3 max-w-[200px]">
+                    <div className="flex bg-white/5 rounded-lg p-1 mb-4 w-full max-w-[320px]">
                       <button 
-                        onClick={() => setSelectedCrypto('USDT')}
-                        className={`flex-1 py-1.5 text-xs font-mono rounded-md transition-all ${selectedCrypto === 'USDT' ? 'bg-[#cfa670] text-black font-bold' : 'text-white/40 hover:text-white/80'}`}
+                        onClick={() => setSelectedCrypto('BTC')}
+                        className={`flex-1 py-1.5 text-xs font-mono rounded-md transition-all ${selectedCrypto === 'BTC' ? 'bg-[#cfa670] text-black font-bold' : 'text-white/40 hover:text-white/80'}`}
                       >
-                        USDT
+                        Bitcoin
                       </button>
                       <button 
-                        onClick={() => setSelectedCrypto('TRX')}
-                        className={`flex-1 py-1.5 text-xs font-mono rounded-md transition-all ${selectedCrypto === 'TRX' ? 'bg-[#cfa670] text-black font-bold' : 'text-white/40 hover:text-white/80'}`}
+                        onClick={() => setSelectedCrypto('ERC20')}
+                        className={`flex-1 py-1.5 text-xs font-mono rounded-md transition-all ${selectedCrypto === 'ERC20' ? 'bg-[#cfa670] text-black font-bold' : 'text-white/40 hover:text-white/80'}`}
                       >
-                        TRX
+                        ERC-20(USDT)
+                      </button>
+                      <button 
+                        onClick={() => setSelectedCrypto('TRC20')}
+                        className={`flex-1 py-1.5 text-xs font-mono rounded-md transition-all ${selectedCrypto === 'TRC20' ? 'bg-[#cfa670] text-black font-bold' : 'text-white/40 hover:text-white/80'}`}
+                      >
+                        TRC-20(USDT)
                       </button>
                     </div>
 
-                    <p className="text-sm text-center text-white/60 mb-6 font-light font-sans">
-                      {selectedCrypto === 'USDT' ? t.cryptoDescUSDT : t.cryptoDescTRX}
+                    <p className="text-sm text-center text-white/60 mb-6 font-light font-sans px-2">
+                      {selectedCrypto === 'TRC20' ? t.cryptoDescTRC20 : selectedCrypto === 'ERC20' ? t.cryptoDescERC20 : t.cryptoDescBTC}
                     </p>
                     
-                    <div className="bg-white p-3 rounded-2xl mb-6 shadow-[0_0_30px_rgba(207,166,112,0.15)]">
+                    {/* Status & Timer UI */}
+                    <div className="w-full max-w-[280px] flex justify-between items-center mb-4 px-2 border-b border-white/10 pb-3">
+                      <div className="flex items-center gap-2">
+                        {timeLeft > 0 ? (
+                          <>
+                            <div className="w-2 h-2 rounded-full bg-[#cfa670] animate-pulse" />
+                            <span className="text-xs text-[#cfa670]">{t.awaitingPayment}</span>
+                          </>
+                        ) : (
+                          <>
+                            <div className="w-2 h-2 rounded-full bg-red-500" />
+                            <span className="text-xs text-red-500">{t.timeExpired}</span>
+                          </>
+                        )}
+                      </div>
+                      <div className="text-sm font-mono text-white/90 bg-black/40 px-2 py-1 rounded">
+                        {formatTime(timeLeft)}
+                      </div>
+                    </div>
+
+                    <div className={`bg-white p-3 rounded-2xl mb-6 shadow-[0_0_30px_rgba(207,166,112,0.15)] transition-opacity duration-500 ${timeLeft === 0 ? 'opacity-30 grayscale' : 'opacity-100'}`}>
                       <QRCodeSVG 
                         value={activeAddress}
                         size={150}
