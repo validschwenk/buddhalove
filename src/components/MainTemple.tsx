@@ -152,7 +152,7 @@ export default function MainTemple() {
       {/* 8.5 우측 상단 컨트롤 (언어 선택, 음소거, 시주 버튼) */}
       <div className="absolute top-3 right-3 md:top-10 md:right-10 z-[30] flex flex-col items-end gap-2 md:flex-row md:items-center md:gap-3">
         
-        {/* 시주 버튼 (모바일에서는 맨 위에 위치) */}
+        {/* 1. 시주 버튼 (모바일에서는 맨 위) */}
         <button 
           onClick={() => setIsDonationOpen(true)}
           className="px-3.5 py-1.5 md:px-5 md:py-2.5 text-[10px] md:text-xs tracking-[0.2em] uppercase font-light text-[#cfa670]/90 hover:text-[#cfa670] transition-all bg-black/20 hover:bg-black/50 rounded-full backdrop-blur-md border border-[#cfa670]/30 hover:border-[#cfa670]/60 hover:shadow-[0_0_15px_rgba(207,166,112,0.3)]"
@@ -160,39 +160,36 @@ export default function MainTemple() {
           {language === 'en' ? 'Offerings' : language === 'hi' ? 'भेंट' : '供奉'}
         </button>
 
-        {/* 음소거 및 언어 선택 (모바일에서는 시주 버튼 아래에 위치) */}
-        <div className="flex items-center gap-2">
-          {/* Mute Toggle Button */}
-          <button
-            onClick={() => setIsMuted(!isMuted)}
-            className="p-1.5 md:p-2 bg-black/20 hover:bg-black/50 text-white/60 hover:text-white rounded-full backdrop-blur-md border border-white/10 transition-colors"
-            aria-label={isMuted ? "Unmute" : "Mute"}
+        {/* 2. 언어 선택 (모바일에서는 두 번째) */}
+        <div className="flex bg-black/20 rounded-full p-0.5 md:p-1 backdrop-blur-md border border-white/10">
+          <button 
+            onClick={() => setLanguage('en')} 
+            className={`px-2 py-1 md:px-3 md:py-1.5 rounded-full text-[10px] md:text-xs font-mono transition-colors ${language === 'en' ? 'bg-[#cfa670]/30 text-[#cfa670] shadow-[0_0_10px_rgba(207,166,112,0.2)]' : 'text-white/40 hover:text-white/80'}`}
           >
-            {isMuted ? <VolumeX className="w-3.5 h-3.5 md:w-4 md:h-4" /> : <Volume2 className="w-3.5 h-3.5 md:w-4 md:h-4" />}
+            EN
           </button>
-
-          {/* Language Selector */}
-          <div className="flex bg-black/20 rounded-full p-0.5 md:p-1 backdrop-blur-md border border-white/10">
-            <button 
-              onClick={() => setLanguage('en')} 
-              className={`px-2 py-1 md:px-3 md:py-1.5 rounded-full text-[10px] md:text-xs font-mono transition-colors ${language === 'en' ? 'bg-[#cfa670]/30 text-[#cfa670] shadow-[0_0_10px_rgba(207,166,112,0.2)]' : 'text-white/40 hover:text-white/80'}`}
-            >
-              EN
-            </button>
-            <button 
-              onClick={() => setLanguage('hi')} 
-              className={`px-2 py-1 md:px-3 md:py-1.5 rounded-full text-[10px] md:text-xs font-mono transition-colors ${language === 'hi' ? 'bg-[#cfa670]/30 text-[#cfa670] shadow-[0_0_10px_rgba(207,166,112,0.2)]' : 'text-white/40 hover:text-white/80'}`}
-            >
-              हिंदी
-            </button>
-            <button 
-              onClick={() => setLanguage('zh')} 
-              className={`px-2 py-1 md:px-3 md:py-1.5 rounded-full text-[10px] md:text-xs font-mono transition-colors ${language === 'zh' ? 'bg-[#cfa670]/30 text-[#cfa670] shadow-[0_0_10px_rgba(207,166,112,0.2)]' : 'text-white/40 hover:text-white/80'}`}
-            >
-              中
-            </button>
-          </div>
+          <button 
+            onClick={() => setLanguage('hi')} 
+            className={`px-2 py-1 md:px-3 md:py-1.5 rounded-full text-[10px] md:text-xs font-mono transition-colors ${language === 'hi' ? 'bg-[#cfa670]/30 text-[#cfa670] shadow-[0_0_10px_rgba(207,166,112,0.2)]' : 'text-white/40 hover:text-white/80'}`}
+          >
+            हिंदी
+          </button>
+          <button 
+            onClick={() => setLanguage('zh')} 
+            className={`px-2 py-1 md:px-3 md:py-1.5 rounded-full text-[10px] md:text-xs font-mono transition-colors ${language === 'zh' ? 'bg-[#cfa670]/30 text-[#cfa670] shadow-[0_0_10px_rgba(207,166,112,0.2)]' : 'text-white/40 hover:text-white/80'}`}
+          >
+            中
+          </button>
         </div>
+
+        {/* 3. 음소거 버튼 (모바일에서는 맨 아래) */}
+        <button
+          onClick={() => setIsMuted(!isMuted)}
+          className="p-1.5 md:p-2 bg-black/20 hover:bg-black/50 text-white/60 hover:text-white rounded-full backdrop-blur-md border border-white/10 transition-colors"
+          aria-label={isMuted ? "Unmute" : "Mute"}
+        >
+          {isMuted ? <VolumeX className="w-3.5 h-3.5 md:w-4 md:h-4" /> : <Volume2 className="w-3.5 h-3.5 md:w-4 md:h-4" />}
+        </button>
       </div>
 
         {/* 9. Daily Wisdom (첫 화면 최하단) */}
