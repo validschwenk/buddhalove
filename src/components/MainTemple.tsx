@@ -10,6 +10,7 @@ import DonationModal from './DonationModal';
 import LanternSystem from './LanternSystem';
 import DailyWisdom from './DailyWisdom';
 import WisdomScroll from './WisdomScroll';
+import GuideModal from './GuideModal';
 import Link from 'next/link';
 
 export type Language = 'en' | 'hi' | 'zh';
@@ -21,6 +22,7 @@ export default function MainTemple() {
   const [language, setLanguage] = useState<Language>('en');
   const [isMuted, setIsMuted] = useState(false);
   const [localLanternTrigger, setLocalLanternTrigger] = useState(0);
+  const [isGuideOpen, setIsGuideOpen] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   // Auto-play workaround: sometimes autoPlay attribute isn't enough depending on browser state.
@@ -215,7 +217,9 @@ export default function MainTemple() {
         </div>
 
         {/* 10. Minimal Footer */}
-        <div className="mt-auto flex justify-center gap-4 md:gap-8 text-[10px] md:text-xs text-white/30 font-sans tracking-widest pointer-events-auto">
+        <div className="mt-auto flex flex-wrap justify-center gap-4 md:gap-8 text-[10px] md:text-xs text-white/30 font-sans tracking-widest pointer-events-auto">
+          <button onClick={() => setIsGuideOpen(true)} className="hover:text-white/70 transition-colors">HOW TO USE</button>
+          <span>|</span>
           <Link href="/about" className="hover:text-white/70 transition-colors">ABOUT</Link>
           <span>|</span>
           <Link href="/privacy" className="hover:text-white/70 transition-colors">PRIVACY</Link>
@@ -232,6 +236,11 @@ export default function MainTemple() {
       {/* 12. 지혜의 두루마리 모달 */}
       <AnimatePresence>
         {isScrollOpen && <WisdomScroll onClose={() => setIsScrollOpen(false)} language={language} />}
+      </AnimatePresence>
+
+      {/* 13. How to Use 가이드 모달 */}
+      <AnimatePresence>
+        {isGuideOpen && <GuideModal onClose={() => setIsGuideOpen(false)} language={language} />}
       </AnimatePresence>
     </>
   );
