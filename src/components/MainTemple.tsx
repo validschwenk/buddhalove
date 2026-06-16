@@ -21,17 +21,28 @@ export default function MainTemple() {
   const [isScrollOpen, setIsScrollOpen] = useState(false);
   const [language, setLanguage] = useState<Language>('en');
   const [isMuted, setIsMuted] = useState(false);
+  const [audioStarted, setAudioStarted] = useState(false);
   const [localLanternTrigger, setLocalLanternTrigger] = useState(0);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  // Auto-play workaround: sometimes autoPlay attribute isn't enough depending on browser state.
+  // Start BGM on first user interaction (click/touch anywhere)
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = 0.3; // Set volume to 30% so it's not too intrusive
-      audioRef.current.play().catch((e) => console.log("Audio autoplay was prevented.", e));
-    }
-  }, []);
+    const start = () => {
+      if (audioStarted) return;
+      if (audioRef.current) {
+        audioRef.current.volume = 0.3;
+        audioRef.current.play().catch(() => {});
+      }
+      setAudioStarted(true);
+    };
+    window.addEventListener('click', start, { once: true });
+    window.addEventListener('touchstart', start, { once: true });
+    return () => {
+      window.removeEventListener('click', start);
+      window.removeEventListener('touchstart', start);
+    };
+  }, [audioStarted]);
 
   return (
     <>
@@ -42,13 +53,12 @@ export default function MainTemple() {
         animate={{ opacity: 1, transition: { duration: 2, ease: 'easeOut' } }}
       >
       {/* Background Audio */}
-      <audio 
+      <audio
         ref={audioRef}
-        src="/bgm.mp3" 
-        autoPlay 
-        loop 
-        muted={isMuted} 
-        style={{ display: 'none' }} 
+        src="/bgm.mp3"
+        loop
+        muted={isMuted}
+        style={{ display: 'none' }}
       />
 
       {/* 1. Base Background Image (맨 뒷배경) */}
@@ -199,26 +209,16 @@ export default function MainTemple() {
 
       </motion.div>
 
-      {/* 2섹션: 하단 여백 및 정보/광고 영역 (스크롤 다운 시 노출) */}
+      {/* 2섹션: 하단 여백 및 정보 영역 (스크롤 다운 시 노출) */}
       <div className="relative w-full min-h-[40vh] bg-gradient-to-b from-[#050505] to-[#0a0a0a] flex flex-col items-center justify-center pt-20 pb-16 z-10 px-6">
-        {/* 메인 광고 배너 예약 자리 (구글 자동 광고 유도) */}
-        <div className="w-full max-w-3xl mx-auto mb-16 border-y border-white/5 py-10 text-center text-xs text-white/20">
-          <ins className="adsbygoogle"
-               style={{ display: 'block' }}
-               data-ad-client="ca-pub-8630891672218717"
-               data-ad-slot="PLACEHOLDER_AD_SLOT_ID"
-               data-ad-format="auto"
-               data-full-width-responsive="true"></ins>
-          <script
-               dangerouslySetInnerHTML={{
-                 __html: `(adsbygoogle = window.adsbygoogle || []).push({});`
-               }}
-          />
-        </div>
 
         {/* 10. Minimal Footer */}
-        <div className="mt-auto flex flex-wrap justify-center gap-4 md:gap-8 text-[10px] md:text-xs text-white/30 font-sans tracking-widest pointer-events-auto">
+        <div className="mt-auto flex flex-wrap justify-center gap-4 md:gap-6 text-[10px] md:text-xs text-white/30 font-sans tracking-widest pointer-events-auto">
           <button onClick={() => setIsGuideOpen(true)} className="hover:text-white/70 transition-colors">HOW TO USE</button>
+          <span>|</span>
+          <Link href="/teachings" className="hover:text-white/70 transition-colors">TEACHINGS</Link>
+          <span>|</span>
+          <Link href="/reflections" className="hover:text-white/70 transition-colors">REFLECTIONS</Link>
           <span>|</span>
           <Link href="/about" className="hover:text-white/70 transition-colors">ABOUT</Link>
           <span>|</span>

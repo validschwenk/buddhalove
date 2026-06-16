@@ -28,21 +28,6 @@ export default function AboutPage() {
             manifest your intentions, let go of your burdens, and share a moment of collective peace with others across the globe.
           </p>
 
-          {/* AdSense Manual Placement Slot */}
-          <div className="my-12 py-8 border-y border-white/10 text-center text-sm text-white/30 bg-black/20 rounded">
-            <ins className="adsbygoogle"
-                 style={{ display: 'block' }}
-                 data-ad-client="ca-pub-8630891672218717"
-                 data-ad-slot="PLACEHOLDER_AD_SLOT_ID"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script
-                 dangerouslySetInnerHTML={{
-                   __html: `(adsbygoogle = window.adsbygoogle || []).push({});`
-                 }}
-            />
-          </div>
-
           <h2>The Anonymous Lanterns</h2>
           <p>
             When you visit BuddhaLove, you are never truly alone. The soft glowing lanterns ascending in the background 
