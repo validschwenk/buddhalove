@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cinzel, Noto_Serif_KR } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const cinzel = Cinzel({
@@ -37,6 +38,14 @@ export default function RootLayout({
       lang="en"
       className={`${cinzel.variable} ${notoSerifKR.variable} h-full antialiased`}
     >
+      <head>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8630891672218717"
+          crossOrigin="anonymous"
+          strategy="beforeInteractive"
+        />
+      </head>
       <body className="min-h-full flex flex-col font-sans">{children}</body>
     </html>
   );
