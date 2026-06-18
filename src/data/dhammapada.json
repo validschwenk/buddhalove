@@ -1,0 +1,212 @@
+[
+  {
+    "id": 5,
+    "chapter": "I. The Twin-Verses",
+    "themes": ["anger", "resentment", "forgiveness", "conflict", "relationships"],
+    "text": {
+      "en": "Hatred is never ended by hatred. Hatred ends only through love. This is an ancient and unchanging truth.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 5",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 25,
+    "chapter": "II. On Earnestness",
+    "themes": ["anxiety", "overwhelm", "resilience", "discipline", "inner-strength"],
+    "text": {
+      "en": "Through effort, attentiveness, and self-restraint, the wise build within themselves an island that no flood can ever wash away.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 25",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 35,
+    "chapter": "III. Thought",
+    "themes": ["anxiety", "restless-mind", "overthinking", "peace", "meditation"],
+    "text": {
+      "en": "The mind is restless and hard to restrain, rushing wherever it wishes. To gentle it is good, for a settled mind brings peace.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 35",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 50,
+    "chapter": "IV. Flowers",
+    "themes": ["comparison", "judgment", "self-focus", "letting-go", "relationships"],
+    "text": {
+      "en": "Do not dwell on the faults of others, on what they have done or failed to do. Look instead to your own actions, to what you have done and left undone.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 50",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 62,
+    "chapter": "V. The Fool",
+    "themes": ["attachment", "possessions", "anxiety", "letting-go", "impermanence"],
+    "text": {
+      "en": "\"These are mine, this wealth is mine\" — such thoughts torment the unwise. You do not even belong to yourself; how then can sons or wealth?",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 62",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 81,
+    "chapter": "VI. The Wise Man",
+    "themes": ["criticism", "praise", "stability", "equanimity", "inner-strength"],
+    "text": {
+      "en": "As a great rock stands unmoved by the wind, the wise are not shaken by blame or by praise.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 81",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 90,
+    "chapter": "VII. The Venerable",
+    "themes": ["grief", "letting-go", "freedom", "healing", "peace"],
+    "text": {
+      "en": "For the one who has completed the journey, released sorrow, and let go of every bond, there is no more suffering.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 90",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 103,
+    "chapter": "VIII. The Thousands",
+    "themes": ["self-mastery", "inner-strength", "discipline", "growth"],
+    "text": {
+      "en": "Though one may conquer a thousand times a thousand in battle, the greatest victor is the one who conquers himself.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 103",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 121,
+    "chapter": "IX. Evil",
+    "themes": ["habits", "small-steps", "responsibility", "patience"],
+    "text": {
+      "en": "Do not take small wrongs lightly, thinking they will not reach you. Drop by drop a pot is filled; little by little, harm gathers within.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 121",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 122,
+    "chapter": "IX. Evil",
+    "themes": ["small-steps", "habits", "hope", "growth", "encouragement"],
+    "text": {
+      "en": "Do not take small goodness lightly, thinking it will not reach you. Drop by drop a pot is filled; little by little, the wise become full of good.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 122",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 145,
+    "chapter": "X. Punishment",
+    "themes": ["self-improvement", "growth", "discipline", "responsibility"],
+    "text": {
+      "en": "Those who channel water guide it where they will; the arrow-maker shapes the arrow; the carpenter shapes the wood. In the same way, the good shape themselves.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 145",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 146,
+    "chapter": "XI. Old Age",
+    "themes": ["seeking", "hope", "darkness", "awakening", "anxiety"],
+    "text": {
+      "en": "How can there be laughter, how can there be joy, when the world is forever burning? Surrounded by darkness, why do you not seek the light?",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 146",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 160,
+    "chapter": "XII. Self",
+    "themes": ["self-reliance", "responsibility", "inner-strength", "growth"],
+    "text": {
+      "en": "You are your own refuge; who else could be? When you have truly mastered yourself, you find a refuge rare and hard to gain.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 160",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 165,
+    "chapter": "XII. Self",
+    "themes": ["responsibility", "self-focus", "growth", "letting-go", "self-doubt"],
+    "text": {
+      "en": "By yourself wrong is done; by yourself you suffer. By yourself wrong is left undone; by yourself you are made pure. Purity and impurity are your own; no one can purify another.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 165",
+      "hi": "",
+      "zh": ""
+    }
+  }
+]

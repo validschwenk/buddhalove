@@ -29,9 +29,15 @@ const shareTexts = {
   zh: "分享智慧"
 };
 
+type VerseResponse = {
+  intro: string;
+  text: string;
+  citation: string;
+};
+
 export default function ZenChatUI({ onReplyChange, language, onMessageSent }: ZenChatUIProps) {
   const [userQuery, setUserQuery] = useState<string | null>(null);
-  const [buddhaReply, setBuddhaReply] = useState<string | null>(null);
+  const [verseResponse, setVerseResponse] = useState<VerseResponse | null>(null);
   const [input, setInput] = useState('');
   const [isThinking, setIsThinking] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -82,9 +88,9 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
 
   useEffect(() => {
     if (onReplyChange) {
-      onReplyChange(!!buddhaReply);
+      onReplyChange(!!verseResponse);
     }
-  }, [buddhaReply, onReplyChange]);
+  }, [verseResponse, onReplyChange]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -97,7 +103,7 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
     onMessageSent?.();
 
     setUserQuery(input.trim());
-    setBuddhaReply(null);
+    setVerseResponse(null);
     setInput('');
     setIsThinking(true);
 
@@ -108,18 +114,28 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
         body: JSON.stringify({ message: input.trim(), language })
       });
       const data = await res.json();
-      
-      setBuddhaReply(data.reply);
+
+      if (data.verse) {
+        setVerseResponse({
+          intro: data.intro || '',
+          text: data.verse.text,
+          citation: data.verse.citation,
+        });
+      } else {
+        // No-API-key diagnostic path: show the message itself, no fabricated citation.
+        setVerseResponse({ intro: '', text: data.intro || '', citation: '' });
+      }
     } catch (error) {
       console.error(error);
       const fallbackMsg = language === 'hi' ? "मौन ही सबसे अच्छा उत्तर है। कृपया पुनः प्रयास करें।" : language === 'zh' ? "沉默便是答案。请重试。" : "Even silence is an answer. Please try again.";
-      setBuddhaReply(fallbackMsg);
+      setVerseResponse({ intro: '', text: fallbackMsg, citation: '' });
     } finally {
       setIsThinking(false);
     }
   };
 
   const generateCanvasImage = async (): Promise<string> => {
+    const verse = verseResponse; // stable snapshot for narrowing inside the closure below
     return new Promise(async (resolve, reject) => {
       try {
         // Prevent hanging if fonts fail to load
@@ -166,7 +182,7 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
         ctx.globalAlpha = 1.0;
 
         // 2. Halo (Radial Gradient)
-        if (buddhaReply) {
+        if (verse) {
           ctx.save();
           ctx.globalCompositeOperation = 'screen';
           const cx = width / 2;
@@ -207,7 +223,7 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
         ctx.fillRect(0, 0, width, height);
 
         // 5. Native Canvas Soft Smoke
-        if (buddhaReply) {
+        if (verse) {
           ctx.save();
           ctx.globalCompositeOperation = 'screen';
           
@@ -265,8 +281,8 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
         ctx.drawImage(burnerImg, buX, buY, buWidth, buHeight);
         ctx.restore();
 
-        // 7. Text (Buddha Reply)
-        if (buddhaReply) {
+        // 7. Text (Verse quote + citation)
+        if (verse) {
           ctx.save();
           const tcx = width / 2;
           const tcy = height * 0.42; // Raised up towards the chest
@@ -274,10 +290,10 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.font = '300 40px "Cinzel", "Noto Serif KR", serif';
-          (ctx as any).letterSpacing = "8px"; 
+          (ctx as any).letterSpacing = "8px";
 
           const maxWidth = width - 160;
-          const words = buddhaReply.toUpperCase().split(' ');
+          const words = verse.text.toUpperCase().split(' ');
           let lines = [];
           let currentLine = words[0];
           for (let i = 1; i < words.length; i++) {
@@ -304,7 +320,9 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
              if (w > longestLineWidth) longestLineWidth = w;
           }
           const boxW = Math.min(longestLineWidth + (boxPaddingX * 2), width - 60);
-          const boxH = (lines.length * lineHeight) + (boxPaddingY * 2);
+          const citationLineHeight = 36;
+          const citationExtraH = verse.citation ? citationLineHeight + 10 : 0;
+          const boxH = (lines.length * lineHeight) + (boxPaddingY * 2) + citationExtraH;
           const boxX = tcx - boxW / 2;
           const boxY = startY - (lineHeight / 2) - boxPaddingY;
           
@@ -344,6 +362,18 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
             ctx.fillStyle = '#f3e8dd';
             ctx.fillText(line, tcx, startY + (i * lineHeight));
           }
+
+          // Citation — subtle, muted gold, italic, below the quote
+          if (verse.citation) {
+            const citationY = startY + ((lines.length - 1) * lineHeight) + (lineHeight / 2) + citationLineHeight;
+            ctx.font = 'italic 300 22px "Cinzel", "Noto Serif KR", serif';
+            (ctx as any).letterSpacing = "2px";
+            ctx.shadowColor = 'rgba(0,0,0,0.9)';
+            ctx.shadowBlur = 10;
+            ctx.fillStyle = 'rgba(207,166,112,0.7)';
+            ctx.fillText(verse.citation.toUpperCase(), tcx, citationY);
+          }
+
           ctx.restore();
         }
 
@@ -432,15 +462,21 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
   };
 
   const handleShare = async () => {
-    if (isSharing || isShared || !userQuery || !buddhaReply) return;
+    if (isSharing || isShared || !userQuery || !verseResponse?.text) return;
     setIsSharing(true);
     try {
+      // No "citation" column exists in shared_wisdom yet, so the attribution travels
+      // inline with the verse text rather than as fabricated/missing data.
+      const answer = verseResponse.citation
+        ? `${verseResponse.text} — ${verseResponse.citation}`
+        : verseResponse.text;
+
       const res = await fetch('/api/share-wisdom', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           question: userQuery,
-          answer: buddhaReply,
+          answer,
           language
         })
       });
@@ -482,24 +518,41 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
               </motion.div>
             )}
             
-            {buddhaReply && !isThinking && (
+            {verseResponse && !isThinking && (
               <motion.div
-                key={buddhaReply}
+                key={verseResponse.text}
                 initial={{ opacity: 0, y: 10, filter: 'blur(10px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 exit={{ opacity: 0, y: -10, filter: 'blur(10px)' }}
                 transition={{ duration: 2, ease: "easeOut" }}
                 className="flex flex-col items-center"
               >
+                {/* Intro — small, lighter, compassionate bridging line */}
+                {verseResponse.intro && (
+                  <div className="text-xs md:text-sm text-white/60 text-center font-light italic tracking-wide px-8 mb-3 max-w-xl">
+                    {verseResponse.intro}
+                  </div>
+                )}
+
                 <div
-                  className="text-lg md:text-2xl text-[#f3e8dd] text-center leading-relaxed font-light uppercase tracking-[0.15em] md:tracking-[0.2em] px-8 py-6 font-serif mb-6"
-                  style={{ 
+                  className={`text-lg md:text-2xl text-[#f3e8dd] text-center leading-relaxed font-light uppercase tracking-[0.15em] md:tracking-[0.2em] px-8 py-6 font-serif ${verseResponse.citation ? 'mb-2' : 'mb-6'}`}
+                  style={{
                     textShadow: '0 0 10px rgba(0,0,0,1), 0 0 20px rgba(207,166,112,0.8), 0 0 40px rgba(207,166,112,0.5)',
                     background: 'radial-gradient(circle, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0) 100%)'
                   }}
                 >
-                  {buddhaReply}
+                  {verseResponse.text}
                 </div>
+
+                {/* Citation — subtle, muted gold, source attribution */}
+                {verseResponse.citation && (
+                  <div
+                    className="text-[10px] md:text-xs text-[#cfa670]/60 text-center italic uppercase tracking-[0.25em] font-light mb-6"
+                    style={{ textShadow: '0 0 10px rgba(0,0,0,0.8)' }}
+                  >
+                    {verseResponse.citation}
+                  </div>
+                )}
 
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 mt-2">
