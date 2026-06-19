@@ -1,5 +1,35 @@
 [
   {
+    "id": 2,
+    "chapter": "I. The Twin-Verses",
+    "themes": ["mindfulness", "thoughts", "hope", "peace", "self-awareness"],
+    "text": {
+      "en": "All that we are arises from our thoughts; we are made of our thoughts. Speak or act with a clear mind, and happiness follows like a shadow that never leaves.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 2",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 4,
+    "chapter": "I. The Twin-Verses",
+    "themes": ["anger", "resentment", "forgiveness", "letting-go", "healing"],
+    "text": {
+      "en": "\"He wronged me, he hurt me, he failed me.\" In those who let go of such thoughts, resentment finds its end.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 4",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
     "id": 5,
     "chapter": "I. The Twin-Verses",
     "themes": ["anger", "resentment", "forgiveness", "conflict", "relationships"],
@@ -10,6 +40,81 @@
     },
     "citation": {
       "en": "Dhammapada, Verse 5",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 8,
+    "chapter": "I. The Twin-Verses",
+    "themes": ["inner-strength", "temptation", "stability", "discipline", "resilience"],
+    "text": {
+      "en": "One who lives with senses calmed, moderate, faithful, and strong, temptation cannot overthrow, any more than the wind can topple a mountain of rock.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 8",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 14,
+    "chapter": "I. The Twin-Verses",
+    "themes": ["peace", "restless-mind", "reflection", "stability", "protection"],
+    "text": {
+      "en": "As rain cannot break through a well-thatched roof, desire cannot break through a mind that is calm and well-reflecting.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 14",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 16,
+    "chapter": "I. The Twin-Verses",
+    "themes": ["hope", "encouragement", "virtue", "peace", "self-worth"],
+    "text": {
+      "en": "The one who does good rejoices here and rejoices beyond. Seeing the goodness of their own deeds, they delight and find peace.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 16",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 23,
+    "chapter": "II. On Earnestness",
+    "themes": ["peace", "meditation", "perseverance", "inner-strength", "stillness"],
+    "text": {
+      "en": "The wise, steady and ever meditative, reach a peace beyond all bonds — the highest happiness.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 23",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 24,
+    "chapter": "II. On Earnestness",
+    "themes": ["effort", "growth", "discipline", "encouragement", "self-improvement"],
+    "text": {
+      "en": "If one is earnest and mindful, pure in deed and considerate, restrained and living rightly, their well-being steadily grows.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 24",
       "hi": "",
       "zh": ""
     }
@@ -30,6 +135,36 @@
     }
   },
   {
+    "id": 28,
+    "chapter": "II. On Earnestness",
+    "themes": ["clarity", "perspective", "wisdom", "calm", "rising-above"],
+    "text": {
+      "en": "When the wise dispel carelessness with care, they climb the high tower of wisdom and look out, sorrowless, upon the sorrowing crowd below.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 28",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 33,
+    "chapter": "III. Thought",
+    "themes": ["restless-mind", "overthinking", "focus", "self-discipline", "anxiety"],
+    "text": {
+      "en": "As an arrow-maker straightens his arrow, the wise steady their trembling, restless thoughts, so hard to guard, so hard to hold.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 33",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
     "id": 35,
     "chapter": "III. Thought",
     "themes": ["anxiety", "restless-mind", "overthinking", "peace", "meditation"],
@@ -40,6 +175,66 @@
     },
     "citation": {
       "en": "Dhammapada, Verse 35",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 36,
+    "chapter": "III. Thought",
+    "themes": ["mindfulness", "self-awareness", "peace", "focus", "protection"],
+    "text": {
+      "en": "The mind is subtle and hard to see, drawn wherever it desires. Let the wise watch over it, for a guarded mind brings happiness.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 36",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 39,
+    "chapter": "III. Thought",
+    "themes": ["peace", "fearlessness", "clarity", "letting-go", "calm"],
+    "text": {
+      "en": "One whose mind is untroubled, whose thoughts are not scattered, who has set aside both good and ill — for the watchful, there is no fear.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 39",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 43,
+    "chapter": "III. Thought",
+    "themes": ["self-compassion", "mindset", "healing", "relationships", "inner-strength"],
+    "text": {
+      "en": "Not a mother, not a father, nor any relative can do you as much good as your own well-directed mind.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 43",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 49,
+    "chapter": "IV. Flowers",
+    "themes": ["gentleness", "living-lightly", "non-harm", "balance", "grace"],
+    "text": {
+      "en": "As a bee gathers nectar and leaves the flower unharmed, its colour and fragrance untouched, so let the wise move through the world.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 49",
       "hi": "",
       "zh": ""
     }
@@ -60,6 +255,66 @@
     }
   },
   {
+    "id": 51,
+    "chapter": "IV. Flowers",
+    "themes": ["integrity", "action", "authenticity", "words-and-deeds", "growth"],
+    "text": {
+      "en": "Like a lovely flower full of colour but without scent are the fine words of one who does not act on them.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 51",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 53,
+    "chapter": "IV. Flowers",
+    "themes": ["purpose", "hope", "opportunity", "making-the-most", "encouragement"],
+    "text": {
+      "en": "As many garlands can be woven from a heap of flowers, so much good can be made by one born into this life.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 53",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 54,
+    "chapter": "IV. Flowers",
+    "themes": ["character", "integrity", "reputation", "goodness", "quiet-influence"],
+    "text": {
+      "en": "The scent of flowers cannot travel against the wind, but the fragrance of a good person travels even against it; goodness reaches everywhere.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 54",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 61,
+    "chapter": "V. The Fool",
+    "themes": ["solitude", "relationships", "self-respect", "independence", "boundaries"],
+    "text": {
+      "en": "If on your journey you find no equal or better companion, walk on alone with resolve; there is no true company with the foolish.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 61",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
     "id": 62,
     "chapter": "V. The Fool",
     "themes": ["attachment", "possessions", "anxiety", "letting-go", "impermanence"],
@@ -70,6 +325,36 @@
     },
     "citation": {
       "en": "Dhammapada, Verse 62",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 63,
+    "chapter": "V. The Fool",
+    "themes": ["humility", "self-awareness", "wisdom", "growth", "honesty"],
+    "text": {
+      "en": "A fool who knows their foolishness is wise at least in that. But a fool who thinks themselves wise is a fool indeed.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 63",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 80,
+    "chapter": "VI. The Wise Man",
+    "themes": ["self-mastery", "growth", "self-improvement", "discipline", "shaping-oneself"],
+    "text": {
+      "en": "Those who guide water channel it; arrow-makers shape the arrow; carpenters shape the wood; the wise shape themselves.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 80",
       "hi": "",
       "zh": ""
     }
@@ -90,6 +375,36 @@
     }
   },
   {
+    "id": 82,
+    "chapter": "VI. The Wise Man",
+    "themes": ["peace", "calm", "serenity", "wisdom", "stillness"],
+    "text": {
+      "en": "Having heard the teachings, the wise grow serene, like a lake deep, clear, and still.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 82",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 83,
+    "chapter": "VI. The Wise Man",
+    "themes": ["equanimity", "acceptance", "emotional-balance", "resilience", "calm"],
+    "text": {
+      "en": "The good walk on through whatever comes. Touched by joy or by sorrow, the wise show neither elation nor despair.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 83",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
     "id": 90,
     "chapter": "VII. The Venerable",
     "themes": ["grief", "letting-go", "freedom", "healing", "peace"],
@@ -105,6 +420,21 @@
     }
   },
   {
+    "id": 96,
+    "chapter": "VII. The Venerable",
+    "themes": ["peace", "calm", "serenity", "stillness", "contentment"],
+    "text": {
+      "en": "Quiet is their mind, quiet their speech and action, for those who have found freedom through true understanding and become still.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 96",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
     "id": 103,
     "chapter": "VIII. The Thousands",
     "themes": ["self-mastery", "inner-strength", "discipline", "growth"],
@@ -115,6 +445,66 @@
     },
     "citation": {
       "en": "Dhammapada, Verse 103",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 111,
+    "chapter": "VIII. The Thousands",
+    "themes": ["wisdom", "presence", "quality-of-life", "meaning", "mindfulness"],
+    "text": {
+      "en": "Better than a hundred years lived in ignorance and unrest is a single day lived wisely and with reflection.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 111",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 112,
+    "chapter": "VIII. The Thousands",
+    "themes": ["perseverance", "strength", "resilience", "effort", "meaning"],
+    "text": {
+      "en": "Better than a hundred years lived idle and weak is a single day lived with firm and steady strength.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 112",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 116,
+    "chapter": "IX. Evil",
+    "themes": ["good-habits", "procrastination", "encouragement", "action", "growth"],
+    "text": {
+      "en": "Be quick to do good, and hold your mind back from harm. When one is slow to do good, the mind takes delight in wrong.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 116",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 118,
+    "chapter": "IX. Evil",
+    "themes": ["good-habits", "encouragement", "hope", "growth", "positivity"],
+    "text": {
+      "en": "If you do good, do it again and again; take delight in it. The gathering of good brings happiness.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 118",
       "hi": "",
       "zh": ""
     }
@@ -205,6 +595,906 @@
     },
     "citation": {
       "en": "Dhammapada, Verse 165",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 166,
+    "chapter": "XII. Self",
+    "themes": ["self-care", "priorities", "boundaries", "duty", "self-respect"],
+    "text": {
+      "en": "Do not neglect your own path for another's, however great. Having clearly seen what is yours to do, attend to it fully.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 166",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 172,
+    "chapter": "XIII. The World",
+    "themes": ["redemption", "second-chances", "hope", "change", "forgiveness"],
+    "text": {
+      "en": "One who was once careless and later grows mindful lights up the world, like the moon emerging from behind the clouds.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 172",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 183,
+    "chapter": "XIV. The Buddha",
+    "themes": ["simplicity", "purpose", "guidance", "clarity", "living-well"],
+    "text": {
+      "en": "To do no harm, to cultivate good, and to purify the mind — this is the heart of the teaching.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 183",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 184,
+    "chapter": "XIV. The Buddha",
+    "themes": ["patience", "endurance", "peace", "conflict", "forbearance"],
+    "text": {
+      "en": "Patient endurance is the highest discipline. Those who harm or insult others have not yet found the way.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 184",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 197,
+    "chapter": "XV. Happiness",
+    "themes": ["peace", "forgiveness", "relationships", "letting-go", "equanimity"],
+    "text": {
+      "en": "Let us live in joy, free from hatred among those who hate. Among people who hate, let us dwell without hatred.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 197",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 200,
+    "chapter": "XV. Happiness",
+    "themes": ["contentment", "simplicity", "gratitude", "freedom", "joy"],
+    "text": {
+      "en": "Let us live in joy, though we call nothing our own. Like the radiant gods, let us feed on happiness itself.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 200",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 201,
+    "chapter": "XV. Happiness",
+    "themes": ["letting-go", "peace", "conflict", "contentment", "ego"],
+    "text": {
+      "en": "Victory breeds hatred, and the defeated sleep in pain. Letting go of both victory and defeat, the peaceful rest in happiness.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 201",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 204,
+    "chapter": "XV. Happiness",
+    "themes": ["gratitude", "contentment", "health", "trust", "perspective"],
+    "text": {
+      "en": "Health is the greatest gift, contentment the greatest wealth, trust the finest kinship, and peace the highest joy.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 204",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 205,
+    "chapter": "XV. Happiness",
+    "themes": ["solitude", "peace", "fearlessness", "calm", "self-sufficiency"],
+    "text": {
+      "en": "Having tasted the sweetness of solitude and stillness, one becomes free of fear and free of wrong.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 205",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 212,
+    "chapter": "XVI. Pleasure",
+    "themes": ["attachment", "fear", "grief", "letting-go", "freedom"],
+    "text": {
+      "en": "From clinging comes grief, from clinging comes fear. For one who is free from clinging, there is no grief — and where is fear?",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 212",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 6,
+    "chapter": "I. The Twin-Verses",
+    "themes": ["conflict", "perspective", "letting-go", "mortality", "peace"],
+    "text": {
+      "en": "Most never see that we all must end one day. For those who truly see this, their quarrels fall away.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 6",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 18,
+    "chapter": "I. The Twin-Verses",
+    "themes": ["hope", "self-worth", "encouragement", "positivity", "peace"],
+    "text": {
+      "en": "The one who does good is glad in this world and the next. Looking back on their own good deeds, they are glad, and walk on gladder still.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 18",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 26,
+    "chapter": "II. On Earnestness",
+    "themes": ["focus", "priorities", "wisdom", "mindfulness", "values"],
+    "text": {
+      "en": "The careless chase after empty things; the wise guard their attentiveness as their most precious treasure.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 26",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 27,
+    "chapter": "II. On Earnestness",
+    "themes": ["focus", "joy", "meditation", "presence", "contentment"],
+    "text": {
+      "en": "Do not lose yourself in distraction or fleeting pleasure. The one who is attentive and reflective finds abundant joy.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 27",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 29,
+    "chapter": "II. On Earnestness",
+    "themes": ["perseverance", "growth", "focus", "progress", "encouragement"],
+    "text": {
+      "en": "Attentive among the heedless, awake among the sleeping, the wise move forward like a swift horse leaving a weaker one behind.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 29",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 84,
+    "chapter": "VI. The Wise Man",
+    "themes": ["integrity", "ambition", "honesty", "values", "contentment"],
+    "text": {
+      "en": "One who seeks neither wealth nor status by unfair means, and not even success at another's cost — that one is good, wise, and true.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 84",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 89,
+    "chapter": "VI. The Wise Man",
+    "themes": ["freedom", "letting-go", "peace", "clarity", "liberation"],
+    "text": {
+      "en": "Those who cling to nothing and rejoice in freedom from attachment, whose minds are bright and clear, are free even in this very life.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 89",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 95,
+    "chapter": "VII. The Venerable",
+    "themes": ["patience", "equanimity", "calm", "resilience", "tolerance"],
+    "text": {
+      "en": "Patient like the earth, steady as a threshold, clear as a lake without mud — such is the one who has found peace.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 95",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 100,
+    "chapter": "VIII. The Thousands",
+    "themes": ["simplicity", "clarity", "meaning", "words", "wisdom"],
+    "text": {
+      "en": "Better than a thousand hollow words is one word of meaning, which brings the listener peace.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 100",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 102,
+    "chapter": "VIII. The Thousands",
+    "themes": ["meaning", "focus", "wisdom", "simplicity", "peace"],
+    "text": {
+      "en": "Better than a hundred empty verses is a single line of truth, which brings the listener peace.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 102",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 117,
+    "chapter": "IX. Evil",
+    "themes": ["mistakes", "change", "self-forgiveness", "growth", "letting-go"],
+    "text": {
+      "en": "If you have done wrong, do not repeat it, and do not take delight in it. The piling up of harm brings only pain.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 117",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 120,
+    "chapter": "IX. Evil",
+    "themes": ["patience", "hope", "trust", "timing", "perseverance"],
+    "text": {
+      "en": "Even the good may meet hard days before their good unfolds. But when it ripens, the good see brighter days.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 120",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 159,
+    "chapter": "XII. Self",
+    "themes": ["integrity", "authenticity", "leading-by-example", "self-discipline", "growth"],
+    "text": {
+      "en": "Become first what you would teach others to be. Hard it is to master oneself; master that, and you may help others.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 159",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 168,
+    "chapter": "XIII. The World",
+    "themes": ["motivation", "action", "encouragement", "new-start", "effort"],
+    "text": {
+      "en": "Rouse yourself! Do not be idle. Follow the path of good, and you will rest in peace, in this world and beyond.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 168",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 170,
+    "chapter": "XIII. The World",
+    "themes": ["impermanence", "perspective", "letting-go", "detachment", "calm"],
+    "text": {
+      "en": "Look upon the world as a bubble, look upon it as a mirage. The one who sees it so is not seized by fear.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 170",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 173,
+    "chapter": "XIII. The World",
+    "themes": ["redemption", "second-chances", "hope", "change", "forgiveness"],
+    "text": {
+      "en": "One whose past wrongs are covered over by good lights up the world, like the moon emerging from behind the clouds.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 173",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 178,
+    "chapter": "XIII. The World",
+    "themes": ["values", "inner-wealth", "priorities", "meaning", "growth"],
+    "text": {
+      "en": "Greater than rule over the earth, greater than the heavens, is the first step taken on the path of awakening.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 178",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 185,
+    "chapter": "XIV. The Buddha",
+    "themes": ["restraint", "peace", "simplicity", "kindness", "living-well"],
+    "text": {
+      "en": "Speak no blame, do no harm, live with restraint, be moderate, and dwell on what is highest — this is the heart of the teaching.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 185",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 198,
+    "chapter": "XV. Happiness",
+    "themes": ["peace", "wellbeing", "resilience", "equanimity", "calm"],
+    "text": {
+      "en": "Let us live in joy, in good health among the ailing. Among those who are unwell, let us dwell at ease.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 198",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 202,
+    "chapter": "XV. Happiness",
+    "themes": ["peace", "desire", "rest", "contentment", "calm"],
+    "text": {
+      "en": "There is no fire like craving, no grip like hatred. There is no peace higher than rest.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 202",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 207,
+    "chapter": "XV. Happiness",
+    "themes": ["relationships", "company", "boundaries", "wisdom", "belonging"],
+    "text": {
+      "en": "To walk with the foolish brings long sorrow. But company with the wise is joy, like meeting one's own family.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 207",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 213,
+    "chapter": "XVI. Pleasure",
+    "themes": ["grief", "attachment", "fear", "love", "letting-go"],
+    "text": {
+      "en": "From affection comes grief, from affection comes fear. For one free from the grip of affection, there is no grief — and where is fear?",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 213",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 216,
+    "chapter": "XVI. Pleasure",
+    "themes": ["worry", "money", "anxiety", "letting-go", "freedom"],
+    "text": {
+      "en": "From craving comes grief, from craving comes fear. For one free from craving, there is no grief — and where is fear?",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 216",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 219,
+    "chapter": "XVI. Pleasure",
+    "themes": ["homecoming", "belonging", "relationships", "reunion", "comfort"],
+    "text": {
+      "en": "As family and friends welcome home one long away and safely returned,",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 219",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 220,
+    "chapter": "XVI. Pleasure",
+    "themes": ["legacy", "goodness", "comfort", "reassurance", "meaning"],
+    "text": {
+      "en": "so one's own good deeds welcome the doer who has lived well — as kinsfolk welcome a dear one returning home.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 220",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 221,
+    "chapter": "XVII. Anger",
+    "themes": ["anger", "pride", "letting-go", "freedom", "peace"],
+    "text": {
+      "en": "Let go of anger, set aside pride, and slip free of every binding. Suffering does not cling to the one who clings to nothing.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 221",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 222,
+    "chapter": "XVII. Anger",
+    "themes": ["anger", "self-control", "strength", "restraint", "emotional-balance"],
+    "text": {
+      "en": "The one who holds back rising anger as a driver reins a runaway chariot — that one I call a true charioteer; the rest merely hold the reins.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 222",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 223,
+    "chapter": "XVII. Anger",
+    "themes": ["anger", "kindness", "conflict", "generosity", "truth"],
+    "text": {
+      "en": "Conquer anger with love, wrong with good, the stingy with giving, and the liar with truth.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 223",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 227,
+    "chapter": "XVII. Anger",
+    "themes": ["criticism", "judgment", "acceptance", "perspective", "resilience"],
+    "text": {
+      "en": "This is an old truth, not new: they blame the silent, they blame the talkative, they blame the moderate. No one on earth escapes blame.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 227",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 228,
+    "chapter": "XVII. Anger",
+    "themes": ["criticism", "praise", "acceptance", "perspective", "equanimity"],
+    "text": {
+      "en": "There never was, and never will be, nor is there now, anyone who is only blamed or only praised.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 228",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 234,
+    "chapter": "XVII. Anger",
+    "themes": ["self-control", "mindfulness", "emotional-balance", "discipline", "peace"],
+    "text": {
+      "en": "The wise who are restrained in body, in speech, and in mind — they are well restrained indeed.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 234",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 239,
+    "chapter": "XVIII. Impurity",
+    "themes": ["small-steps", "self-improvement", "patience", "growth", "persistence"],
+    "text": {
+      "en": "Little by little, moment by moment, let the wise clear away their own flaws, as a smith refines silver.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 239",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 249,
+    "chapter": "XVIII. Impurity",
+    "themes": ["envy", "comparison", "restlessness", "peace", "contentment"],
+    "text": {
+      "en": "One who frets and envies what others are given finds no rest, by day or by night.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 249",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 250,
+    "chapter": "XVIII. Impurity",
+    "themes": ["peace", "contentment", "letting-go", "envy", "calm"],
+    "text": {
+      "en": "But one in whom that envy is uprooted entirely finds rest, by day and by night.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 250",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 252,
+    "chapter": "XVIII. Impurity",
+    "themes": ["self-awareness", "judgment", "humility", "perspective", "honesty"],
+    "text": {
+      "en": "The faults of others are easy to see; our own are hard. We winnow others' faults like chaff, but hide our own.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 252",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 258,
+    "chapter": "XIX. The Just",
+    "themes": ["wisdom", "patience", "fearlessness", "character", "calm"],
+    "text": {
+      "en": "One is not wise merely by speaking much. The patient, free from hatred and fear — that one is truly wise.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 258",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 276,
+    "chapter": "XX. The Way",
+    "themes": ["self-effort", "responsibility", "empowerment", "action", "growth"],
+    "text": {
+      "en": "You yourself must walk the path; the awakened only point the way. Those who set out, meditative, are freed from bondage.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 276",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 277,
+    "chapter": "XX. The Way",
+    "themes": ["impermanence", "acceptance", "letting-go", "perspective", "peace"],
+    "text": {
+      "en": "\"All things made must pass.\" Seeing this clearly, one grows calm in the midst of pain — this is the path to peace.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 277",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 280,
+    "chapter": "XX. The Way",
+    "themes": ["procrastination", "motivation", "effort", "discipline", "action"],
+    "text": {
+      "en": "One who will not rise when it is time to rise, who is young and strong yet idle and weak in resolve, will never find the way of wisdom.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 280",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 282,
+    "chapter": "XX. The Way",
+    "themes": ["growth", "learning", "effort", "focus", "self-improvement"],
+    "text": {
+      "en": "From effort, wisdom grows; without it, wisdom fades. Knowing these two paths, place yourself where wisdom can increase.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 282",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 290,
+    "chapter": "XXI. Miscellaneous",
+    "themes": ["sacrifice", "perspective", "priorities", "wisdom", "long-term"],
+    "text": {
+      "en": "If by letting go of a small pleasure one finds a greater joy, let the wise release the small for the sake of the great.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 290",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 300,
+    "chapter": "XXI. Miscellaneous",
+    "themes": ["compassion", "kindness", "presence", "mindfulness", "peace"],
+    "text": {
+      "en": "The mindful are ever awake, their hearts by day and night delighting in compassion.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 300",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 301,
+    "chapter": "XXI. Miscellaneous",
+    "themes": ["meditation", "peace", "presence", "mindfulness", "stillness"],
+    "text": {
+      "en": "The mindful are ever awake, their hearts by day and night delighting in stillness.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 301",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 304,
+    "chapter": "XXI. Miscellaneous",
+    "themes": ["character", "integrity", "quiet-strength", "goodness", "authenticity"],
+    "text": {
+      "en": "The good shine from afar, like snow-capped mountains; the unworthy go unseen, like arrows shot into the night.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 304",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 224,
+    "chapter": "XVII. Anger",
+    "themes": ["truth", "patience", "generosity", "kindness", "character"],
+    "text": {
+      "en": "Speak the truth, do not give way to anger, give freely even when you have little — by these three, you draw near to the divine.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 224",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 291,
+    "chapter": "XXI. Miscellaneous",
+    "themes": ["conflict", "consequences", "kindness", "relationships", "letting-go"],
+    "text": {
+      "en": "One who seeks their own happiness by causing others pain becomes tangled in hatred and is never freed from it.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 291",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 12,
+    "chapter": "I. The Twin-Verses",
+    "themes": ["truth", "clarity", "discernment", "wisdom", "authenticity"],
+    "text": {
+      "en": "Those who see truth as truth and untruth as untruth arrive at what is real, following what truly matters.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 12",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 79,
+    "chapter": "VI. The Wise Man",
+    "themes": ["peace", "serenity", "joy", "contentment", "calm"],
+    "text": {
+      "en": "One who drinks deeply of wisdom lives happily, with a mind made serene.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 79",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 218,
+    "chapter": "XVI. Pleasure",
+    "themes": ["longing", "aspiration", "peace", "growth", "seeking"],
+    "text": {
+      "en": "One in whom a longing for the boundless has arisen, whose mind is content and unclouded by craving, is carried upward like a stream.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 218",
+      "hi": "",
+      "zh": ""
+    }
+  },
+  {
+    "id": 293,
+    "chapter": "XXI. Miscellaneous",
+    "themes": ["mindfulness", "focus", "self-discipline", "peace", "intentional-living"],
+    "text": {
+      "en": "Those whose attention rests steadily on what they do, doing what should be done and leaving the rest, find their restless cravings come to an end.",
+      "hi": "",
+      "zh": ""
+    },
+    "citation": {
+      "en": "Dhammapada, Verse 293",
       "hi": "",
       "zh": ""
     }
