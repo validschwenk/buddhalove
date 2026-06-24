@@ -495,11 +495,11 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
   };
 
   return (
-    <div className="absolute inset-0 z-20 pointer-events-none">
-      
-      {/* 1. 중앙: 부처님의 답변 텍스트 */}
-      <div className="absolute top-[25vh] md:top-[30vh] left-0 right-0 flex items-center justify-center">
-        
+    <div className="absolute inset-0 z-20 pointer-events-none flex flex-col">
+
+      {/* 1. 중앙: 부처님의 답변 텍스트 — flex-1로 남는 공간만 차지하고, 넘치면 스크롤되어 입력창과 절대 겹치지 않음 */}
+      <div className="flex-1 min-h-0 flex flex-col items-center overflow-y-auto pointer-events-auto pt-[19vh] sm:pt-[25vh] md:pt-[30vh] pb-4">
+
         <div className="relative z-10 w-full max-w-2xl px-6 flex justify-center">
           <AnimatePresence mode="wait">
             {isThinking && (
@@ -529,13 +529,13 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
               >
                 {/* Intro — small, lighter, compassionate bridging line */}
                 {verseResponse.intro && (
-                  <div className="text-xs md:text-sm text-white/60 text-center font-light italic tracking-wide px-8 mb-3 max-w-xl">
+                  <div className="text-xs md:text-sm text-white/60 text-center font-light italic tracking-wide px-8 mb-1.5 sm:mb-3 max-w-xl">
                     {verseResponse.intro}
                   </div>
                 )}
 
                 <div
-                  className={`text-lg md:text-2xl text-[#f3e8dd] text-center leading-relaxed font-light uppercase tracking-[0.15em] md:tracking-[0.2em] px-8 py-6 font-serif ${verseResponse.citation ? 'mb-2' : 'mb-6'}`}
+                  className={`text-base sm:text-lg md:text-2xl text-[#f3e8dd] text-center leading-relaxed font-light uppercase tracking-[0.15em] md:tracking-[0.2em] px-8 py-4 sm:py-6 font-serif ${verseResponse.citation ? 'mb-1.5 sm:mb-2' : 'mb-3 sm:mb-6'}`}
                   style={{
                     textShadow: '0 0 10px rgba(0,0,0,1), 0 0 20px rgba(207,166,112,0.8), 0 0 40px rgba(207,166,112,0.5)',
                     background: 'radial-gradient(circle, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0) 100%)'
@@ -547,41 +547,42 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
                 {/* Citation — subtle, muted gold, source attribution */}
                 {verseResponse.citation && (
                   <div
-                    className="text-[10px] md:text-xs text-[#cfa670]/60 text-center italic uppercase tracking-[0.25em] font-light mb-6"
+                    className="text-[10px] md:text-xs text-[#cfa670]/60 text-center italic uppercase tracking-[0.25em] font-light mb-3 sm:mb-6"
                     style={{ textShadow: '0 0 10px rgba(0,0,0,0.8)' }}
                   >
                     {verseResponse.citation}
                   </div>
                 )}
 
-                {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4 mt-2">
+                {/* Action Buttons — always side-by-side, compact on mobile to save vertical space */}
+                <div className="flex flex-row gap-2 sm:gap-4 mt-2">
                   <button
                     onClick={handleDownload}
                     disabled={isSaving || isSaved}
-                    className="pointer-events-auto flex items-center justify-center gap-3 px-6 py-3 bg-black/60 hover:bg-black/80 border border-[#cfa670]/40 hover:border-[#cfa670]/80 text-[#cfa670] rounded-full backdrop-blur-md transition-all shadow-[0_0_20px_rgba(207,166,112,0.15)] hover:shadow-[0_0_30px_rgba(207,166,112,0.4)] disabled:opacity-50"
+                    className="pointer-events-auto flex items-center justify-center gap-1.5 sm:gap-3 px-3.5 py-2 sm:px-6 sm:py-3 bg-black/60 hover:bg-black/80 border border-[#cfa670]/40 hover:border-[#cfa670]/80 text-[#cfa670] rounded-full backdrop-blur-md transition-all shadow-[0_0_20px_rgba(207,166,112,0.15)] hover:shadow-[0_0_30px_rgba(207,166,112,0.4)] disabled:opacity-50"
                   >
                     {isSaved ? (
-                      <span className="text-[#a3e635] text-lg leading-none">✓</span>
+                      <span className="text-[#a3e635] text-sm sm:text-lg leading-none">✓</span>
                     ) : (
-                      <Download size={18} />
+                      <Download size={14} className="sm:hidden" />
                     )}
-                    <span className={`text-sm font-light uppercase tracking-widest ${isSaved ? 'text-[#a3e635]' : ''}`}>
-                      {isSaving ? "Saving..." : isSaved ? "Saved! (Check Img)" : saveTexts[language]}
+                    {!isSaved && <Download size={18} className="hidden sm:inline" />}
+                    <span className={`text-[11px] sm:text-sm font-light uppercase tracking-wide sm:tracking-widest whitespace-nowrap ${isSaved ? 'text-[#a3e635]' : ''}`}>
+                      {isSaving ? "Saving..." : isSaved ? "Saved!" : saveTexts[language]}
                     </span>
                   </button>
 
                   <button
                     onClick={handleShare}
                     disabled={isSharing || isShared}
-                    className="pointer-events-auto flex items-center justify-center gap-3 px-6 py-3 bg-black/60 hover:bg-black/80 border border-[#cfa670]/40 hover:border-[#cfa670]/80 text-[#cfa670] rounded-full backdrop-blur-md transition-all shadow-[0_0_20px_rgba(207,166,112,0.15)] hover:shadow-[0_0_30px_rgba(207,166,112,0.4)] disabled:opacity-50"
+                    className="pointer-events-auto flex items-center justify-center gap-1.5 sm:gap-3 px-3.5 py-2 sm:px-6 sm:py-3 bg-black/60 hover:bg-black/80 border border-[#cfa670]/40 hover:border-[#cfa670]/80 text-[#cfa670] rounded-full backdrop-blur-md transition-all shadow-[0_0_20px_rgba(207,166,112,0.15)] hover:shadow-[0_0_30px_rgba(207,166,112,0.4)] disabled:opacity-50"
                   >
                     {isShared ? (
-                      <span className="text-[#a3e635] text-lg leading-none">✓</span>
+                      <span className="text-[#a3e635] text-sm sm:text-lg leading-none">✓</span>
                     ) : (
-                      <span className="text-lg leading-none">🙏</span>
+                      <span className="text-sm sm:text-lg leading-none">🙏</span>
                     )}
-                    <span className={`text-sm font-light uppercase tracking-widest ${isShared ? 'text-[#a3e635]' : ''}`}>
+                    <span className={`text-[11px] sm:text-sm font-light uppercase tracking-wide sm:tracking-widest whitespace-nowrap ${isShared ? 'text-[#a3e635]' : ''}`}>
                       {isSharing ? "Sharing..." : isShared ? "Shared!" : shareTexts[language]}
                     </span>
                   </button>
@@ -592,9 +593,9 @@ export default function ZenChatUI({ onReplyChange, language, onMessageSent }: Ze
         </div>
       </div>
 
-      {/* 2. 하단: 사용자의 고민 & 고정된 입력창 */}
-      <div className="absolute bottom-[4vh] md:bottom-[10vh] left-1/2 -translate-x-1/2 w-full max-w-lg pointer-events-auto px-4 flex flex-col justify-end">
-        
+      {/* 2. 하단: 사용자의 고민 & 고정된 입력창 — 항상 자기 높이만큼만 차지하므로 위 응답 영역과 겹치지 않음 */}
+      <div className="flex-shrink-0 mx-auto w-full max-w-lg pointer-events-auto px-4 pb-[4vh] md:pb-[10vh] flex flex-col justify-end">
+
         <AnimatePresence mode="wait">
           {userQuery && (
             <motion.div 
